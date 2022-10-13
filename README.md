@@ -1,4 +1,4 @@
-# Leftovers.Inc_Game
+# Leftovers.Inc Game
 ## Juego asignatura Juegos en Red
 ### Nombre: *placeholder*
 ### Descripción: RTS 1V1 de fantasia
