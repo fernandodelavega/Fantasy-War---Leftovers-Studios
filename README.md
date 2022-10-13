@@ -1,7 +1,7 @@
 # Leftovers.Inc Game
 ## Game developed for Juegos en Red
-### Name: *placeholder*
-### Description: Fantasy RTS 1V1 
+ Name: *placeholder*
+ Description: Fantasy RTS 1V1 
 ### Developers: 
 | Name | Official email | GitHub |
 | :---        |    :----:   |          ---: |
@@ -10,4 +10,4 @@
 | Pacual Gázquez Compán | p.gazquez.2018@alumnos.urjc.es | @pascualgazquez |
 | Diego Nicolás Barreales| d.nicolás.2019@alumnos.urjc.es | @dieguoin |
 
-## GDD
+### GDD
