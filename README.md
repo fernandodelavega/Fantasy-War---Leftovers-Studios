@@ -2,7 +2,7 @@
 ## Juego asignatura Juegos en Red
 ### Nombre: *placeholder*
 ### Descripción: RTS 1V1 de fantasia
-### Integrantes: 
+### Desarolladores: 
 | Nombre | Apellidos | Correo oficial | Cuenta GitHub |
 | :---        |    :----:   |    :----:   |          ---: |
 | Fernando | de la Vega Valle | f.delavegav@alumnos.urjc.es | @fernimc96 |
