@@ -1,7 +1,7 @@
 # Leftovers Studios Game
 ## Game in development for Juegos en Red
  - Name: *Fantasy War*
- - Description: Fantasy RTS 1V1 
+ - Description: Fantasy RTS 1 VS 1 
 ## Developers: 
 | Name | Official email | GitHub |
 | :---        |    :----:   |          ---: |
