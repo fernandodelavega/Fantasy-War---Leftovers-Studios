@@ -1,5 +1,5 @@
 # Leftovers.Inc Game
-## Game developed for Juegos en Red
+## Game in development for Juegos en Red
  - Name: *placeholder* 
  - Description: Fantasy RTS 1V1 
 ## Developers: 
