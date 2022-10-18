@@ -93,7 +93,7 @@ En caso de que no haya acabado la partida si atacan al jugador mira si tiene oro
 Si no están atacando al jugador, comprueba si tiene oro suficiente. En caso afirmativo, invoca una tropa para atacar y vuelve al inicio. En caso negativo, vuelve al inicio.
 
 
-### Arte:
+## Arte:
 El juego está inspirado en los múltiples relatos de fantasía de la cultura popular.
 (Aquí se irán añadiendo todos los diseños que se lleven a cabo).
 
@@ -101,8 +101,8 @@ El juego está inspirado en los múltiples relatos de fantasía de la cultura po
 
 
 
-### Sonido y música:
+## Sonido y música:
 Efectos de sonido hechos por los desarrolladores y mezclados con sintetizador.
-### Marketing:
+## Marketing:
 Redes sociales: Instagram ()
 
