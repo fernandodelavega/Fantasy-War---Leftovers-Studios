@@ -1,4 +1,4 @@
-# Leftovers Studios Game
+# Fantasy War
 ![full intro g](https://user-images.githubusercontent.com/115580903/196520801-17ccc620-c32b-4528-9b38-94fa0f335696.gif)
 
 ## Game in development for Juegos en Red
