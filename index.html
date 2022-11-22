@@ -16,8 +16,8 @@
 
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1920,
+    height: 1080,
     physics: {
         default: 'arcade',
         arcade: {
@@ -37,7 +37,7 @@ var player2;
 var base1;
 var base2;
 var caminos;
-var GameOver=false;
+var gameOver=false;
 var vida1 = 1000;
 var vida2 = 1000;
 var vidaText1;
@@ -64,7 +64,7 @@ function preload ()
 function create() 
 {
     //  Fondo-- hacer la parte de arriba de los caminos y la parte de abajo son las plataformas, así parece que las unidades caminan por el camino
-    this.add.image(400, 300, 'sky');
+    this.add.image(400, 300, 'sky').setScale(4, 2.3);
 
 
     //creación de las bases
@@ -119,7 +119,7 @@ function create()
     //this.physics.add.collider(gob1, bombs, hitBomb, null, this);
 
     //encuentro con base?
-    this.physics.add.collider(player, base1, hitBomb, null, this);
+    //this.physics.add.collider(player1, base1, hitBomb, null, this);
 }
 
 function update ()
@@ -132,6 +132,7 @@ function update ()
     if(keySpace.isDown) 
     {
     vida1 -= 10;
+    console.log(vida1);
     vidaText1.setText('Vida 1: ' + vida1);
     }
 
@@ -149,16 +150,16 @@ function update ()
         if (selecCamino1>0){ selecCamino1--; }
     }
     //seleccionar camino de arriba jugador 2
-    if (keyW.isDown)
-    {
-        if (selecCamino2<2){ selecCamino1++; }
-
-        
-    }//seleccionar camino de abajo jugador 2
-    else if (keyS.isDown)
-    {
-        if (selecCamino2>0){ selecCamino1--; }
-    }
+    //if (keyW.isDown)
+    //{
+    //    if (selecCamino2<2){ selecCamino1++; }
+//
+    //    
+    //}//seleccionar camino de abajo jugador 2
+    //else if (keyS.isDown)
+    //{
+    //    if (selecCamino2>0){ selecCamino1--; }
+    //}
 
     
 
