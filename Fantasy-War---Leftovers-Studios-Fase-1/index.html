@@ -7,6 +7,8 @@
     <script src="assets/Scripts/Base.js"></script>
     <script src="assets/Scripts/Player.js"></script>
     <script src="assets/Scripts/Unidade.js"></script>
+    
+
     <style type="text/css">
         body {
             margin: 0;
@@ -15,8 +17,13 @@
 </head>
 <body>
 
-<script type="text/javascript">
+    <script src="assets/Scripts/Inicio.js"></script>
+    <script src="assets/Scripts/GameScene.js"></script>
 
+<script src="assets/Scripts/init.js"></script>
+
+<script type="text/javascript">
+/*
 var config = {
     type: Phaser.AUTO,
     width: 1920,
@@ -28,12 +35,12 @@ var config = {
             debug: false
         }
     },
-    scene: {
-        preload: preload,
-        create: create,
-        update: update
-    }
+    scene: Inicio
+        
 };
+
+
+
 //variables
 var gameOver=false;
 var player1;
@@ -57,8 +64,32 @@ var keyW;
 var i = 0;
 var game = new Phaser.Game(config);
 
+class Inicio extends Phaser.Scene 
+{
+    preload ()
+    {
+        this.load.image('inicio', 'assets/pics/bw-face.png');
+        this.load.image('boton', 'assets/pics/bw-face.png');
+    }
+
+    create (data)
+    {
+        //añadir boton que manda a la otra escena
+        this.face = this.add.image(data.x, data.y, 'face');
+    }
+
+
+
+}
+
+
+
+
+
+
+class Juego extends Phaser.Scene {
 //cargar sprites
-function preload ()
+ preload ()
 {
     this.load.image('sky', 'assets/Images/sky.png');
     this.load.image('ground', 'assets/Images/platform.png');
@@ -68,7 +99,7 @@ function preload ()
     this.load.image('pina','assets/Images/pina.png')
 }
 
-function create() 
+ create() 
 {
     //  Fondo-- hacer la parte de arriba de los caminos y la parte de abajo son las plataformas, así parece que las unidades caminan por el camino
     this.add.image(400, 300, 'sky').setScale(4, 2.3);
@@ -82,8 +113,8 @@ function create()
     var base1 = this.physics.add.staticGroup().create(860, 540, 'pina').setScale(0.1).refreshBody(); //vertical,horizontal
     var base2 = this.physics.add.staticGroup().create(0, 0, 'pina').setScale(0.1).refreshBody();
 
-    player1 = new Player(0, base1, 1)
-    player2 = new Player(0, base2, 1)
+    player1 = new Player(1000, 0, base1, 1)
+    player2 = new Player(1000, 0, base2, 1)
     
     //creación del grupo de las plataformas
     caminos = this.physics.add.staticGroup();
@@ -126,7 +157,7 @@ function create()
     //this.physics.add.collider(player1, base1, hitBomb, null, this);
 }
 
-function update ()
+ update ()
 {
     if (gameOver)
     {
@@ -136,7 +167,8 @@ function update ()
     if(keySpace.isDown) 
     {
         
-        player1.AddUnidad(new Unidades(i++, 10, 10, 10, 60, 120, true, gob1))
+        player1.AddUnidad(new Unidades(i++, 10, 10, 10, 60, 120, true));
+        
     //vida1 -= 10;
     //console.log(vida1);
     //vidaText1.setText('Vida 1: ' + vida1);
@@ -183,7 +215,7 @@ function update ()
 
 
 
-function crearUnidad (player, unit, camino)
+ crearUnidad (player, unit, camino)
 {
     switch (unit)
     {
@@ -201,8 +233,8 @@ function crearUnidad (player, unit, camino)
     }
 
 }
-
-
+}
+*/
 </script>
 
 </body>
