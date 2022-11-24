@@ -1,2 +1,0 @@
-/**@type {include("../typings/Phaser")} */
-
