@@ -1,8 +1,4 @@
-
-
-var boton;
-
-class Inicio extends Phaser.Scene {
+export class Inicio extends Phaser.Scene {
     constructor(){
         super({key: "Inicio", active: true}); //key=nombre escena, active=se ve
        
@@ -22,8 +18,8 @@ class Inicio extends Phaser.Scene {
         
         this.add.image(960  , 540, 'inicio');
         this.musica.play();
-        boton= this.add.image(950, 820, 'boton').setInteractive();
-        boton.on('pointerdown', () =>{
+        this.boton= this.add.image(950, 820, 'boton').setInteractive();
+        this.boton.on('pointerdown', () =>{
             this.scene.start('GameScene');  
         });
 

@@ -1,3 +1,6 @@
+import { Inicio } from './Inicio.js';
+import { GameScene } from './GameScene.js';
+
 var config = {
 
     type: Phaser.AUTO,
