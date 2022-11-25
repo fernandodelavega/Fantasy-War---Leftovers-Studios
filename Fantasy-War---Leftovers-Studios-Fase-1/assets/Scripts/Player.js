@@ -16,6 +16,7 @@ export class Player
     RemoveUnidad(unidad){
         this.unidades.remove(unidad);
     }
+    
     siguienteCamino(isUp){
         if(isUp){
 

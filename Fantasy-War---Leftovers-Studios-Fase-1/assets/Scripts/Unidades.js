@@ -20,6 +20,9 @@ export class Unidades
         this.gameobject = physics.add.image(positionx, positiony, unidad.image);
         return this;
     }
+    setColliding(isColliding){
+        this.isColliding = isColliding;
+    }
     start(player){
         if(player == 1){
             this.gameobject.setVelocity(100, 0);
