@@ -1,5 +1,7 @@
 export class Player
 {
+    base;
+    unidades;
     constructor(vida, oro, base, caminoSeleccionado)
     {
         this.vida = vida;
@@ -10,9 +12,18 @@ export class Player
     }
     AddUnidad(nuevaUnidad){
         this.unidades.push(nuevaUnidad);
-        console.log(this.unidades);
     }
     RemoveUnidad(unidad){
         this.unidades.remove(unidad);
+    }
+    siguienteCamino(isUp){
+        if(isUp){
+
+            this.camino = (this.camino + 1) % 3;
+        }
+        else if(!isUp){
+            
+            this.camino = (this.camino - 1) % 3;
+        }
     }
 }
