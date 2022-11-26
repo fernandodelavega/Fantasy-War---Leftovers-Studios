@@ -1,5 +1,8 @@
 import { Inicio } from './Inicio.js';
 import { GameScene } from './GameScene.js';
+import { player1W } from './player1W.js';
+import { player2W } from './player2W.js';
+import { draw } from './draw.js';
 
 var config = {
 
@@ -12,7 +15,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Inicio, GameScene]
+    scene: [Inicio, GameScene, player1W, player2W, draw]
 };
 
 var game = new Phaser.Game(config);

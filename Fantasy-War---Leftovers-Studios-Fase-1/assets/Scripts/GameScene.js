@@ -2,6 +2,8 @@ import {Base} from './Base.js';
 import {Player} from './Player.js';
 import {Unidades} from './Unidades.js';
 
+
+
 export class GameScene extends Phaser.Scene {
     constructor(){
         super({key: "GameScene"}); 
@@ -16,11 +18,11 @@ export class GameScene extends Phaser.Scene {
     create(){
         
         
-        this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(5, 5) ;
+        this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6) ;
         
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(10, 120, 520, 'pina', this.physics, this.graphics1);
-        this.player1 = new Player(10, 0, this.base1, 1);
+        this.player1 = new Player(1000, 0, this.base1, 1);
         
         this.graphics2 = this.add.graphics();
         this.base2 = new Base(10, 1800, 520, 'pina', this.physics, this.graphics2);
@@ -109,6 +111,20 @@ export class GameScene extends Phaser.Scene {
         }
         this.player1.base.setColliding(false);
         this.player2.base.setColliding(false);
+    
+    if(this.player1.base.vida==0 || this.player2.base.vida==0){
+        
+        if (this.player1.base.vida==0){
+            this.scene.start('player2W');
+        }
+        else if (this.player2.base.vida==0){
+            this.scene.start('player1W');
+        }
+        else {
+            this.scena.start('draw');
+        }
+    }
+    
     }
 
     collitionP2B(base, player){
@@ -117,4 +133,6 @@ export class GameScene extends Phaser.Scene {
     collitionP2P(player1, player2){
 
     }
+    
 }
+
