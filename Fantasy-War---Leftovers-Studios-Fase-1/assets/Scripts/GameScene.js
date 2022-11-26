@@ -16,7 +16,7 @@ export class GameScene extends Phaser.Scene {
     create(){
         
         
-        this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6) ;
+        this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(5, 5) ;
         
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(10, 120, 520, 'pina', this.physics, this.graphics1);
