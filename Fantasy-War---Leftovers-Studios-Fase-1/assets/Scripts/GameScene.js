@@ -33,7 +33,7 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(580);
         this.positions.push(900);
 
-        this.goblin = new Unidades(0, 0, 0, 0, false, 'entity');
+        this.goblin = new Unidades(0, 0, 0, 0, 10, 'entity');
 
 
         
@@ -54,13 +54,18 @@ export class GameScene extends Phaser.Scene {
         
         //controles player 1
         if(Phaser.Input.Keyboard.JustDown(this.keySpace)){
-            this.newUnity = this.goblin.instance(this.goblin, this.player1.base.x, this.positions[this.player1.camino], this.physics);
+            this.newUnity = new Unidades();
+            Object.assign(this.newUnity, this.goblin);
+            this.newUnity.instance(this.goblin, this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
             this.player1.AddUnidad(this.newUnity);
-            for (this.i = 0; this.i < this.player2.unidades.length; this.i++){
-                this.physics.add.collider(this.player2.unidades[this.i].gameobject, this.newUnity.gameobject, this.collitionP2P);
+            for (var i = 0; i < this.player2.unidades.length; i++){
+                if(this.player1.camino == this.player2.unidades[i].camino){
+                    this.newUnity.objectives.push(this.player2.unidades[i]);
+                    this.player2.unidades[i].objectives.push(this.newUnity);
+                }
             }
-            this.physics.add.collider(this.player2.base.collision, this.newUnity.gameobject, this.collitionP2B);
             this.newUnity.start(1);
+            console.log(this.player1.unidades);
         }
         else if(Phaser.Input.Keyboard.JustDown(this.keyW)){
             this.player1.siguienteCamino(true);
@@ -69,24 +74,25 @@ export class GameScene extends Phaser.Scene {
             this.player1.siguienteCamino(false);
         }
         else{}
-
+        
         if(Phaser.Input.Keyboard.JustDown(this.keyG)){
             this.player1.base.damage(1);
         }
-
+        
         //controles player 2 
         if(Phaser.Input.Keyboard.JustDown(this.keyEnter)){
-            this.newUnity = this.goblin.instance(this.goblin, this.player2.base.x, this.positions[this.player2.camino], this.physics);
+            this.newUnity = new Unidades();
+            Object.assign(this.newUnity, this.goblin)
+            this.newUnity.instance(this.goblin, this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
             this.player2.AddUnidad(this.newUnity);
-            for (this.i = 0; this.i < this.player1.unidades.length; this.i++){
-                this.physics.add.collider(this.player1.unidades[this.i].gameobject, this.newUnity.gameobject, function(){
-                    this.player1.unidades[this.i].setColliding(true);
-                });
+            for (var i = 0; i < this.player1.unidades.length; i++){
+                if(this.player2.camino == this.player1.unidades[i].camino){
+                    this.newUnity.objectives.push(this.player1.unidades[i]);
+                    this.player1.unidades[i].objectives.push(this.newUnity);
+                }
             }
-            this.physics.add.collider(this.player1.base.collision, this.newUnity.gameobject, function(){
-                this.player1.base.setColliding(true);
-            });
             this.newUnity.start(2);
+            console.log(this.player2.unidades);
         }
         else if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
             this.player2.siguienteCamino(true);
@@ -112,18 +118,27 @@ export class GameScene extends Phaser.Scene {
         this.player1.base.setColliding(false);
         this.player2.base.setColliding(false);
     
-    if(this.player1.base.vida==0 || this.player2.base.vida==0){
-        
-        if (this.player1.base.vida==0){
-            this.scene.start('player2W');
+        //Finalizar escena
+        if(this.player1.base.vida==0 || this.player2.base.vida==0){
+
+            if (this.player1.base.vida==0){
+                this.scene.start('player2W');
+            }
+            else if (this.player2.base.vida==0){
+                this.scene.start('player1W');
+            }
+            else {
+                this.scena.start('draw');
+            }
         }
-        else if (this.player2.base.vida==0){
-            this.scene.start('player1W');
+        for(var i = 0; i < this.player1.unidades.length; i++){
+            this.player1.unidades[i].Update();
+            console.log(i);
         }
-        else {
-            this.scena.start('draw');
+        for(var i = 0; i < this.player2.unidades.length; i++){
+            this.player2.unidades[i].Update();
+            console.log(i);
         }
-    }
     
     }
 

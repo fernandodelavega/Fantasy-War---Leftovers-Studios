@@ -24,7 +24,7 @@ export class Player
         }
         else if(!isUp){
             
-            this.camino = (this.camino - 1) % 3;
+            this.camino = (this.camino - 1 < 0)? 3 - this.camino - 1 : (this.camino - 1) % 3;
         }
     }
 }
