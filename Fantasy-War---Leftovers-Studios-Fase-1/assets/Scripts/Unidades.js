@@ -13,6 +13,7 @@ export class Unidades
         this.objectives = new Array(); 
         this.actualEnemy;
         this.image = image;
+        this.stack= 0;
     }
     instance(unidad, positionx, positiony, camino, enemyBase, physics){
         this.vida = unidad.vida;
@@ -50,5 +51,13 @@ export class Unidades
         //if(this.objectives.some && this.enemy == null){
         //    this.set(enemy);
         //}
+    }
+    Atack(unidad, enemigo){
+        unidad.stack++;
+        if(unidad.stack==unidad.velocidadAtaque){
+            enemigo.vida=enemigo.vida-unidad.ataque;
+            unidad.stack=0;
+        }
+
     }
 }

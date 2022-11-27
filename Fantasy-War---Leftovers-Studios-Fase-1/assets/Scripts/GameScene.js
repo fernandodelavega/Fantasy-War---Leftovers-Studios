@@ -117,7 +117,47 @@ export class GameScene extends Phaser.Scene {
         }
         this.player1.base.setColliding(false);
         this.player2.base.setColliding(false);
-    
+        
+
+        //colisiones entre unidades del jugador 1 con el 2
+        for (var i = 0; i < this.player1.unidades.length; i++){
+            for(var j=0; j < this.player1.unidades[i].objectives.length; j++){
+            
+            
+                if(Math.abs(this.player1.unidades[i].x-this.player1.unidades[i].objectives[j].x)<=this.player1.unidades[i].range){
+                    this.player1.unidades[i].stop();
+                    this.player1.unidades[i].objectives[j].stop();
+                    this.player1.unidades[i].Atack(this.player1.unidades[i],this.player1.unidades[i].objectives[j]);
+                    if(this.player1.unidades[i].objectives[j].vida<=0){
+
+                        //eliminar el objetivo de todos los arrays donde está y deshabilitarlo con this.player1.unidades[i].objectives[j].disableBody(true, true);
+                        this.player1.unidades[i].stack=0;
+                        this.player1.unidades[i].start(1);
+                    }
+                }
+            }
+
+        }
+
+        //colisiones entre unidades del jugador 2 con el 1
+        for (var i = 0; i < this.player2.unidades.length; i++){
+            for(var j=0; j < this.player2.unidades[i].objectives.length; j++){
+            
+            
+                if(Math.abs(this.player2.unidades[i].x-this.player2.unidades[i].objectives[j].x)<=this.player2.unidades[i].range){
+                    this.player2.unidades[i].stop();
+                    this.player2.unidades[i].objectives[j].stop();
+                    this.player2.unidades[i].Atack(this.player2.unidades[i],this.player2.unidades[i].objectives[j]);
+                    if(this.player2.unidades[i].objectives[j].vida<=0){
+                        //eliminar el objetivo de todos los arrays donde está y deshabilitarlo con this.player1.unidades[i].objectives[j].disableBody(true, true);
+                        this.player2.unidades[i].stack=0;
+                        this.player2.unidades[i].start(2);
+                    }
+                }
+            }
+
+        }
+
         //Finalizar escena
         if(this.player1.base.vida==0 || this.player2.base.vida==0){
 
