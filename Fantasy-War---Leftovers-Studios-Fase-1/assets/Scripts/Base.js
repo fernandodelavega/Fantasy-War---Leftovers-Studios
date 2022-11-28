@@ -12,7 +12,6 @@ export class Base
     }
     damage(damage){
         this.vida -= damage;
-        console.log(this.vida);
         this.SetLifeBar();
 
     }

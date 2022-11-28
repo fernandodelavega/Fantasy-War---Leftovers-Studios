@@ -18,7 +18,6 @@ export class GameScene extends Phaser.Scene {
 
     create(){
         
-        
         this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6) ;
         this.flechaA = this.add.image(120,560,'flecha1').setScale(0.3,0.3);
         this.flechaB = this.add.image(1800,560,'flecha1').setScale(0.3,0.3);
@@ -37,9 +36,10 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(580);
         this.positions.push(260);
 
-        this.goblin = new Unidades(0, 0, 0, 0, 10, 'entity');
-
-
+        this.unidadesPrefab = new Array(); 
+        this.unidadesPrefab.push(new Unidades(1, 1, 0, 0, 10, 'entity'));
+        this.unidadesPrefab.push(new Unidades(2, 1, 0, 0, 10, 'entity'));
+        this.unidadesPrefab.push(new Unidades(3, 1, 0, 0, 10, 'entity'));
         
 
         //teclado
@@ -53,14 +53,13 @@ export class GameScene extends Phaser.Scene {
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
     }
-    
-    update(){
+    update(time, delta){
         
         //controles player 1
         if(Phaser.Input.Keyboard.JustDown(this.keySpace)){
             this.newUnity = new Unidades();
             Object.assign(this.newUnity, this.goblin);
-            this.newUnity.instance(this.goblin, this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
+            this.newUnity.instance(this.unidadesPrefab[this.player1.unidad], this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
             this.player1.AddUnidad(this.newUnity);
             for (var i = 0; i < this.player2.unidades.length; i++){
                 if(this.player1.camino == this.player2.unidades[i].camino){
@@ -78,6 +77,12 @@ export class GameScene extends Phaser.Scene {
         else if(Phaser.Input.Keyboard.JustDown(this.keyS)){
             this.player1.siguienteCamino(false);
         }
+        else if(Phaser.Input.Keyboard.JustDown(this.keyA)){
+            this.player1.siguienteUnidad(false);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.keyD)){
+            this.player1.siguienteUnidad(false);
+        }
         else{}
 
         this.flechaA.setY(this.positions[this.player1.camino]);
@@ -90,7 +95,7 @@ export class GameScene extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(this.keyEnter)){
             this.newUnity = new Unidades();
             Object.assign(this.newUnity, this.goblin)
-            this.newUnity.instance(this.goblin, this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
+            this.newUnity.instance(this.unidadesPrefab[this.player2.unidad], this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
             this.player2.AddUnidad(this.newUnity);
             for (var i = 0; i < this.player1.unidades.length; i++){
                 if(this.player2.camino == this.player1.unidades[i].camino){
@@ -118,59 +123,58 @@ export class GameScene extends Phaser.Scene {
 
 
 
-        //Recorrer todos los objetos que interactuan y poner collition a false
-        for (var i = 0; i < this.player1.unidades.length; i++){
-            this.player1.unidades[i].setColliding(false);
-        }
-        for (var i = 0; i < this.player2.unidades.length; i++){
-            this.player2.unidades[i].setColliding(false);
-        }
-        this.player1.base.setColliding(false);
-        this.player2.base.setColliding(false);
-        
-
-        //colisiones entre unidades del jugador 1 con el 2
-        for (var i = 0; i < this.player1.unidades.length; i++){
-            for(var j=0; j < this.player1.unidades[i].objectives.length; j++){
-            
-            
-                if(Math.abs(this.player1.unidades[i].x-this.player1.unidades[i].objectives[j].x)<=this.player1.unidades[i].range){
-                    this.player1.unidades[i].stop();
-                    this.player1.unidades[i].objectives[j].stop();
-                    this.player1.unidades[i].Atack(this.player1.unidades[i],this.player1.unidades[i].objectives[j]);
-                    if(this.player1.unidades[i].objectives[j].vida<=0){
-
-                        //eliminar el objetivo de todos los arrays donde está y deshabilitarlo con this.player1.unidades[i].objectives[j].disableBody(true, true);
-                        this.player1.unidades[i].stack=0;
-                        this.player1.unidades[i].start(1);
-                    }
-                }
-            }
-
-        }
-
-        //colisiones entre unidades del jugador 2 con el 1
-        for (var i = 0; i < this.player2.unidades.length; i++){
-            for(var j=0; j < this.player2.unidades[i].objectives.length; j++){
-            
-            
-                if(Math.abs(this.player2.unidades[i].x-this.player2.unidades[i].objectives[j].x)<=this.player2.unidades[i].range){
-                    this.player2.unidades[i].stop();
-                    this.player2.unidades[i].objectives[j].stop();
-                    this.player2.unidades[i].Atack(this.player2.unidades[i],this.player2.unidades[i].objectives[j]);
-                    if(this.player2.unidades[i].objectives[j].vida<=0){
-                        //eliminar el objetivo de todos los arrays donde está y deshabilitarlo con this.player1.unidades[i].objectives[j].disableBody(true, true);
-                        this.player2.unidades[i].stack=0;
-                        this.player2.unidades[i].start(2);
-                    }
-                }
-            }
-
-        }
+        ////Recorrer todos los objetos que interactuan y poner collition a false
+        //for (var i = 0; i < this.player1.unidades.length; i++){
+        //    this.player1.unidades[i].setColliding(false);
+        //}
+        //for (var i = 0; i < this.player2.unidades.length; i++){
+        //    this.player2.unidades[i].setColliding(false);
+        //}
+        //this.player1.base.setColliding(false);
+        //this.player2.base.setColliding(false);
+        //
+        //
+        ////colisiones entre unidades del jugador 1 con el 2
+        //for (var i = 0; i < this.player1.unidades.length; i++){
+        //    for(var j=0; j < this.player1.unidades[i].objectives.length; j++){
+        //    
+        //    
+        //        if(Math.abs(this.player1.unidades[i].x-this.player1.unidades[i].objectives[j].x)<=this.player1.unidades[i].range){
+        //            this.player1.unidades[i].stop();
+        //            this.player1.unidades[i].objectives[j].stop();
+        //            this.player1.unidades[i].Atack(this.player1.unidades[i],this.player1.unidades[i].objectives[j]);
+        //            if(this.player1.unidades[i].objectives[j].vida<=0){
+        //
+        //                //eliminar el objetivo de todos los arrays donde está y deshabilitarlo con this.player1.unidades[i].objectives[j].disableBody(true, true);
+        //                this.player1.unidades[i].stack=0;
+        //                this.player1.unidades[i].start(1);
+        //            }
+        //        }
+        //    }
+        //
+        //}
+        //
+        ////colisiones entre unidades del jugador 2 con el 1
+        //for (var i = 0; i < this.player2.unidades.length; i++){
+        //    for(var j=0; j < this.player2.unidades[i].objectives.length; j++){
+        //    
+        //    
+        //        if(Math.abs(this.player2.unidades[i].x-this.player2.unidades[i].objectives[j].x)<=this.player2.unidades[i].range){
+        //            this.player2.unidades[i].stop();
+        //            this.player2.unidades[i].objectives[j].stop();
+        //            this.player2.unidades[i].Atack(this.player2.unidades[i],this.player2.unidades[i].objectives[j]);
+        //            if(this.player2.unidades[i].objectives[j].vida<=0){
+        //                //eliminar el objetivo de todos los arrays donde está y deshabilitarlo con this.player1.unidades[i].objectives[j].disableBody(true, true);
+        //                this.player2.unidades[i].stack=0;
+        //                this.player2.unidades[i].start(2);
+        //            }
+        //        }
+        //    }
+        //
+        //}
 
         //Finalizar escena
         if(this.player1.base.vida==0 || this.player2.base.vida==0){
-
             if (this.player1.base.vida==0){
                 this.scene.start('player2W');
             }
@@ -182,22 +186,11 @@ export class GameScene extends Phaser.Scene {
             }
         }
         for(var i = 0; i < this.player1.unidades.length; i++){
-            this.player1.unidades[i].Update();
-            console.log(i);
+            this.player1.unidades[i].Update(delta);
         }
         for(var i = 0; i < this.player2.unidades.length; i++){
-            this.player2.unidades[i].Update();
-            console.log(i);
+            this.player2.unidades[i].Update(delta);
         }
-    
-    }
-
-    collitionP2B(base, player){
-        base.damage(1);
-    }
-    collitionP2P(player1, player2){
-
-    }
-    
+    }    
 }
 

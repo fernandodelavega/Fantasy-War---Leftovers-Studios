@@ -8,6 +8,7 @@ export class Player
         this.oro = oro;
         this.base = base;
         this.camino = caminoSeleccionado;
+        this.unidad = 1;
         this.unidades = new Array();
     }
     AddUnidad(nuevaUnidad){
@@ -25,6 +26,16 @@ export class Player
         else if(!isUp){
             
             this.camino = (this.camino - 1 < 0)? 3 - this.camino - 1 : (this.camino - 1) % 3;
+        }
+    }
+    siguienteUnidad(isRight){
+        if(isRight){
+
+            this.unidad = (this.unidad + 1) % 3;
+        }
+        else if(!isRight){
+            
+            this.unidad = (this.unidad - 1 < 0)? 3 - this.unidad - 1 : (this.unidad - 1) % 3;
         }
     }
 }

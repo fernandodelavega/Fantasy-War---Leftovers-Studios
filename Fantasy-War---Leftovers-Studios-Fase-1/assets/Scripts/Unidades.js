@@ -13,15 +13,17 @@ export class Unidades
         this.objectives = new Array(); 
         this.actualEnemy;
         this.image = image;
-        this.stack= 0;
     }
     instance(unidad, positionx, positiony, camino, enemyBase, physics){
         this.vida = unidad.vida;
         this.ataque = unidad.ataque;
-        this.velocidadAtaque = this.velocidadAtaque;
+        this.camino = camino;
+        this.velocidadAtaque = unidad.velocidadAtaque;
         this.velocidadMovimiento = unidad.velocidadMovimiento;
+        this.range = unidad.range;
         this.enemyBase = enemyBase;
         this.gameobject = physics.add.image(positionx, positiony, unidad.image);
+        this.timer = 0;
         return this;
     }
     setColliding(isColliding){
@@ -39,25 +41,37 @@ export class Unidades
         this.gameobject.setVelocity(0, 0);
     }
     set(enemy){
-        //console.log(this.objectives);
-        this.objectives.sort()
+        //this.objectives.sort()
         this.actualEnemy = enemy;
+        this.stop();
     }
-    Update(){
+    Update(delta){
         //console.log(this.gameobject.x);
+        this.timer += delta / 1000;
         if(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.enemyBase.collision.x, 0) <= this.range + this.enemyBase.size){
             this.stop();
+            if(this.timer >= 3){
+                this.enemyBase.damage(this.ataque);
+                this.timer = 0;
+            }
+            return;
         }
-        //if(this.objectives.some && this.enemy == null){
-        //    this.set(enemy);
-        //}
+        if(this.objectives.some){
+            for (var i = 0; i < this.objectives.length; i++){
+                console.log(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range);
+                if(this.enemy == null && Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range){
+                    this.set(this.enemy);
+                }
+            }
+        }
     }
-    Atack(unidad, enemigo){
-        unidad.stack++;
-        if(unidad.stack==unidad.velocidadAtaque){
-            enemigo.vida=enemigo.vida-unidad.ataque;
-            unidad.stack=0;
+    Atack(enemigo){
+        enemigo.vida -= this.ataque;
+        this.time = 0;
+    }
+    CheckDead(){
+        if(this.vida <= 0){
+            delete this;
         }
-
     }
 }
