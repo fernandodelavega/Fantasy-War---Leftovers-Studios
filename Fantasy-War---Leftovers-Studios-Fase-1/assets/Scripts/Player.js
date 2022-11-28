@@ -45,6 +45,7 @@ export class Player
             this.oro++;
             this.contador = 0;
         }
+        
 
     }
 }

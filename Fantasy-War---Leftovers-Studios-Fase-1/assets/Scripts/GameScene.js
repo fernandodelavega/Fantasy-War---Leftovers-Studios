@@ -2,7 +2,8 @@ import {Base} from './Base.js';
 import {Player} from './Player.js';
 import {Unidades} from './Unidades.js';
 
-
+var textOro1;
+var textOro2;
 
 export class GameScene extends Phaser.Scene {
     constructor(){
@@ -28,7 +29,9 @@ export class GameScene extends Phaser.Scene {
         this.flechaA = this.add.image(120,560,'flecha1').setScale(0.3,0.3);
         this.flechaB = this.add.image(1800,560,'flecha1').setScale(0.3,0.3);
         this.flechaB.angle +=180;
-        this.coin = this.add.sprite(1920/2, 50, 'coin');
+        this.coin = this.add.sprite(1920/2, 50, 'coin').setScale(6, 6) ;
+        textOro1 = this.add.text(1920/2-200, 50, 'oro1: 10',{ fontSize: '32px'});
+        textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
         //this.coin.animation.add('idle',('coin',{ start: 0, end: 3 }),10,-1);
         //this.coin.animation.play('idle');
         this.anims.create({
@@ -295,6 +298,8 @@ export class GameScene extends Phaser.Scene {
         //update players
         this.player1.Update(delta);
         this.player2.Update(delta);
+        textOro1.setText('oro1: ' + this.player1.oro);
+        textOro2.setText('oro2: ' + this.player2.oro);
     }    
 }
 
