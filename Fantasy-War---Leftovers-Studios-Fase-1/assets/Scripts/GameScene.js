@@ -68,17 +68,17 @@ export class GameScene extends Phaser.Scene {
 
         //controles player 1
         if(Phaser.Input.Keyboard.JustDown(this.keySpace)&& this.player1.oro>=1){
-            this.newUnity = new Unidades();
-            Object.assign(this.newUnity, this.unidadesPrefab1[this.player1.unidad]);
-            this.newUnity.instance(this.unidadesPrefab1[this.player1.unidad], this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
-            this.player1.AddUnidad(this.newUnity);
+            var newUnity = new Unidades();
+            Object.assign(newUnity, this.unidadesPrefab1[this.player1.unidad]);
+            newUnity.instance(this.unidadesPrefab1[this.player1.unidad], this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
+            this.player1.AddUnidad(newUnity);
             for (var i = 0; i < this.player2.unidades.length; i++){
-                if(this.player1.camino == this.player2.unidades[i].camino){
-                    this.newUnity.objectives.push(this.player2.unidades[i]);
-                    this.player2.unidades[i].objectives.push(this.newUnity);
+                if(newUnity.camino == this.player2.unidades[i].camino){
+                    newUnity.objectives.push(this.player2.unidades[i]);
+                    this.player2.unidades[i].objectives.push(newUnity);
                 }
             }
-            this.newUnity.start(1);
+            newUnity.start(1);
             console.log(this.player1.unidades);
             this.player1.oro--;
         }
@@ -105,17 +105,17 @@ export class GameScene extends Phaser.Scene {
         
         //controles player 2 
         if(Phaser.Input.Keyboard.JustDown(this.keyEnter)&& this.player2.oro>=1){
-            this.newUnity = new Unidades();
-            Object.assign(this.newUnity, this.player2.unidades[this.player2.unidad]);
-            this.newUnity.instance(this.unidadesPrefab2[this.player2.unidad], this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
-            this.player2.AddUnidad(this.newUnity);
+            var newUnity = new Unidades();
+            Object.assign(newUnity, this.player2.unidades[this.player2.unidad]);
+            newUnity.instance(this.unidadesPrefab2[this.player2.unidad], this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
+            this.player2.AddUnidad(newUnity);
             for (var i = 0; i < this.player1.unidades.length; i++){
-                if(this.player2.camino == this.player1.unidades[i].camino){
-                    this.newUnity.objectives.push(this.player1.unidades[i]);
-                    this.player1.unidades[i].objectives.push(this.newUnity);
+                if(newUnity.camino == this.player1.unidades[i].camino){
+                    newUnity.objectives.push(this.player1.unidades[i]);
+                    this.player1.unidades[i].objectives.push(newUnity);
                 }
             }
-            this.newUnity.start(2);
+            newUnity.start(2);
             console.log(this.player2.unidades);
             this.player2.oro--;
         }
