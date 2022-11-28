@@ -10,6 +10,7 @@ export class Player
         this.camino = caminoSeleccionado;
         this.unidad = 1;
         this.unidades = new Array();
+        this.contador = 0;
     }
     AddUnidad(nuevaUnidad){
         this.unidades.push(nuevaUnidad);
@@ -37,5 +38,12 @@ export class Player
             
             this.unidad = (this.unidad - 1 < 0)? 3 - this.unidad - 1 : (this.unidad - 1) % 3;
         }
+    }
+    Update(delta){
+        this.contador += delta / 1000;
+        if(this.contador >= 2){
+            this.oro++;
+        }
+
     }
 }

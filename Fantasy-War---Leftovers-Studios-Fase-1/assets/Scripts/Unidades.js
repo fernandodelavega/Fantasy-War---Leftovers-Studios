@@ -31,10 +31,10 @@ export class Unidades
     }
     start(player){
         if(player == 1){
-            this.gameobject.setVelocity(100, 0);
+            this.gameobject.setVelocity(this.velocidadMovimiento, 0);
         }
         else if(player == 2){
-            this.gameobject.setVelocity(-100, 0);
+            this.gameobject.setVelocity(-1*this.velocidadMovimiento, 0);
         }
     }
     stop(){
@@ -56,17 +56,26 @@ export class Unidades
             }
             return;
         }
-        if(enemys != null){}
+        if(enemys != null){
+            if(this.timer >= 10 - this.velocidadAtaque){
+                this.Attack(this.enemy);
+                this.timer = 0;
+            }
+
+            return;
+        }
         if(this.objectives.some){
             for (var i = 0; i < this.objectives.length; i++){
                 console.log(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range);
                 if(this.enemy == null && Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range){
                     this.set(this.enemy);
+                }else{
+                    this.gameobject.setVelocity(this.velocidadMovimiento, 0);
                 }
             }
         }
     }
-    Atack(enemigo){
+    Attack(enemigo){
         enemigo.vida -= this.ataque;
         this.time = 0;
     }

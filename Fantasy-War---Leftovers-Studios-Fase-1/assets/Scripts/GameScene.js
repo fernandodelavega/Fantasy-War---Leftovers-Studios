@@ -11,8 +11,14 @@ export class GameScene extends Phaser.Scene {
     preload(){
         this.load.image('backGround', 'assets/images/fondo_completo.png');
         this.load.image('pina', 'assets/images/pina.png');
-        this.load.image('entity', 'assets/images/dude.png');
+        this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png');
+        this.load.spritesheet('magoR', 'assets/images/tropas/mago_r.png');
+        this.load.spritesheet('golemR', 'assets/images/tropas/golem_r.png');
+        this.load.spritesheet('goblinB', 'assets/images/tropas/goblin_b.png');
+        this.load.spritesheet('magoB', 'assets/images/tropas/mago_b.png');
+        this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png');
         this.load.image('flecha1','assets/images/flecha1.png');
+        this.load.spritesheet('golemB', 'assets/images/tropas/coin.png');
 
     }
 
@@ -36,11 +42,15 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(580);
         this.positions.push(260);
 
-        this.unidadesPrefab = new Array(); 
-        this.unidadesPrefab.push(new Unidades(1, 1, 0, 0, 10, 'entity'));
-        this.unidadesPrefab.push(new Unidades(2, 1, 0, 0, 10, 'entity'));
-        this.unidadesPrefab.push(new Unidades(3, 1, 0, 0, 10, 'entity'));
+        this.unidadesPrefab1 = new Array(); 
+        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblin_r'));
+        this.unidadesPrefab1.push(new Unidades(20, 120, 6, 100, 100, 'mago_r'));
+        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golem_r'));
         
+        this.unidadesPrefab2 = new Array(); 
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, 150, 10, 'goblin_b'));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 6, 100, 100, 'mago_b'));
+        this.unidadesPrefab2.push(new Unidades(150, 20, 5, 100, 10, 'golem_b'));
 
         //teclado
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -58,10 +68,10 @@ export class GameScene extends Phaser.Scene {
         console.log(time);
         console.log(delta);
         //controles player 1
-        if(Phaser.Input.Keyboard.JustDown(this.keySpace)){
+        if(Phaser.Input.Keyboard.JustDown(this.keySpace)&& this.player1.oro>=1){
             this.newUnity = new Unidades();
             Object.assign(this.newUnity, this.goblin);
-            this.newUnity.instance(this.unidadesPrefab[this.player1.unidad], this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
+            this.newUnity.instance(this.unidadesPrefab1[this.player1.unidad], this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
             this.player1.AddUnidad(this.newUnity);
             for (var i = 0; i < this.player2.unidades.length; i++){
                 if(this.player1.camino == this.player2.unidades[i].camino){
@@ -71,6 +81,7 @@ export class GameScene extends Phaser.Scene {
             }
             this.newUnity.start(1);
             console.log(this.player1.unidades);
+            this.player1.oro--;
         }
         else if(Phaser.Input.Keyboard.JustDown(this.keyW)){
             this.player1.siguienteCamino(true);
@@ -94,10 +105,10 @@ export class GameScene extends Phaser.Scene {
         }
         
         //controles player 2 
-        if(Phaser.Input.Keyboard.JustDown(this.keyEnter)){
+        if(Phaser.Input.Keyboard.JustDown(this.keyEnter)&& this.player2.oro>=1){
             this.newUnity = new Unidades();
             Object.assign(this.newUnity, this.goblin)
-            this.newUnity.instance(this.unidadesPrefab[this.player2.unidad], this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
+            this.newUnity.instance(this.unidadesPrefab2[this.player2.unidad], this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
             this.player2.AddUnidad(this.newUnity);
             for (var i = 0; i < this.player1.unidades.length; i++){
                 if(this.player2.camino == this.player1.unidades[i].camino){
@@ -107,6 +118,7 @@ export class GameScene extends Phaser.Scene {
             }
             this.newUnity.start(2);
             console.log(this.player2.unidades);
+            this.player2.oro--;
         }
         else if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
             this.player2.siguienteCamino(true);
@@ -177,10 +189,10 @@ export class GameScene extends Phaser.Scene {
 
         //Finalizar escena
         if(this.player1.base.vida==0 || this.player2.base.vida==0){
-            if (this.player1.base.vida==0){
+            if (this.player1.base.vida==0 && this.player2.base.vida>0){
                 this.scene.start('player2W');
             }
-            else if (this.player2.base.vida==0){
+            else if (this.player2.base.vida==0 && this.player1.base.vida>0){
                 this.scene.start('player1W');
             }
             else {

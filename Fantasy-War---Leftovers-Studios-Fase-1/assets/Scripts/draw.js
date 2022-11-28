@@ -4,8 +4,9 @@ export class draw extends Phaser.Scene {
        
     }
     preload(){
-        this.load.image('sky', 'assets/images/sky.png');
-        this.load.image('botonReinicio', 'assets/images/botonReinicio.png');
+        this.load.image('fondo', 'assets/images/tropas/fondo_sin_caminos.png');
+        this.load.image('botonReinicio', 'assets/images/botonRestart.png');
+        this.load.image('texto', 'assets/images/tropas/draw3.png');
         
         
     }
@@ -13,8 +14,8 @@ export class draw extends Phaser.Scene {
     create(){
         
         
-        this.add.image(960  , 540, 'sky');
-        this.add.text(16, 16, 'HA HABIDO EMPATE', { fontSize: '32px', fill: '#000' });
+        this.add.image(0 , 0, 'fondo');
+        this.add.image(16, 16, 'texto');
         this.boton= this.add.image(950, 820, 'botonReinicio').setInteractive();
         this.boton.on('pointerdown', () =>{
             this.scene.start('Inicio');  
