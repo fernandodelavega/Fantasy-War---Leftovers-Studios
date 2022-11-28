@@ -30,11 +30,11 @@ export class GameScene extends Phaser.Scene {
         this.flechaB.angle +=180;
 
         this.graphics1 = this.add.graphics();
-        this.base1 = new Base(10, 120, 520, 'pina', this.physics, this.graphics1);
+        this.base1 = new Base(1000, 120, 520, 'pina', this.physics, this.graphics1);
         this.player1 = new Player(1000, 10, this.base1, 1);
         
         this.graphics2 = this.add.graphics();
-        this.base2 = new Base(10, 1800, 520, 'pina', this.physics, this.graphics2);
+        this.base2 = new Base(1000, 1800, 520, 'pina', this.physics, this.graphics2);
         this.player2 = new Player(1000, 10, this.base2, 1);
 
         this.positions = new Array();
@@ -66,12 +66,10 @@ export class GameScene extends Phaser.Scene {
 
     update(time, delta){
 
-        console.log(time);
-        console.log(delta);
         //controles player 1
         if(Phaser.Input.Keyboard.JustDown(this.keySpace)&& this.player1.oro>=1){
             this.newUnity = new Unidades();
-            Object.assign(this.newUnity, this.goblin);
+            Object.assign(this.newUnity, this.unidadesPrefab1[this.player1.unidad]);
             this.newUnity.instance(this.unidadesPrefab1[this.player1.unidad], this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
             this.player1.AddUnidad(this.newUnity);
             for (var i = 0; i < this.player2.unidades.length; i++){
@@ -108,7 +106,7 @@ export class GameScene extends Phaser.Scene {
         //controles player 2 
         if(Phaser.Input.Keyboard.JustDown(this.keyEnter)&& this.player2.oro>=1){
             this.newUnity = new Unidades();
-            Object.assign(this.newUnity, this.goblin)
+            Object.assign(this.newUnity, this.player2.unidades[this.player2.unidad]);
             this.newUnity.instance(this.unidadesPrefab2[this.player2.unidad], this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
             this.player2.AddUnidad(this.newUnity);
             for (var i = 0; i < this.player1.unidades.length; i++){
@@ -128,7 +126,12 @@ export class GameScene extends Phaser.Scene {
         else if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
             this.player2.siguienteCamino(false);
         }
-        else{}
+        else if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
+            this.player2.siguienteUnidad(true);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
+            this.player2.siguienteUnidad(false);
+        }
 
         this.flechaB.setY(this.positions[this.player2.camino]);
 
@@ -189,11 +192,11 @@ export class GameScene extends Phaser.Scene {
         //}
 
         //Finalizar escena
-        if(this.player1.base.vida==0 || this.player2.base.vida==0){
-            if (this.player1.base.vida==0 && this.player2.base.vida>0){
+        if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
+            if (this.player1.base.vida <= 0 && this.player2.base.vida > 0){
                 this.scene.start('player2W');
             }
-            else if (this.player2.base.vida==0 && this.player1.base.vida>0){
+            else if (this.player2.base.vida <=0 && this.player1.base.vida > 0){
                 this.scene.start('player1W');
             }
             else {
@@ -201,10 +204,38 @@ export class GameScene extends Phaser.Scene {
             }
         }
         for(var i = 0; i < this.player1.unidades.length; i++){
-            this.player1.unidades[i].Update(delta);
+            if(this.player1.unidades[i].isDead){
+                this.player1.unidades.splice(i, 1)
+                ////
+                for(var i = 0; i < this.player2.unidades.length; i++){
+                    for(var j = 0; j < this.player2.unidades[i].objectives.length; j++){
+                        if(this.player2.unidades[i].objectives[j].isDead){
+                            this.player2.unidades[i].objectives.splice(j, 1);
+                        }
+                    }
+                }
+                ////
+            }
+            if(i < this.player1.unidades.length){
+                this.player1.unidades[i].Update(delta);
+            }
         }
         for(var i = 0; i < this.player2.unidades.length; i++){
-            this.player2.unidades[i].Update(delta);
+            if(this.player2.unidades[i].isDead){
+                this.player2.unidades.splice(i, 1)
+                ////
+                for(var i = 0; i < this.player1.unidades.length; i++){
+                    for(var j = 0; j < this.player1.unidades[i].objectives.length; j++){
+                        if(this.player1.unidades[i].objectives[j].isDead){
+                            this.player1.unidades[i].objectives.splice(j, 1);
+                        }
+                    }
+                }
+                ////
+            }
+            if(i < this.player2.unidades.length){
+                this.player2.unidades[i].Update(delta);
+            }
         }
     }    
 }

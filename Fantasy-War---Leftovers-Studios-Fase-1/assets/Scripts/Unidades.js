@@ -22,8 +22,10 @@ export class Unidades
         this.velocidadMovimiento = unidad.velocidadMovimiento;
         this.range = unidad.range;
         this.enemyBase = enemyBase;
-        this.gameobject = physics.add.image(positionx, positiony, unidad.image);
+        this.image = unidad.image;
+        this.gameobject = physics.add.image(positionx, positiony, this.image);
         this.timer = 0;
+        this.isDead = false;
         return this;
     }
     setColliding(isColliding){
@@ -34,21 +36,34 @@ export class Unidades
             this.gameobject.setVelocity(this.velocidadMovimiento, 0);
         }
         else if(player == 2){
-            this.gameobject.setVelocity(-1*this.velocidadMovimiento, 0);
+            this.gameobject.setVelocity(this.velocidadMovimiento, 0);
         }
     }
     stop(){
         this.gameobject.setVelocity(0, 0);
     }
     set(enemy){
-        //this.objectives.sort()
-        this.actualEnemy = enemy;
+        if(this.enemyBase.x < this.gameobject.x){
+            this.objectives.sort(function(a, b){
+                return (a.gameobject.x - b.gameobject.x);
+            })
+
+        }else{
+            this.objectives.sort(function(a, b){
+                return (b.gameobject.x - a.gameobject.x);
+            })
+        }
+        this.actualEnemy = this.objectives.pop();
         this.stop();
     }
     Update(delta){
+        if(this.isDead){
+            delete this;
+            return;
+        }
         //console.log(this.gameobject.x);
-        this.timer += delta / 1000;
         if(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.enemyBase.collision.x, 0) <= this.range + this.enemyBase.size){
+            this.timer += delta / 1000;
             this.stop();
             if(this.timer >= 10 - this.velocidadAtaque){
                 this.enemyBase.damage(this.ataque);
@@ -57,31 +72,50 @@ export class Unidades
             return;
         }
         if(this.actualEnemy != null){
-            if(this.timer >= 10 - this.velocidadAtaque){
-                this.Attack(this.enemy);
-                this.timer = 0;
+            if(!this.actualEnemy.isDead){
+                this.timer += delta / 1000;
+                if(this.timer >= 10 - this.velocidadAtaque){
+                    this.Attack(this.actualEnemy);
+                    this.timer = 0;
+                }
+                return;
+            }else{
+                this.actualEnemy = null;
             }
-
-            return;
         }
-        if(this.objectives.some){
+        if(this.objectives.length != 0){
             for (var i = 0; i < this.objectives.length; i++){
-                console.log(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range);
+                //console.log(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range);
                 if(this.enemy == null && Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range){
-                    this.set(this.enemy);
-                }else{
-                    this.gameobject.setVelocity(this.velocidadMovimiento, 0);
+                    this.set();
+                    return;
                 }
             }
+        }else{
+            this.restart();
         }
+
     }
     Attack(enemigo){
         enemigo.vida -= this.ataque;
-        this.time = 0;
+        this.CheckDead(this.actualEnemy);
+        this.restart();
+
+        this.timer = 0;
     }
-    CheckDead(){
-        if(this.vida <= 0){
-            delete this;
+    restart(){
+        if(this.enemyBase.x < this.gameobject.x){
+            this.start(2);
+        }else{
+            this.start(1);
         }
+    }
+    CheckDead(enemy){
+        enemy.gameobject.body.enable = false;
+        enemy.gameobject.destroy();
+        this.actualEnemy = null;
+        enemy.isDead = true;
+        delete this;
+        //delete(enemy);
     }
 }
