@@ -18,7 +18,7 @@ export class GameScene extends Phaser.Scene {
         this.load.spritesheet('magoB', 'assets/images/tropas/mago_b.png');
         this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png');
         this.load.image('flecha1','assets/images/flecha1.png');
-        this.load.spritesheet('golemB', 'assets/images/tropas/coin.png');
+        this.load.spritesheet('coin', 'assets/images/tropas/coin.png');
 
     }
 
