@@ -54,7 +54,9 @@ export class GameScene extends Phaser.Scene {
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
     }
     update(time, delta){
-        
+
+        console.log(time);
+        console.log(delta);
         //controles player 1
         if(Phaser.Input.Keyboard.JustDown(this.keySpace)){
             this.newUnity = new Unidades();

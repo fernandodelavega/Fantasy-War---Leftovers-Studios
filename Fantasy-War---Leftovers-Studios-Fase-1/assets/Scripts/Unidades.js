@@ -50,12 +50,13 @@ export class Unidades
         this.timer += delta / 1000;
         if(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.enemyBase.collision.x, 0) <= this.range + this.enemyBase.size){
             this.stop();
-            if(this.timer >= 3){
+            if(this.timer >= 10 - this.velocidadAtaque){
                 this.enemyBase.damage(this.ataque);
                 this.timer = 0;
             }
             return;
         }
+        if(enemys != null){}
         if(this.objectives.some){
             for (var i = 0; i < this.objectives.length; i++){
                 console.log(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range);
