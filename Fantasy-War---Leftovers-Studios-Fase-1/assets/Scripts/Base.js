@@ -27,9 +27,9 @@ export class Base
         
             this.graphics.fillStyle(color, alpha);
             if(this.x < 1000){
-                this.graphics.fillRect(this.x + .3 * i, 200, .3, 32);
+                this.graphics.fillRect(this.x + .3 * i, 50, .3, 32);
             }else{
-                this.graphics.fillRect(this.x - .3 * i, 200, .3, 32);
+                this.graphics.fillRect(this.x - .3 * i, 50, .3, 32);
             }
         }
     }

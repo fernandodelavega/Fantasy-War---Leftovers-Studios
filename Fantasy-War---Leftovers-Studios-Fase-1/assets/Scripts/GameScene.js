@@ -203,6 +203,8 @@ export class GameScene extends Phaser.Scene {
                 this.scena.start('draw');
             }
         }
+
+        ///////Update Unidades /////
         for(var i = 0; i < this.player1.unidades.length; i++){
             if(this.player1.unidades[i].isDead){
                 this.player1.unidades.splice(i, 1)
@@ -237,6 +239,11 @@ export class GameScene extends Phaser.Scene {
                 this.player2.unidades[i].Update(delta);
             }
         }
+
+
+        //update players
+        this.player1.Update(delta);
+        this.player2.Update(delta);
     }    
 }
 

@@ -43,6 +43,7 @@ export class Player
         this.contador += delta / 1000;
         if(this.contador >= 2){
             this.oro++;
+            this.contador = 0;
         }
 
     }
