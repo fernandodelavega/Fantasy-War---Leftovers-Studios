@@ -11,14 +11,14 @@ export class GameScene extends Phaser.Scene {
     preload(){
         this.load.image('backGround', 'assets/images/fondo_completo.png');
         this.load.image('pina', 'assets/images/pina.png');
-        this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('golemR', 'assets/images/tropas/golem_r.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('goblinB', 'assets/images/tropas/goblin_b.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('magoB', 'assets/images/tropas/mage_b.png', { frameWidth: 32, frameHeight: 48 });
-        this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('golemR', 'assets/images/tropas/golem_r.png', { frameWidth: 45, frameHeight: 45 });
+        this.load.spritesheet('goblinB', 'assets/images/tropas/goblin_b.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('magoB', 'assets/images/tropas/mage_b.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png', { frameWidth: 45, frameHeight: 45 });
         this.load.image('flecha1','assets/images/flecha1.png');
-        this.load.spritesheet('coin', 'assets/images/tropas/coin.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('coin', 'assets/images/tropas/coin.png', { frameWidth: 20, frameHeight: 20 });
 
     }
 
@@ -28,6 +28,7 @@ export class GameScene extends Phaser.Scene {
         this.flechaA = this.add.image(120,560,'flecha1').setScale(0.3,0.3);
         this.flechaB = this.add.image(1800,560,'flecha1').setScale(0.3,0.3);
         this.flechaB.angle +=180;
+        this.coin = this.add.sprite(1920/2, 50, 'coin');
 
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(1000, 120, 520, 'pina', this.physics, this.graphics1);
@@ -62,6 +63,54 @@ export class GameScene extends Phaser.Scene {
         this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
+
+        //animación moneda
+        this.anims.create({
+            key: 'coinA',
+            frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.coin.anims.play('coin', true);
+
+        //animaciones unidades
+        this.anims.create({
+            key: 'goblinRA',
+            frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'goblinBA',
+            frames: this.anims.generateFrameNumbers('goblinB', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'mageRA',
+            frames: this.anims.generateFrameNumbers('magoR', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'mageBA',
+            frames: this.anims.generateFrameNumbers('magoB', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'golemRA',
+            frames: this.anims.generateFrameNumbers('golemR', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'golemBA',
+            frames: this.anims.generateFrameNumbers('golemB', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
     }
 
     update(time, delta){

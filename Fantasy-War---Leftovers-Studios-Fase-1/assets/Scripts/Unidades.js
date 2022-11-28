@@ -57,6 +57,7 @@ export class Unidades
         this.stop();
     }
     Update(delta){
+        this.anims.play(this.image+'A', true);
         if(this.isDead){
             delete this;
             return;
