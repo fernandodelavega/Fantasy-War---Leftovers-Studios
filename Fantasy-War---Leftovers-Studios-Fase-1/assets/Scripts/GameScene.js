@@ -12,6 +12,7 @@ export class GameScene extends Phaser.Scene {
         this.load.image('backGround', 'assets/images/fondo_completo.png');
         this.load.image('pina', 'assets/images/pina.png');
         this.load.image('entity', 'assets/images/dude.png');
+        this.load.image('flecha1','assets/images/flecha1.png');
 
     }
 
@@ -19,7 +20,10 @@ export class GameScene extends Phaser.Scene {
         
         
         this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6) ;
-        
+        this.flechaA = this.add.image(120,560,'flecha1').setScale(0.3,0.3);
+        this.flechaB = this.add.image(1800,560,'flecha1').setScale(0.3,0.3);
+        this.flechaB.angle +=180;
+
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(10, 120, 520, 'pina', this.physics, this.graphics1);
         this.player1 = new Player(1000, 0, this.base1, 1);
@@ -29,9 +33,9 @@ export class GameScene extends Phaser.Scene {
         this.player2 = new Player(1000, 0, this.base2, 1);
 
         this.positions = new Array();
-        this.positions.push(260);
-        this.positions.push(580);
         this.positions.push(900);
+        this.positions.push(580);
+        this.positions.push(260);
 
         this.goblin = new Unidades(0, 0, 0, 0, 10, 'entity');
 
@@ -69,12 +73,15 @@ export class GameScene extends Phaser.Scene {
         }
         else if(Phaser.Input.Keyboard.JustDown(this.keyW)){
             this.player1.siguienteCamino(true);
+            
         }
         else if(Phaser.Input.Keyboard.JustDown(this.keyS)){
             this.player1.siguienteCamino(false);
         }
         else{}
-        
+
+        this.flechaA.setY(this.positions[this.player1.camino]);
+
         if(Phaser.Input.Keyboard.JustDown(this.keyG)){
             this.player1.base.damage(1);
         }
@@ -96,11 +103,14 @@ export class GameScene extends Phaser.Scene {
         }
         else if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
             this.player2.siguienteCamino(true);
+            
         }
         else if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
             this.player2.siguienteCamino(false);
         }
         else{}
+
+        this.flechaB.setY(this.positions[this.player2.camino]);
 
         if(Phaser.Input.Keyboard.JustDown(this.keyH)){
             this.player2.base.damage(1);
