@@ -31,11 +31,11 @@ export class GameScene extends Phaser.Scene {
 
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(10, 120, 520, 'pina', this.physics, this.graphics1);
-        this.player1 = new Player(1000, 0, this.base1, 1);
+        this.player1 = new Player(1000, 10, this.base1, 1);
         
         this.graphics2 = this.add.graphics();
         this.base2 = new Base(10, 1800, 520, 'pina', this.physics, this.graphics2);
-        this.player2 = new Player(1000, 0, this.base2, 1);
+        this.player2 = new Player(1000, 10, this.base2, 1);
 
         this.positions = new Array();
         this.positions.push(900);
@@ -63,6 +63,7 @@ export class GameScene extends Phaser.Scene {
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
     }
+
     update(time, delta){
 
         console.log(time);

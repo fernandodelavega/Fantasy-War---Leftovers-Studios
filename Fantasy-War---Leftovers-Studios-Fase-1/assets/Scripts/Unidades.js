@@ -56,7 +56,7 @@ export class Unidades
             }
             return;
         }
-        if(enemys != null){
+        if(this.actualEnemy != null){
             if(this.timer >= 10 - this.velocidadAtaque){
                 this.Attack(this.enemy);
                 this.timer = 0;
