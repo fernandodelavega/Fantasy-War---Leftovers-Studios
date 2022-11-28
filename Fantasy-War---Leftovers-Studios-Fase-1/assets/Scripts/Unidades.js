@@ -23,7 +23,11 @@ export class Unidades
         this.range = unidad.range;
         this.enemyBase = enemyBase;
         this.image = unidad.image;
-        this.gameobject = physics.add.image(positionx, positiony, this.image);
+        this.gameobject = physics.add.sprite(positionx, positiony, this.image);
+        
+        this.gameobject.anims.play(this.image, true);
+        
+        
         this.timer = 0;
         this.isDead = false;
         return this;
@@ -57,7 +61,7 @@ export class Unidades
         this.stop();
     }
     Update(delta){
-        this.anims.play(this.image+'A', true);
+        
         if(this.isDead){
             delete this;
             return;

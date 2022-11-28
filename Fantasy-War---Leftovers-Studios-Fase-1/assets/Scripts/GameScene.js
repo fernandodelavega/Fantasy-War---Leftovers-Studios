@@ -29,6 +29,52 @@ export class GameScene extends Phaser.Scene {
         this.flechaB = this.add.image(1800,560,'flecha1').setScale(0.3,0.3);
         this.flechaB.angle +=180;
         this.coin = this.add.sprite(1920/2, 50, 'coin');
+        //this.coin.animation.add('idle',('coin',{ start: 0, end: 3 }),10,-1);
+        //this.coin.animation.play('idle');
+        this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.coin.anims.play('idle');
+        this.anims.create({
+            key: 'goblinR',
+            frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'goblinB',
+            frames: this.anims.generateFrameNumbers('goblinB', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'magoR',
+            frames: this.anims.generateFrameNumbers('magoR', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'magoB',
+            frames: this.anims.generateFrameNumbers('magoB', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'golemR',
+            frames: this.anims.generateFrameNumbers('golemR', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'golemB',
+            frames: this.anims.generateFrameNumbers('golemB', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        
 
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(1000, 120, 520, 'pina', this.physics, this.graphics1);
@@ -45,7 +91,7 @@ export class GameScene extends Phaser.Scene {
 
         this.unidadesPrefab1 = new Array(); 
         this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR'));
-        this.unidadesPrefab1.push(new Unidades(20, 120, 6, 100, 100, 'magoR'));
+        this.unidadesPrefab1.push(new Unidades(20, 120, 6, 100, 200, 'magoR'));
         this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR'));
         
         this.unidadesPrefab2 = new Array(); 
@@ -64,52 +110,8 @@ export class GameScene extends Phaser.Scene {
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
 
-        //animación moneda
-        this.anims.create({
-            key: 'coinA',
-            frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.coin.anims.play('coin', true);
-
-        //animaciones unidades
-        this.anims.create({
-            key: 'goblinRA',
-            frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'goblinBA',
-            frames: this.anims.generateFrameNumbers('goblinB', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'mageRA',
-            frames: this.anims.generateFrameNumbers('magoR', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'mageBA',
-            frames: this.anims.generateFrameNumbers('magoB', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'golemRA',
-            frames: this.anims.generateFrameNumbers('golemR', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        this.anims.create({
-            key: 'golemBA',
-            frames: this.anims.generateFrameNumbers('golemB', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
+        
+        
 
     }
 
