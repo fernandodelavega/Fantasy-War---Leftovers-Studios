@@ -48,9 +48,9 @@ export class GameScene extends Phaser.Scene {
         this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR'));
         
         this.unidadesPrefab2 = new Array(); 
-        this.unidadesPrefab2.push(new Unidades(50, 40, 8, 150, 10, 'goblinB'));
-        this.unidadesPrefab2.push(new Unidades(20, 120, 6, 100, 100, 'magoB'));
-        this.unidadesPrefab2.push(new Unidades(150, 20, 5, 100, 10, 'golemB'));
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB'));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 6, -100, 100, 'magoB'));
+        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB'));
 
         //teclado
         this.cursors = this.input.keyboard.createCursorKeys();
