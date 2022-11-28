@@ -11,14 +11,14 @@ export class GameScene extends Phaser.Scene {
     preload(){
         this.load.image('backGround', 'assets/images/fondo_completo.png');
         this.load.image('pina', 'assets/images/pina.png');
-        this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png');
-        this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png');
-        this.load.spritesheet('golemR', 'assets/images/tropas/golem_r.png');
-        this.load.spritesheet('goblinB', 'assets/images/tropas/goblin_b.png');
-        this.load.spritesheet('magoB', 'assets/images/tropas/mage_b.png');
-        this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png');
+        this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('golemR', 'assets/images/tropas/golem_r.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('goblinB', 'assets/images/tropas/goblin_b.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('magoB', 'assets/images/tropas/mage_b.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png', { frameWidth: 32, frameHeight: 48 });
         this.load.image('flecha1','assets/images/flecha1.png');
-        this.load.spritesheet('coin', 'assets/images/tropas/coin.png');
+        this.load.spritesheet('coin', 'assets/images/tropas/coin.png', { frameWidth: 32, frameHeight: 48 });
 
     }
 
