@@ -13,7 +13,7 @@ export class Unidades
         this.objectives = new Array(); 
         this.actualEnemy;
         this.image = image;
-        this.sonido = sound;
+        this.sound = sound;
     }
     instance(unidad, positionx, positiony, camino, enemyBase, physics){
 
@@ -68,6 +68,7 @@ export class Unidades
             this.timer += delta / 1000;
             this.stop();
             if(this.timer >= 10 - this.velocidadAtaque){
+                this.sound.play();
                 this.enemyBase.damage(this.ataque);
                 this.timer = 0;
             }
@@ -102,7 +103,7 @@ export class Unidades
     }
     Attack(enemigo){
         enemigo.vida -= this.ataque;
-        //this.soundEfect.play();
+        this.sound.play();
         this.CheckDead(this.actualEnemy);
         //this.restart();
 

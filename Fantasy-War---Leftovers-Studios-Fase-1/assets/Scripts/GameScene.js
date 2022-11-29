@@ -44,11 +44,11 @@ export class GameScene extends Phaser.Scene {
         textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
         this.crear=this.sound.add('Crear');
         this.muerte=this.sound.add('Matar');
-        //this.soundEfectG=this.sonido.add();
-        //this.soundEfectG=this.sonido.add();
-        //this.soundEfectG=this.sonido.add();
-        //this.coin.animation.add('idle',('coin',{ start: 0, end: 3 }),10,-1);
-        //this.coin.animation.play('idle');
+        this.goblinS=this.sound.add('goblinS');
+        this.mageS=this.sound.add('mageS');
+        this.golemS=this.sound.add('golemS');
+        //this.coin.anims.add('idle',('coin',{ start: 0, end: 3 }),10,-1);
+        //this.coin.anims.play('idle');
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
@@ -117,14 +117,14 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(260);
 
         this.unidadesPrefab1 = new Array(); 
-        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR','goblinS'));
-        this.unidadesPrefab1.push(new Unidades(20, 120, 4, 100, 700, 'magoR','mageS'));
-        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR','golemS'));
+        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR',this.goblinS));
+        this.unidadesPrefab1.push(new Unidades(20, 120, 4, 100, 700, 'magoR',this.mageS));
+        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR',this.golemS));
         
         this.unidadesPrefab2 = new Array(); 
-        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB','golemS'));
-        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB','mageS'));
-        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB','goblinS'));
+        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB',this.golemS));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS));
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB',this.goblinS));
 
         //teclado
         this.cursors = this.input.keyboard.createCursorKeys();
