@@ -2,7 +2,7 @@ export class Unidades
 {
     gameobject;
 
-    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image)
+    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound)
     {
         this.vida = vida;
         this.ataque = ataque;
@@ -13,9 +13,11 @@ export class Unidades
         this.objectives = new Array(); 
         this.actualEnemy;
         this.image = image;
+        this.sonido = sound;
     }
     instance(unidad, positionx, positiony, camino, enemyBase, physics){
 
+        
         this.camino = camino;
         this.enemyBase = enemyBase;
         this.image = unidad.image;
@@ -100,6 +102,7 @@ export class Unidades
     }
     Attack(enemigo){
         enemigo.vida -= this.ataque;
+        //this.soundEfect.play();
         this.CheckDead(this.actualEnemy);
         //this.restart();
 

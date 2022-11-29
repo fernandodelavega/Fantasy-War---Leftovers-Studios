@@ -7,8 +7,10 @@ export class Intro extends Phaser.Scene {
        
     }
     preload(){
-        this.load.video('intro', 'assets/images/leftOversIntro.mp4');
+        this.load.video('intro', 'assets/images/leftOversIntro_with_sound.mp4');
         
+        
+        //this.musica.volume = 0.4;
         
         
     }
@@ -18,7 +20,6 @@ export class Intro extends Phaser.Scene {
         
         video= this.add.video(1920/2, 1080/2, 'intro').setScale(2,2);
         
-
         //this.scene.start("GameScene");
     }
     

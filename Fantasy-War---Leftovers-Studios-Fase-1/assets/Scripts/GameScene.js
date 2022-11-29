@@ -20,6 +20,12 @@ export class GameScene extends Phaser.Scene {
         this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png', { frameWidth: 45, frameHeight: 45 });
         this.load.image('flecha1','assets/images/flecha1.png');
         this.load.spritesheet('coin', 'assets/images/tropas/coin.png', { frameWidth: 20, frameHeight: 20 });
+        this.load.audio('Crear', 'assets/musica/tropas/poner-tropa.mp3');
+        this.load.audio('Matar', 'assets/musica/tropas/tropa-muere.mp3');
+        
+        this.load.audio('goblinS', 'assets/musica/tropas/goblin-slash.mp3');
+        this.load.audio('mageS', 'assets/musica/tropas/mago-explosion.mp3');
+        this.load.audio('golemS', 'assets/musica/tropas/golem-golpe.mp3');
 
     }
 
@@ -32,6 +38,11 @@ export class GameScene extends Phaser.Scene {
         this.coin = this.add.sprite(1920/2, 50, 'coin').setScale(6, 6) ;
         textOro1 = this.add.text(1920/2-200, 50, 'oro1: 10',{ fontSize: '32px'});
         textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
+        this.crear=this.sound.add('Crear');
+        this.muerte=this.sound.add('Matar');
+        this.soundEfectG=this.sonido.add();
+        this.soundEfectG=this.sonido.add();
+        this.soundEfectG=this.sonido.add();
         //this.coin.animation.add('idle',('coin',{ start: 0, end: 3 }),10,-1);
         //this.coin.animation.play('idle');
         this.anims.create({
@@ -41,6 +52,7 @@ export class GameScene extends Phaser.Scene {
             repeat: -1
         });
         this.coin.anims.play('idle');
+        
         this.anims.create({
             key: 'goblinR',
             frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
@@ -93,14 +105,14 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(260);
 
         this.unidadesPrefab1 = new Array(); 
-        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR'));
-        this.unidadesPrefab1.push(new Unidades(20, 120, 4, 100, 700, 'magoR'));
-        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR'));
+        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR','goblinS'));
+        this.unidadesPrefab1.push(new Unidades(20, 120, 4, 100, 700, 'magoR','mageS'));
+        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR','golemS'));
         
         this.unidadesPrefab2 = new Array(); 
-        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB'));
-        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB'));
-        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB'));
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB','goblinS'));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB','mageS'));
+        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB','golemS'));
 
         //teclado
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -119,6 +131,7 @@ export class GameScene extends Phaser.Scene {
 
         //controles player 1
         if(Phaser.Input.Keyboard.JustDown(this.keySpace) && this.player1.oro >= 1){
+            this.crear.play();
             var newUnity = new Unidades();
             Object.assign(newUnity, this.unidadesPrefab1[this.player1.unidad]);
             newUnity.instance(newUnity, this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
@@ -159,6 +172,7 @@ export class GameScene extends Phaser.Scene {
         
         //controles player 2 
         if(Phaser.Input.Keyboard.JustDown(this.keyEnter)&& this.player2.oro>=1){
+            this.crear.play();
             var newUnity = new Unidades();
             Object.assign(newUnity, this.unidadesPrefab2[this.player2.unidad]);
             newUnity.instance(newUnity, this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
@@ -265,6 +279,7 @@ export class GameScene extends Phaser.Scene {
         ///////Update Unidades /////
         for(var i = 0; i < this.player1.unidades.length; i++){
             if(this.player1.unidades[i].isDead){
+                this.muerte.play();
                 this.player1.unidades.splice(i, 1)
                 ////
                 for(var i = 0; i < this.player2.unidades.length; i++){
@@ -282,6 +297,7 @@ export class GameScene extends Phaser.Scene {
         }
         for(var i = 0; i < this.player2.unidades.length; i++){
             if(this.player2.unidades[i].isDead){
+                this.muerte.play();
                 this.player2.unidades.splice(i, 1)
                 ////
                 for(var i = 0; i < this.player1.unidades.length; i++){

@@ -7,9 +7,11 @@ export class Inicio extends Phaser.Scene {
     preload(){
         this.load.image('inicio', 'assets/images/inicio.png');
         this.load.image('boton', 'assets/images/boton.png');
-        this.load.audio('musicote', 'assets/musica/musicote.mp3');
+        this.load.audio('musicote', 'assets/musica/música/nivel_1.mp3');
         this.load.image('help','assets/images/help.png');
         this.load.image('controles','assets/images/Controles.png');
+        this.load.audio('boton1', 'assets/musica/navegar_menu/aceptar.mp3');
+        this.load.audio('boton2', 'assets/musica/navegar_menu/cambiar-opcion.mp3');
     }
 
     
@@ -17,14 +19,16 @@ export class Inicio extends Phaser.Scene {
     create(){
         this.musica=this.sound.add('musicote');
         this.musica.loop = true;
-        this.musica.volume = 0.1;
-        
+        this.musica.volume = 0.4;
+        this.botonI=this.sound.add('boton1');
+        this.botonO=this.sound.add('boton2');
 
         
         this.add.image(960  , 540, 'inicio');
         //this.musica.play();
         this.boton= this.add.image(950, 820, 'boton').setInteractive();
         this.boton.on('pointerdown', () =>{
+            this.botonI.play();
             this.scene.start('GameScene');  
         });
         
@@ -34,7 +38,7 @@ export class Inicio extends Phaser.Scene {
 
         this.boton1= this.add.image(1800, 100, 'help').setScale(0.25,0.25).setInteractive();
         this.boton1.on('pointerdown', () =>{
-
+            this.botonO.play();
             if (c == 1){
 
                 this.controles.destroy();
