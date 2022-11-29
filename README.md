@@ -85,9 +85,9 @@ Las bases de los jugadores tienen posiciones fijas en los 2 extremos de la panta
 Los personajes que invoca cada jugador se mueven desde una torre hasta la otra por los caminos. Al encontrarse con un enemigo se detienen y combaten. En caso de llegar a la base, la golpea hasta que le quite toda la vida.
 
 
-###Pantallas de Juego:
+### Pantallas de Juego:
 
-Introduccion:
+#### Introduccion:
 
 ![intro](https://user-images.githubusercontent.com/115580903/204624928-63edd4e2-2766-44b2-8e95-4f854cf2c132.PNG)
 
