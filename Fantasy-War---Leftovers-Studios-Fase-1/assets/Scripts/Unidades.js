@@ -15,18 +15,13 @@ export class Unidades
         this.image = image;
     }
     instance(unidad, positionx, positiony, camino, enemyBase, physics){
-        this.vida = unidad.vida;
-        this.ataque = unidad.ataque;
+
         this.camino = camino;
-        this.velocidadAtaque = unidad.velocidadAtaque;
-        this.velocidadMovimiento = unidad.velocidadMovimiento;
-        this.range = unidad.range;
         this.enemyBase = enemyBase;
         this.image = unidad.image;
-        this.gameobject = physics.add.sprite(positionx, positiony, this.image);
+        this.gameobject = physics.add.sprite(positionx, positiony, this.image).setScale(2, 2);
         
         this.gameobject.anims.play(this.image, true);
-        
         
         this.timer = 0;
         this.isDead = false;
