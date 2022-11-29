@@ -1,3 +1,4 @@
+import {Intro} from './Intro.js'
 import { Inicio } from './Inicio.js';
 import { GameScene } from './GameScene.js';
 import { player1W } from './player1W.js';
@@ -15,7 +16,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Inicio, GameScene, player1W, player2W, draw]
+    scene: [Intro, Inicio, GameScene, player1W, player2W, draw]
 };
 
 var game = new Phaser.Game(config);
