@@ -8,7 +8,7 @@ export class Intro extends Phaser.Scene {
     }
     preload(){
         this.load.video('intro', 'assets/images/leftOversIntro_with_sound.mp4');
-        
+        this.load.audio('musicote', 'assets/musica/música/nivel_1.mp3');
         
         //this.musica.volume = 0.4;
         
@@ -19,7 +19,9 @@ export class Intro extends Phaser.Scene {
         
         
         video= this.add.video(1920/2, 1080/2, 'intro').setScale(2,2);
-        
+        this.musica=this.sound.add('musicote');
+        this.musica.loop = true;
+        this.musica.volume = 0.4;
         //this.scene.start("GameScene");
     }
     
@@ -35,6 +37,11 @@ export class Intro extends Phaser.Scene {
             
         //}
         if(tempoIntro > 1300){
+            
+            this.musica.play();
+                
+                
+            
             this.scene.start('Inicio');
         }
     }

@@ -1,4 +1,4 @@
-var tempoMusica=0;
+
 export class Inicio extends Phaser.Scene {
     constructor(){
         super({key: "Inicio"}); //key=nombre escena, active=se ve
@@ -7,7 +7,7 @@ export class Inicio extends Phaser.Scene {
     preload(){
         this.load.image('inicio', 'assets/images/inicio.png');
         this.load.image('boton', 'assets/images/boton.png');
-        this.load.audio('musicote', 'assets/musica/música/nivel_1.mp3');
+        
         this.load.image('help','assets/images/help.png');
         this.load.image('controles','assets/images/Controles.png');
         this.load.audio('boton1', 'assets/musica/navegar_menu/aceptar.mp3');
@@ -17,9 +17,7 @@ export class Inicio extends Phaser.Scene {
     
     
     create(){
-        this.musica=this.sound.add('musicote');
-        this.musica.loop = true;
-        this.musica.volume = 0.4;
+        
         this.botonI=this.sound.add('boton1');
         this.botonO=this.sound.add('boton2');
 
@@ -61,13 +59,9 @@ export class Inicio extends Phaser.Scene {
         //this.scene.start("GameScene");
     }
     
-    update(delta){
-        tempoMusica += delta / 1000;
-        if(tempoMusica >= 1){
-            this.musica.play();
-            
-            
-        }
+    update(){
+        
+        
 
     }
 
