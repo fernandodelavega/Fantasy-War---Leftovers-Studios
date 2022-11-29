@@ -145,24 +145,23 @@ Pantalla de final de partida en la cual se muestra el ganador de la misma , los 
 
 
 ## Arte:
-El juego está inspirado en los múltiples relatos de fantasía de la cultura popular.
-(Aquí se irán añadiendo todos los diseños que se lleven a cabo).
+En el juego se han interpretado varios diseños de cultura popular en un pixel art más abstracto. Dentro de las tropas tenemos goblins, golems y magos. 
+También se ha hecho un escenario basado en un campo con tres caminos donde se produce la batalla
 
 Mago: 
-
 ![mage_r](https://user-images.githubusercontent.com/115580903/204633522-5f1f7b6d-f5a1-4f77-ae17-c04565ac0ff2.png)
 
 Goblin:
-
 ![goblin_r](https://user-images.githubusercontent.com/115580903/204633442-96413aaf-e96e-451e-a5ac-5c839c07ac73.png)
 
 
 Golem:
-
 ![golem_r](https://user-images.githubusercontent.com/115580903/204633557-f99ab30d-f51c-4301-8c65-b7d759d3debb.png)
 
 ## Sonido y música:
-Efectos de sonido hechos por los desarrolladores y mezclados con sintetizador.
+Se ha compuesto una canción para acompañar al juego usando instrumentos de 16 bits y percusión real.
+Los efectos de sonido son de 16 bits y se han creado usando el programa "Chiptone". Se han creado efectos de sonido para navegar el menú, para cuando las tropas son colocadas y cuando mueren, y finalmente para cada ataque de cada tipo de tropa.
+
 ## Marketing:
 Redes sociales: Instagram ()
 
