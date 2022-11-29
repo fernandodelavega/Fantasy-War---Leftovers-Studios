@@ -9,8 +9,9 @@
 | :---        |    :----:   |          ---: |
 | Fernando de la Vega Valle | *f.delavegav@alumnos.urjc.es* | @fernimc96 |
 | Alexander Tercero Moreno | *a.tercero.2020@alumnos.urjc.es* | @alexandeiro |
-| Pacual Gázquez Compán | *p.gazquez.2018@alumnos.urjc.es* | @pascualgazquez |
+| Pascual Gázquez Compán | *p.gazquez.2018@alumnos.urjc.es* | @pascualgazquez |
 | Diego Nicolás Barreales| *d.nicolas.2019@alumnos.urjc.es* | @dieguoin |
+
 
 # GDD
 ## Introducción
@@ -57,8 +58,6 @@ Cada personaje tiene unas estadísticas:
 	
 Goblin: 
 
-![goblin_r](https://user-images.githubusercontent.com/115580903/204633442-96413aaf-e96e-451e-a5ac-5c839c07ac73.png)
-
 Atacante básico con daño a melée.
 
 Precio:1
@@ -66,8 +65,6 @@ Precio:1
 
 
 Mago:
-
-![mage_r](https://user-images.githubusercontent.com/115580903/204633522-5f1f7b6d-f5a1-4f77-ae17-c04565ac0ff2.png)
 
 Atacante básico de rango.
 
@@ -77,16 +74,12 @@ Precio:1
 
 Paladín:
 
-WIP
-
 Tanque básico.
 Precio:1
 
 
 
 Caballero:
-
-WIP
 
 Atacante fuerte de melée.
 Precio:3
@@ -95,16 +88,12 @@ Precio:3
 
 Dragon:
 
-WIP
-
 Atacante fuerte de rango.
 Precio:3
 
 
 
 Golem:
-
-![golem_r](https://user-images.githubusercontent.com/115580903/204633557-f99ab30d-f51c-4301-8c65-b7d759d3debb.png)
 
 Tanque fuerte.
 Precio: 3
@@ -159,9 +148,18 @@ Pantalla de final de partida en la cual se muestra el ganador de la misma , los 
 El juego está inspirado en los múltiples relatos de fantasía de la cultura popular.
 (Aquí se irán añadiendo todos los diseños que se lleven a cabo).
 
+Mago: 
+
+![mage_r](https://user-images.githubusercontent.com/115580903/204633522-5f1f7b6d-f5a1-4f77-ae17-c04565ac0ff2.png)
+
+Goblin:
+
+![goblin_r](https://user-images.githubusercontent.com/115580903/204633442-96413aaf-e96e-451e-a5ac-5c839c07ac73.png)
 
 
+Golem:
 
+![golem_r](https://user-images.githubusercontent.com/115580903/204633557-f99ab30d-f51c-4301-8c65-b7d759d3debb.png)
 
 ## Sonido y música:
 Efectos de sonido hechos por los desarrolladores y mezclados con sintetizador.
