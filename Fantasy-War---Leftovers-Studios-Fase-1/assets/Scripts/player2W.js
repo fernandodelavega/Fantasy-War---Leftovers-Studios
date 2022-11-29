@@ -1,3 +1,4 @@
+var creditos;
 export class player2W extends Phaser.Scene {
     constructor(){
         super({key: "player2W", active: false}); //key=nombre escena, active=se ve

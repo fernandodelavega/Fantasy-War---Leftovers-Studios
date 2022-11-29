@@ -25,11 +25,14 @@ export class Intro extends Phaser.Scene {
     update(delta){
         
         tempoIntro += delta / 1000;
-        if(tempoIntro >= 1 && playing==false){
-            video.play();
-            playing=true;
+        //if(tempoIntro >= 1 && playing==false){
+            if(playing==false){
+                video.play();
+                playing=true;
+            }
+            //playing=true;
             
-        }
+        //}
         if(tempoIntro > 1300){
             this.scene.start('Inicio');
         }

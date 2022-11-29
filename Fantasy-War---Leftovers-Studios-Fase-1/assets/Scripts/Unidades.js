@@ -41,7 +41,7 @@ export class Unidades
     stop(){
         this.gameobject.setVelocity(0, 0);
     }
-    set(enemy){
+    set(){
         if(this.enemyBase.x < this.gameobject.x){
             this.objectives.sort(function(a, b){
                 return (a.gameobject.x - b.gameobject.x);
@@ -53,7 +53,7 @@ export class Unidades
             })
         }
         this.actualEnemy = this.objectives.pop();
-        this.stop();
+        //this.stop();
     }
     Update(delta){
         
@@ -61,7 +61,7 @@ export class Unidades
             delete this;
             return;
         }
-        //console.log(this.gameobject.x);
+        //base al alcance
         if(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.enemyBase.collision.x, 0) <= this.range + this.enemyBase.size){
             this.timer += delta / 1000;
             this.stop();
@@ -70,9 +70,10 @@ export class Unidades
                 this.timer = 0;
             }
             return;
-        }
+        }//existe enemigo al alcance
         if(this.actualEnemy != null){
-            if(!this.actualEnemy.isDead){
+            if(!this.actualEnemy.isDead && this.gameobject.y==this.actualEnemy.gameobject.y){
+                this.stop();
                 this.timer += delta / 1000;
                 if(this.timer >= 10 - this.velocidadAtaque){
                     this.Attack(this.actualEnemy);
@@ -81,12 +82,13 @@ export class Unidades
                 return;
             }else{
                 this.actualEnemy = null;
+                this.restart();
             }
         }
         if(this.objectives.length != 0){
             for (var i = 0; i < this.objectives.length; i++){
                 //console.log(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range);
-                if(this.enemy == null && Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range){
+                if(this.enemy == null && Phaser.Math.Distance.Between(this.gameobject.x, 0, this.objectives[i].gameobject.x, 0) <= this.range && this.gameobject.y == this.objectives[i].gameobject.y){
                     this.set();
                     return;
                 }
@@ -99,7 +101,7 @@ export class Unidades
     Attack(enemigo){
         enemigo.vida -= this.ataque;
         this.CheckDead(this.actualEnemy);
-        this.restart();
+        //this.restart();
 
         this.timer = 0;
     }
@@ -111,11 +113,14 @@ export class Unidades
         }
     }
     CheckDead(enemy){
+        if(enemy.vida<=0){
         enemy.gameobject.body.enable = false;
         enemy.gameobject.destroy();
         this.actualEnemy = null;
         enemy.isDead = true;
         delete this;
+        }
+        this.restart();
         //delete(enemy);
     }
 }

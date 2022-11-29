@@ -1,3 +1,4 @@
+var creditos;
 export class draw extends Phaser.Scene {
     constructor(){
         super({key: "draw", active: false}); //key=nombre escena, active=se ve

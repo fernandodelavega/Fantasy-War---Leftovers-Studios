@@ -94,12 +94,12 @@ export class GameScene extends Phaser.Scene {
 
         this.unidadesPrefab1 = new Array(); 
         this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR'));
-        this.unidadesPrefab1.push(new Unidades(20, 120, 6, 100, 200, 'magoR'));
+        this.unidadesPrefab1.push(new Unidades(20, 120, 4, 100, 700, 'magoR'));
         this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR'));
         
         this.unidadesPrefab2 = new Array(); 
         this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB'));
-        this.unidadesPrefab2.push(new Unidades(20, 120, 6, -100, 100, 'magoB'));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB'));
         this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB'));
 
         //teclado
@@ -124,8 +124,9 @@ export class GameScene extends Phaser.Scene {
             newUnity.instance(newUnity, this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
             this.player1.AddUnidad(newUnity);
             for (var i = 0; i < this.player2.unidades.length; i++){
-                if(newUnity.camino == this.player2.unidades[i].camino){
-                    console.log(newUnity.camino, ', ', this.player2.unidades[i].camino);
+                //if(newUnity.camino == this.player2.unidades[i].camino){
+                if(newUnity.y == this.player2.unidades[i].y){
+                    //console.log(newUnity.camino, ', ', this.player2.unidades[i].camino);
                 //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player2.unidades[i].gameobject.y) < 10){
                     newUnity.objectives.push(this.player2.unidades[i]);
                     this.player2.unidades[i].objectives.push(newUnity);
@@ -163,10 +164,11 @@ export class GameScene extends Phaser.Scene {
             newUnity.instance(newUnity, this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
             this.player2.AddUnidad(newUnity);
             for (var i = 0; i < this.player1.unidades.length; i++){
-                if(newUnity.camino == this.player1.unidades[i].camino){
+                //if(newUnity.camino == this.player1.unidades[i].camino){
+                    if(newUnity.y == this.player1.unidades[i].y){
                     //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player1.unidades[i].gameobject.y) < 10){
                     
-                    console.log(newUnity.camino, ', ', this.player1.unidades[i].camino);
+                    //console.log(newUnity.camino, ', ', this.player1.unidades[i].camino);
                     newUnity.objectives.push(this.player1.unidades[i]);
                     this.player1.unidades[i].objectives.push(newUnity);
                 }
