@@ -85,6 +85,37 @@ Las bases de los jugadores tienen posiciones fijas en los 2 extremos de la panta
 Los personajes que invoca cada jugador se mueven desde una torre hasta la otra por los caminos. Al encontrarse con un enemigo se detienen y combaten. En caso de llegar a la base, la golpea hasta que le quite toda la vida.
 
 
+###Pantallas de Juego:
+
+Introduccion:
+
+![intro](https://user-images.githubusercontent.com/115580903/204624928-63edd4e2-2766-44b2-8e95-4f854cf2c132.PNG)
+
+Animación del Logo del equipo.
+
+Pantalla de Inicio:
+
+![Inicio](https://user-images.githubusercontent.com/115580903/204625038-b206d85a-d9ca-4407-b55d-647c527ad4c3.PNG)
+
+Pantalla principal en la que se puede elegir entre iniciar la partida o pulsar el boton de ayuda que muestra los controles.
+
+Pantalla de Ayuda:
+
+![Ayuda](https://user-images.githubusercontent.com/115580903/204625186-613fed45-e78e-4fdc-b38d-aea8700e690d.PNG)
+
+Breve descripción e imagen de los distintos controles de ambos jugadores ( Actualmente para modo local).
+
+Pantalla de Juego:
+
+![Juego](https://user-images.githubusercontent.com/115580903/204625300-049ede88-1bc5-42e5-9394-8b07278cf49e.PNG)
+
+Pantalla del juego en la que se desarollara la partida. En esta se puede ver el oro de cada jugador, la vida de su base, la unidad seleccionada y el camino por el cual saldra la misma.
+
+Pantalla de Fin:
+
+![Fin](https://user-images.githubusercontent.com/115580903/204625526-c3199572-d0af-45ce-b84c-a7c278abf2d2.PNG)
+
+Pantalla de final de partida en la cual se muestra el ganador de la misma , los creditos de los creadores y un boton que permite volver al menu principal.
 
 
 ### Diagrama de flujo:
