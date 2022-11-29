@@ -1,6 +1,7 @@
 import {Base} from './Base.js';
 import {Player} from './Player.js';
 import {Unidades} from './Unidades.js';
+import {carta} from './carta.js';
 
 var textOro1;
 var textOro2;
@@ -12,14 +13,17 @@ export class GameScene extends Phaser.Scene {
     preload(){
         this.load.image('backGround', 'assets/images/fondo_completo.png');
         this.load.image('pina', 'assets/images/pina.png');
+        this.load.image('flecha1','assets/images/flecha1.png');
+        this.load.image('carta', 'assets/images/carta.png');
+
         this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('golemR', 'assets/images/tropas/golem_r.png', { frameWidth: 45, frameHeight: 45 });
         this.load.spritesheet('goblinB', 'assets/images/tropas/goblin_b.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoB', 'assets/images/tropas/mage_b.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png', { frameWidth: 45, frameHeight: 45 });
-        this.load.image('flecha1','assets/images/flecha1.png');
         this.load.spritesheet('coin', 'assets/images/tropas/coin.png', { frameWidth: 20, frameHeight: 20 });
+        
         this.load.audio('Crear', 'assets/musica/tropas/poner-tropa.mp3');
         this.load.audio('Matar', 'assets/musica/tropas/tropa-muere.mp3');
         
@@ -31,7 +35,7 @@ export class GameScene extends Phaser.Scene {
 
     create(){
         
-        this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6) ;
+        this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6);
         this.flechaA = this.add.image(120,560,'flecha1').setScale(0.3,0.3);
         this.flechaB = this.add.image(1800,560,'flecha1').setScale(0.3,0.3);
         this.flechaB.angle +=180;
@@ -40,9 +44,9 @@ export class GameScene extends Phaser.Scene {
         textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
         this.crear=this.sound.add('Crear');
         this.muerte=this.sound.add('Matar');
-        this.soundEfectG=this.sonido.add();
-        this.soundEfectG=this.sonido.add();
-        this.soundEfectG=this.sonido.add();
+        //this.soundEfectG=this.sonido.add();
+        //this.soundEfectG=this.sonido.add();
+        //this.soundEfectG=this.sonido.add();
         //this.coin.animation.add('idle',('coin',{ start: 0, end: 3 }),10,-1);
         //this.coin.animation.play('idle');
         this.anims.create({
@@ -90,7 +94,13 @@ export class GameScene extends Phaser.Scene {
             repeat: -1
         });
         
-
+        this.carta1P1 = new carta(1920/8, 1000, 'carta', 'goblinR', this.physics);
+        this.carta2P1 = new carta((1920/8)*2, 1000, 'carta', 'magoR', this.physics);
+        this.carta3P1 = new carta((1920/8)*3, 1000, 'carta', 'golemR', this.physics);
+        this.carta1P2 = new carta((1920/8)*5, 1000, 'carta', 'golemB', this.physics);
+        this.carta2P2 = new carta((1920/8)*6, 1000, 'carta', 'magoB', this.physics);
+        this.carta3P2 = new carta((1920/8)*7, 1000, 'carta', 'goblinB', this.physics);
+        
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(1000, 120, 520, 'pina', this.physics, this.graphics1);
         this.player1 = new Player(1000, 10, this.base1, 1);
@@ -98,7 +108,7 @@ export class GameScene extends Phaser.Scene {
         this.graphics2 = this.add.graphics();
         this.base2 = new Base(1000, 1800, 520, 'pina', this.physics, this.graphics2);
         this.player2 = new Player(1000, 10, this.base2, 1);
-
+        
         this.positions = new Array();
         this.positions.push(900);
         this.positions.push(580);
