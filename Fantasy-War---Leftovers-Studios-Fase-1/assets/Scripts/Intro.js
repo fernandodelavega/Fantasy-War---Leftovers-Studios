@@ -30,7 +30,7 @@ export class Intro extends Phaser.Scene {
             playing=true;
             
         }
-        if(tempoIntro > 1000){
+        if(tempoIntro > 1300){
             this.scene.start('Inicio');
         }
     }
