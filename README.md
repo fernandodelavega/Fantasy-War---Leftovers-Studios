@@ -120,8 +120,7 @@ Pantalla de final de partida en la cual se muestra el ganador de la misma , los 
 
 ### Diagrama de flujo:
 
-
-![Diagrama de Flujo](https://user-images.githubusercontent.com/115580903/204631392-a76073ba-c8e5-4c0d-b259-bd17c447e29b.png)
+![Diagrama de Flujo](https://user-images.githubusercontent.com/115580903/204632533-725dc706-7d29-4baa-914b-e1e9bac46382.png)
 
 
 
