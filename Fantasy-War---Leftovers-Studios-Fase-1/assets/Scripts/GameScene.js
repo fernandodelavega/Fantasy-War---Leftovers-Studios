@@ -93,13 +93,15 @@ export class GameScene extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
+        this.cardsP1 = new Array();
+        this.cardsP1.push(this.carta1P1 = new carta(1920/8, 1000, 'carta', 'goblinR', this.physics, 0));
+        this.cardsP1.push(this.carta2P1 = new carta((1920/8)*2, 1000, 'carta', 'magoR', this.physics, 1));
+        this.cardsP1.push(this.carta3P1 = new carta((1920/8)*3, 1000, 'carta', 'golemR', this.physics, 2));
         
-        this.carta1P1 = new carta(1920/8, 1000, 'carta', 'goblinR', this.physics);
-        this.carta2P1 = new carta((1920/8)*2, 1000, 'carta', 'magoR', this.physics);
-        this.carta3P1 = new carta((1920/8)*3, 1000, 'carta', 'golemR', this.physics);
-        this.carta1P2 = new carta((1920/8)*5, 1000, 'carta', 'golemB', this.physics);
-        this.carta2P2 = new carta((1920/8)*6, 1000, 'carta', 'magoB', this.physics);
-        this.carta3P2 = new carta((1920/8)*7, 1000, 'carta', 'goblinB', this.physics);
+        this.cardsP2 = new Array();
+        this.cardsP2.push(this.carta3P2 = new carta((1920/8)*7, 1000, 'carta', 'goblinB', this.physics, 2));
+        this.cardsP2.push(this.carta2P2 = new carta((1920/8)*6, 1000, 'carta', 'magoB', this.physics, 1));
+        this.cardsP2.push(this.carta1P2 = new carta((1920/8)*5, 1000, 'carta', 'golemB', this.physics, 0));
         
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(1000, 120, 520, 'pina', this.physics, this.graphics1);
@@ -120,9 +122,9 @@ export class GameScene extends Phaser.Scene {
         this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR','golemS'));
         
         this.unidadesPrefab2 = new Array(); 
-        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB','goblinS'));
-        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB','mageS'));
         this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB','golemS'));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB','mageS'));
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB','goblinS'));
 
         //teclado
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -209,10 +211,10 @@ export class GameScene extends Phaser.Scene {
             this.player2.siguienteCamino(false);
         }
         else if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
-            this.player2.siguienteUnidad(true);
+            this.player2.siguienteUnidad(false);
         }
         else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
-            this.player2.siguienteUnidad(false);
+            this.player2.siguienteUnidad(true);
         }
 
         this.flechaB.setY(this.positions[this.player2.camino]);
@@ -323,7 +325,12 @@ export class GameScene extends Phaser.Scene {
                 this.player2.unidades[i].Update(delta);
             }
         }
-
+        for (var i = 0; i < this.cardsP1.length; i++){
+            this.cardsP1[i].update(this.player1.unidad)
+        }
+        for (var i = 0; i < this.cardsP2.length; i++){
+            this.cardsP2[i].update(this.player2.unidad)
+        }
 
         //update players
         this.player1.Update(delta);
