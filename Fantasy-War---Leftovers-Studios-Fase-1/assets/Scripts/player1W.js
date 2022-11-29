@@ -17,7 +17,9 @@ export class player1W extends Phaser.Scene {
         
         this.add.image(1920/2, 1080/2, 'fondo').setScale(6,6);
         this.add.image(1920/2, 300, 'texto').setScale(6,6);
-        creditos = this.add.text(1920/2-245, 1000, 'Diego Nicolás Barreales\nAlexander Tercero Moreno\nPascual Gázquez Compán\nFernando de la Vega Valle', { font: 'bold 32px Arial', fill: '#000' });
+
+        creditos = this.add.text(1920/2-245, 1000, 'Designed by:\n\nDiego Nicolás Barreales\n\nAlexander Tercero Moreno\n\nPascual Gázquez Compán\n\nFernando de la Vega Valle', { font: 'bold 28px Impact', fill: '#000' });
+
 
         this.boton= this.add.image(950, 820, 'botonReinicio').setInteractive();
         this.boton.on('pointerdown', () =>{
