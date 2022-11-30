@@ -123,8 +123,9 @@ export class Unidades
         this.actualEnemy = null;
         enemy.isDead = true;
         delete this;
-        }
         this.restart();
+        }
+        //this.restart();
         //delete(enemy);
     }
 }
