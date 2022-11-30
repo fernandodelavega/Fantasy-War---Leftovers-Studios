@@ -9,8 +9,9 @@
 | :---        |    :----:   |          ---: |
 | Fernando de la Vega Valle | *f.delavegav@alumnos.urjc.es* | @fernimc96 |
 | Alexander Tercero Moreno | *a.tercero.2020@alumnos.urjc.es* | @alexandeiro |
-| Pacual Gázquez Compán | *p.gazquez.2018@alumnos.urjc.es* | @pascualgazquez |
+| Pascual Gázquez Compán | *p.gazquez.2018@alumnos.urjc.es* | @pascualgazquez |
 | Diego Nicolás Barreales| *d.nicolas.2019@alumnos.urjc.es* | @dieguoin |
+
 
 # GDD
 ## Introducción
@@ -56,28 +57,47 @@ Cada personaje tiene unas estadísticas:
 - Precio: cantidad de oro que cuesta.
 	
 Goblin: 
+
 Atacante básico con daño a melée.
+
 Precio:1
+
+
 
 Mago:
+
 Atacante básico de rango.
+
 Precio:1
 
+
+
 Paladín:
+
 Tanque básico.
 Precio:1
 
+
+
 Caballero:
+
 Atacante fuerte de melée.
 Precio:3
 
+
+
 Dragon:
+
 Atacante fuerte de rango.
 Precio:3
 
+
+
 Golem:
+
 Tanque fuerte.
 Precio: 3
+
 
 
 ### Movimiento y físicas:
@@ -85,26 +105,63 @@ Las bases de los jugadores tienen posiciones fijas en los 2 extremos de la panta
 Los personajes que invoca cada jugador se mueven desde una torre hasta la otra por los caminos. Al encontrarse con un enemigo se detienen y combaten. En caso de llegar a la base, la golpea hasta que le quite toda la vida.
 
 
+### Pantallas de Juego:
+
+#### Introduccion:
+
+![intro](https://user-images.githubusercontent.com/115580903/204624928-63edd4e2-2766-44b2-8e95-4f854cf2c132.PNG)
+
+Animación del Logo del equipo.
+
+#### Pantalla de Inicio:
+
+![Inicio](https://user-images.githubusercontent.com/115580903/204625038-b206d85a-d9ca-4407-b55d-647c527ad4c3.PNG)
+
+Pantalla principal en la que se puede elegir entre iniciar la partida o pulsar el boton de ayuda que muestra los controles.
+
+#### Pantalla de Ayuda:
+
+![Ayuda](https://user-images.githubusercontent.com/115580903/204625186-613fed45-e78e-4fdc-b38d-aea8700e690d.PNG)
+
+Breve descripción e imagen de los distintos controles de ambos jugadores ( Actualmente para modo local).
+
+#### Pantalla de Juego:
+
+![Juego](https://user-images.githubusercontent.com/115580903/204625300-049ede88-1bc5-42e5-9394-8b07278cf49e.PNG)
+
+Pantalla del juego en la que se desarollara la partida. En esta se puede ver el oro de cada jugador, la vida de su base, la unidad seleccionada y el camino por el cual saldra la misma.
+
+#### Pantalla de Fin:
+
+![Fin](https://user-images.githubusercontent.com/115580903/204625526-c3199572-d0af-45ce-b84c-a7c278abf2d2.PNG)
+
+Pantalla de final de partida en la cual se muestra el ganador de la misma , los creditos de los creadores y un boton que permite volver al menu principal.
 
 
 ### Diagrama de flujo:
 
+![Diagrama de Flujo](https://user-images.githubusercontent.com/115580903/204632533-725dc706-7d29-4baa-914b-e1e9bac46382.png)
 
-Comienza la partida, se comprueba que se hayan cumplido las condiciones de derrota de cada jugador. Si es así, se acaba la partida.
-En caso de que no haya acabado la partida si atacan al jugador mira si tiene oro para defenderse. En caso afirmativo, invoca una tropa y vuelve al principio. En caso negativo, vuelve al principio.
-Si no están atacando al jugador, comprueba si tiene oro suficiente. En caso afirmativo, invoca una tropa para atacar y vuelve al inicio. En caso negativo, vuelve al inicio.
 
 
 ## Arte:
-El juego está inspirado en los múltiples relatos de fantasía de la cultura popular.
-(Aquí se irán añadiendo todos los diseños que se lleven a cabo).
+En el juego se han interpretado varios diseños de cultura popular en un pixel art más abstracto. Dentro de las tropas tenemos goblins, golems y magos. 
+También se ha hecho un escenario basado en un campo con tres caminos donde se produce la batalla
+
+Mago: 
+![mage_r](https://user-images.githubusercontent.com/115580903/204633522-5f1f7b6d-f5a1-4f77-ae17-c04565ac0ff2.png)
+
+Goblin:
+![goblin_r](https://user-images.githubusercontent.com/115580903/204633442-96413aaf-e96e-451e-a5ac-5c839c07ac73.png)
 
 
-
-
+Golem:
+![golem_r](https://user-images.githubusercontent.com/115580903/204633557-f99ab30d-f51c-4301-8c65-b7d759d3debb.png)
 
 ## Sonido y música:
-Efectos de sonido hechos por los desarrolladores y mezclados con sintetizador.
+Se ha compuesto una canción para acompañar al juego usando instrumentos de 16 bits y percusión real.
+Los efectos de sonido son de 16 bits y se han creado usando el programa "Chiptone". Se han creado efectos de sonido para navegar el menú, para cuando las tropas son colocadas y cuando mueren, y finalmente para cada ataque de cada tipo de tropa.
+
 ## Marketing:
 Redes sociales: Instagram ()
 

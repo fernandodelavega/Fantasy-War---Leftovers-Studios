@@ -1,3 +1,10 @@
+import {Intro} from './Intro.js'
+import { Inicio } from './Inicio.js';
+import { GameScene } from './GameScene.js';
+import { player1W } from './player1W.js';
+import { player2W } from './player2W.js';
+import { draw } from './draw.js';
+
 var config = {
 
     type: Phaser.AUTO,
@@ -9,7 +16,7 @@ var config = {
             debug: false
         }
     },
-    scene: [Inicio, GameScene]
+    scene: [Intro, Inicio, GameScene, player1W, player2W, draw]
 };
 
 var game = new Phaser.Game(config);
