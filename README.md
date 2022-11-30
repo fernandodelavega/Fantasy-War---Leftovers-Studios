@@ -7,7 +7,7 @@
 ## Developers: 
 | Name | Official email | GitHub |
 | :---        |    :----:   |          ---: |
-| Fernando de la Vega Valle | *f.delavegav@alumnos.urjc.es* | @fernimc96 |
+| Fernando de la Vega Valle | *f.delavegav@alumnos.urjc.es* | @fernandodelavega |
 | Alexander Tercero Moreno | *a.tercero.2020@alumnos.urjc.es* | @alexandeiro |
 | Pascual Gázquez Compán | *p.gazquez.2018@alumnos.urjc.es* | @pascualgazquez |
 | Diego Nicolás Barreales| *d.nicolas.2019@alumnos.urjc.es* | @dieguoin |
