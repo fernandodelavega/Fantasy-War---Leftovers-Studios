@@ -75,7 +75,7 @@ export class Unidades
             return;
         }//existe enemigo al alcance
         if(this.actualEnemy != null){
-            if(!this.actualEnemy.isDead && this.gameobject.y==this.actualEnemy.gameobject.y){
+            if(!this.actualEnemy.isDead && this.gameobject.camino==this.actualEnemy.gameobject.camino){
                 this.stop();
                 this.timer += delta / 1000;
                 if(this.timer >= 10 - this.velocidadAtaque){

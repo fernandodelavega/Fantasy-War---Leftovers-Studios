@@ -6,12 +6,13 @@ export class Base
         this.graphics = graphics;
         this.collision = physics.add.staticGroup().create(x, y, image).setScale(0.1, 1).refreshBody().setVisible(false);
         this.x = x;
+        this.maxVida = vida;
         this.vida = vida;
         this.size = 50;
         this.SetLifeBar(graphics);
     }
     damage(damage){
-        this.vida -= damage;
+        this.vida -= damage/10;
         this.SetLifeBar();
 
     }
@@ -27,9 +28,9 @@ export class Base
         
             this.graphics.fillStyle(color, alpha);
             if(this.x < 1000){
-                this.graphics.fillRect(this.x + .3 * i, 50, .3, 32);
+                this.graphics.fillRect(this.x + 200/this.maxVida * i, 50, 200/this.maxVida, 32);
             }else{
-                this.graphics.fillRect(this.x - .3 * i, 50, .3, 32);
+                this.graphics.fillRect(this.x - 200/this.maxVida * i, 50, 200/this.maxVida, 32);
             }
         }
     }
