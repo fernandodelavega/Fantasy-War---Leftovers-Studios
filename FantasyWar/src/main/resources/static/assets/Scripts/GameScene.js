@@ -5,6 +5,7 @@ import {carta} from './carta.js';
 
 var textOro1;
 var textOro2;
+var chatText;
 
 export class GameScene extends Phaser.Scene {
     constructor(){
@@ -219,6 +220,11 @@ export class GameScene extends Phaser.Scene {
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
 
+        
+        //chat
+        chatText = this.add.text(687, 542, 'a', {fontSize: '35px'});
+        this.down = false;
+
     }
 
     update(time, delta){
@@ -419,6 +425,28 @@ export class GameScene extends Phaser.Scene {
         this.player2.Update(delta);
         textOro1.setText('oro1: ' + this.player1.oro);
         textOro2.setText('oro2: ' + this.player2.oro);
-    } 
+
+        
+        this.ChatKeyboard();
+    }
+    ChatKeyboard(){
+        console.log('a');
+        this.input.keyboard.on('keydown', function(event){
+            if(this.down){return;}
+            this.down = true;
+            if(event.keyCode == 8 && chatText.text.length > 0){
+                chatText.text = chatText.text.substr(0, chatText.text.length - 1);
+            }
+            else if(event.keyCode == 32 ^ (event.keyCode >= 48 && event.keyCode <= 90)){
+                
+                    chatText.text += event.key;
+                    console.log(chatText);
+
+            }
+        })
+        this.input.keyboard.on('keyup', function(event){
+            this.down = false;
+        })
+    }
 }
 
