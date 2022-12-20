@@ -5,9 +5,13 @@ export class Inicio extends Phaser.Scene {
        
     }
     preload(){
-        this.load.image('inicio', 'assets/images/inicio.png');
-        this.load.image('boton', 'assets/images/boton.png');
         
+        this.load.image('boton', 'assets/images/fase3/boton_play.png');
+        this.load.image('botonCredit', 'assets/images/fase3/boton_credits.png');
+        this.load.image('letras', 'assets/images/fase3/fantasy_war_logo.png');
+        this.load.image('fondo', 'assets/images/fase3/fondo_personajes.png');
+        this.load.spritesheet('fondo2', 'assets/images/fase3/portada.png', { frameWidth: 320, frameHeight: 180 });
+
         this.load.image('help','assets/images/help.png');
         this.load.image('controles','assets/images/Controles.png');
         this.load.audio('boton1', 'assets/musica/navegar_menu/aceptar.mp3');
@@ -20,15 +24,33 @@ export class Inicio extends Phaser.Scene {
         
         this.botonI=this.sound.add('boton1');
         this.botonO=this.sound.add('boton2');
+        this.fondo = this.add.sprite(1920/2, 1080/2, 'fondo2').setScale(6, 6) ;
+        this.anims.create({
+            key: 'back',
+            frames: this.anims.generateFrameNumbers('fondo2', { start: 0, end: 1 }),
+            frameRate: 3,
+            repeat: -1
+        });
+        this.fondo.anims.play('back');
+        this.add.image(1920/2, 1080/2, 'fondo').setScale(6, 6);
+        this.add.image(1920/2, 1080/2, 'letras').setScale(18, 18);
+
+
 
         
-        this.add.image(960  , 540, 'inicio');
+        //this.add.image(960  , 540, 'inicio');
         //this.musica.play();
-        this.boton= this.add.image(950, 820, 'boton').setInteractive();
+        this.boton= this.add.image(950, 780, 'boton').setScale(6,6).setInteractive();
         this.boton.on('pointerdown', () =>{
             this.botonI.play();
             this.scene.start('GameScene');  
         });
+        this.botonC= this.add.image(950, 920, 'botonCredit').setScale(6,6).setInteractive();
+        this.botonC.on('pointerdown', () =>{
+            this.botonI.play();
+            this.scene.start('credits');  
+        });
+
         
         var c = 0;
         var controles;
