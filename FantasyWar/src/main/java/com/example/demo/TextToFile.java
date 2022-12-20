@@ -7,8 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class TextToFile {
+public  class TextToFile {
 
+
+	public static void main(String[] args) {
+		
+	}
 	public void NewText(File file, String text) {
 		
 		try {
