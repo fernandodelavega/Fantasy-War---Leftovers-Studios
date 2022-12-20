@@ -2,7 +2,7 @@ export class Unidades
 {
     gameobject;
 
-    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound)
+    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound, atc1, atc2)
     {
         this.vida = vida;
         this.ataque = ataque;
@@ -14,6 +14,8 @@ export class Unidades
         this.actualEnemy;
         this.image = image;
         this.sound = sound;
+        this.atc1 = atc1;
+        this.atc2 = atc2;
     }
     instance(unidad, positionx, positiony, camino, enemyBase, physics){
 
@@ -22,10 +24,11 @@ export class Unidades
         this.enemyBase = enemyBase;
         this.image = unidad.image;
         this.gameobject = physics.add.sprite(positionx, positiony, this.image).setScale(2, 2);
-        
+        //this.atack = physics.add.sprite(positionx, positiony, this.image).setScale(2, 2);
         this.gameobject.anims.play(this.image, true);
         
         this.timer = 0;
+        this.cool = 0;
         this.isDead = false;
         return this;
     }
@@ -58,19 +61,29 @@ export class Unidades
         //this.stop();
     }
     Update(delta){
-        
+        if (this.cool>=0.3){
+            this.gameobject.anims.play(this.image, true);
+        }
         if(this.isDead){
             delete this;
             return;
         }
+        this.cool += delta/1000;
         //base al alcance
         if(Phaser.Math.Distance.Between(this.gameobject.x, 0, this.enemyBase.collision.x, 0) <= this.range + this.enemyBase.size){
             this.timer += delta / 1000;
+            
             this.stop();
+            
             if(this.timer >= 10 - this.velocidadAtaque){
+                this.gameobject.anims.play(this.atc1, true);
                 this.sound.play();
+                
                 this.enemyBase.damage(this.ataque);
                 this.timer = 0;
+                this.cool = 0;
+            }if(this.timer >= 0.3 && this.timer <= 10 - this.velocidadAtaque){
+            this.gameobject.anims.play(this.image, true);
             }
             return;
         }//existe enemigo al alcance
@@ -79,13 +92,23 @@ export class Unidades
                 this.stop();
                 this.timer += delta / 1000;
                 if(this.timer >= 10 - this.velocidadAtaque){
+                    this.gameobject.anims.play(this.atc1, true);
                     this.Attack(this.actualEnemy);
+                    
+                    
+                    this.cool = 0;
                     this.timer = 0;
-                }
+                }if(this.timer >= 0.3 && this.timer <= 10 - this.velocidadAtaque){
+                    this.gameobject.anims.play(this.image, true);
+                    }
                 return;
             }else{
                 this.actualEnemy = null;
                 this.restart();
+                
+                if(this.timer >= 0.3 && this.timer <= 10 - this.velocidadAtaque){
+                    this.gameobject.anims.play(this.image, true);
+                    }
             }
         }
         if(this.objectives.length != 0){
@@ -98,6 +121,7 @@ export class Unidades
             }
         }else{
             this.restart();
+            
         }
 
     }
@@ -112,8 +136,10 @@ export class Unidades
     restart(){
         if(this.enemyBase.x < this.gameobject.x){
             this.start(2);
+            
         }else{
             this.start(1);
+            
         }
     }
     CheckDead(enemy){

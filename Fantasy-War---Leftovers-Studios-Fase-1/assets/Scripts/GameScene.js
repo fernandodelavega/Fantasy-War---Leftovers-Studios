@@ -11,7 +11,7 @@ export class GameScene extends Phaser.Scene {
         super({key: "GameScene"}); 
     }
     preload(){
-        this.load.image('backGround', 'assets/images/fondo_completo.png');
+        this.load.image('backGround', 'assets/images/fase3/fondo_completo.png');
         this.load.image('pina', 'assets/images/pina.png');
         this.load.image('flecha1','assets/images/flecha1.png');
         this.load.image('carta', 'assets/images/carta.png');
@@ -23,6 +23,23 @@ export class GameScene extends Phaser.Scene {
         this.load.spritesheet('magoB', 'assets/images/tropas/mage_b.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png', { frameWidth: 45, frameHeight: 45 });
         this.load.spritesheet('coin', 'assets/images/tropas/coin.png', { frameWidth: 20, frameHeight: 20 });
+        
+        this.load.spritesheet('goblinRA', 'assets/images/fase3/goblinRAt.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('magoRA', 'assets/images/fase3/magoRAt.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('golemRA', 'assets/images/fase3/golemRAt.png', { frameWidth: 45, frameHeight: 45 });
+        this.load.spritesheet('goblinBA', 'assets/images/fase3/goblinBAt.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('magoBA', 'assets/images/fase3/magoBAt.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('golemBA', 'assets/images/fase3/golemBAt.png', { frameWidth: 45, frameHeight: 45 });
+        
+        this.load.spritesheet('goblinRH', 'assets/images/fase3/tajo_r.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('magoRH', 'assets/images/fase3/explosion_r.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('goblinBH', 'assets/images/fase3/tajo_b.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('magoBH', 'assets/images/fase3/explosion_b.png', { frameWidth: 35, frameHeight: 35 });
+        
+        
+        
+        
+        
         
         this.load.audio('Crear', 'assets/musica/tropas/poner-tropa.mp3');
         this.load.audio('Matar', 'assets/musica/tropas/tropa-muere.mp3');
@@ -56,7 +73,7 @@ export class GameScene extends Phaser.Scene {
             repeat: -1
         });
         this.coin.anims.play('idle');
-        
+        //animaciones personajes
         this.anims.create({
             key: 'goblinR',
             frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
@@ -93,6 +110,71 @@ export class GameScene extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
+
+        this.anims.create({
+            key: 'goblinRAT',
+            frames: this.anims.generateFrameNumbers('goblinRA', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'goblinBAT',
+            frames: this.anims.generateFrameNumbers('goblinBA', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'magoRAT',
+            frames: this.anims.generateFrameNumbers('magoRA', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'magoBAT',
+            frames: this.anims.generateFrameNumbers('magoBA', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'golemRAT',
+            frames: this.anims.generateFrameNumbers('golemRA', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'golemBAT',
+            frames: this.anims.generateFrameNumbers('golemBA', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        this.anims.create({
+            key: 'goblinRHit',
+            frames: this.anims.generateFrameNumbers('goblinRH', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'goblinBHit',
+            frames: this.anims.generateFrameNumbers('goblinBH', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'magoRHit',
+            frames: this.anims.generateFrameNumbers('magoRH', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        this.anims.create({
+            key: 'magoBHit',
+            frames: this.anims.generateFrameNumbers('magoBH', { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: 0
+        });
+        
+    
+
         this.cardsP1 = new Array();
         this.cardsP1.push(this.carta1P1 = new carta(1920/8, 1000, 'carta', 'goblinR', this.physics, 0));
         this.cardsP1.push(this.carta2P1 = new carta((1920/8)*2, 1000, 'carta', 'magoR', this.physics, 1));
@@ -117,14 +199,14 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(260);
 
         this.unidadesPrefab1 = new Array(); 
-        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR',this.goblinS));
-        this.unidadesPrefab1.push(new Unidades(20, 120, 4, 100, 700, 'magoR',this.mageS));
-        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR',this.golemS));
+        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR',this.goblinS,'goblinRAT','goblinRHit'));
+        this.unidadesPrefab1.push(new Unidades(20, 120, 4, 100, 700, 'magoR',this.mageS,'magoRAT','goblinRHit'));
+        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR',this.golemS,'golemRAT',null));
         
         this.unidadesPrefab2 = new Array(); 
-        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB',this.golemS));
-        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS));
-        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB',this.goblinS));
+        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB',this.golemS,'golemBAT',null));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS,'magoBAT','magoBHit'));
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB',this.goblinS,'goblinBAT','goblinBHit'));
 
         //teclado
         this.cursors = this.input.keyboard.createCursorKeys();
