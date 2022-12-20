@@ -67,7 +67,7 @@ export class GameScene extends Phaser.Scene {
         textOro1 = this.add.text(1920/2-200, 50, 'oro1: 10',{ fontSize: '32px'});
         textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
 
-        this.textInput = this.add.dom(2000, 690).createFromCache("form").setOrigin(0.5);
+        this.textInput = this.add.dom(1920, 1080).createFromCache("form").setOrigin(1);
 		this.chat = this.add.text(1000,10,"",{
 			lineSpacing: 15,
 			backgroundColor: "#21313CDD",
