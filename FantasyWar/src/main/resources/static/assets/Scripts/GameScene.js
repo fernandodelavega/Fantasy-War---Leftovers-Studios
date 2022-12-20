@@ -51,7 +51,7 @@ export class GameScene extends Phaser.Scene {
         this.load.audio('mageS', 'assets/musica/tropas/mago-explosion.mp3');
         this.load.audio('golemS', 'assets/musica/tropas/golem-golpe.mp3');
 
-        this.load.html("form","form.html");
+        
 
         
 
