@@ -1,5 +1,5 @@
 var loadedUsuarios;
-function loadUsuarios() {
+function loadUsuarios(callback) {
 	$.ajax({
     method:"GET",
     url:"http://localhost:8080/usuarios",
@@ -7,7 +7,7 @@ function loadUsuarios() {
     headers:{"Content-Type":"application/json"}
     }).done(function(usuarios) {
 		console.log(usuarios);
-        loadedUsuarios=usuarios;
+        callback(usuarios);
     })
 }
 
@@ -29,8 +29,13 @@ function crearUsuario(usuario) {
 
 $(document).ready(function()
 {
-	//loadPerfiles();
-	
+	//loadUsuarios();
+	loadUsuarios(function (usuarios) { 
+        
+        for (var i = 0; i < usuarios.length; i++) {
+            loadedUsuarios.push(usuarios[i]);
+        }
+    });
 	
 	
 	
@@ -41,19 +46,71 @@ $(document).ready(function()
         var nombre = $("#nameText").val();
         var contra = $("#passText").val();
         //si el nombre existe no lo añade, else lo añade
+        var usado=false;
+		for(var i=0;i<loadedUsuarios.length;i++)
+		{
+			if(nombre==loadedUsuarios[i].nombre)
+			{
+				usado=true;
+			}
+		}
+		if(usado)
+		{
+        	console.log("Usuario ya en uso");
+		}
+		else
+		{if (contra==null){
+			console.log("Introduzca una contraseña");
+		}else{
+        
+        
+        
         var usuario = {
             nombre: nombre,
             contra: contra
         }
-
-        
-    })
+		loadedPerfiles.push(perfil);
+        crearUsuario(usuario);
     
+    }}
+    $("#nameText").val('');
+       
+    $("#passText").val('');
+    });
+    
+    
+    //inicio de sesión
     $("#initButton").click(function () {
 
+        var nombre = $("#nameText").val();
+        var contra = $("#passText").val();
+        
+		for(var i=0;i<loadedUsuario.length;i++)
+		{
+			if(nombre==loadedUsuarios[i].nnombre)
+			{
+				if(contra!=loadedUsuarios[i].contra)
+				{
+					console.log("contraseña incorrecta");
+				}
+				else
+				{
+					console.log("Usuario iniciado: "+loadedUsuario[i].nombre);
+					usuario=loadedUsuarios[i].nombres;
+					
+        			$("#passText").disabled=true;
+        			$("#initButton").disabled=true;
+				}
+			}
+		}
+		$("#nameText").val('')
+        $("#passText").val('');
+    });
+    
+ 
         //recorre el txt, si existe y es correcto (contraseña)-->inicia sesion, si no, mensajes de error
         
         
-    })
+   
 	
 })
