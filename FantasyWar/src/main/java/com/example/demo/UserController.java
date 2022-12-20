@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +40,17 @@ public class UserController {
 		long id = nextId.incrementAndGet();
 		usuario.setId(id);
 		usuarios.put(id, usuario);
+		try {
+		      FileWriter myWriter = new FileWriter("src\\main\\java\\com\\example\\demo\\usuarios.txt");
+		      myWriter.append(usuario.getNombre()+'\n'+usuario.getContra()+'\n');
+		      myWriter.flush();
+		      myWriter.close();
+		      
+		      System.out.println("Successfully wrote to the file.");
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
 
 		return usuario;
 	}

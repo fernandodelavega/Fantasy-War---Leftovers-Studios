@@ -40,13 +40,20 @@ $(document).ready(function()
 
         var nombre = $("#nameText").val();
         var contra = $("#passText").val();
-        
+        //si el nombre existe no lo añade, else lo añade
         var usuario = {
             nombre: nombre,
             contra: contra
         }
 
-        crearUsuario(usuario);
+        
+    })
+    
+    $("#initButton").click(function () {
+
+        //recorre el txt, si existe y es correcto (contraseña)-->inicia sesion, si no, mensajes de error
+        
+        
     })
 	
 })
