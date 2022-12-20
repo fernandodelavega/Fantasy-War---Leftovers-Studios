@@ -8,30 +8,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class TextToFile {
-	private static BufferedWriter bw;
-	private static File file;
-	public static void main(String[] args) {
-	    try {
 
-	
-	        file = new  File("./messageList");
-	
-	        // if file doesnt exists, then create it
-	        if (!file.exists()) {
+	public void NewText(File file, String text) {
+		
+		try {
+			if (!file.exists()) {
 	            file.createNewFile();
 	        }
-	
-	        FileWriter fw = new FileWriter(file.getAbsoluteFile());
-	        bw = new BufferedWriter(fw);
-
-	        bw.close();
-	
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	}
-	public void NewMessage(String text) {
-		try {
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(text);
 			bw.write("\n");
 		} catch (IOException e) {
@@ -40,7 +25,7 @@ public class TextToFile {
 		}
         
 	}
-	public String[] GetMessages() throws IOException {
+	public String[] GetText(File file) throws IOException {
 		// Creating an object of BufferedReader class
         BufferedReader br = new BufferedReader(new FileReader(file));
  
