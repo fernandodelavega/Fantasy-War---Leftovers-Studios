@@ -2,11 +2,12 @@ import {Base} from './Base.js';
 import {Player} from './Player.js';
 import {Unidades} from './Unidades.js';
 import {carta} from './carta.js';
-import { ChatPannel } from './ChatPannel.js';
 
 var textOro1;
 var textOro2;
 var chatText;
+
+var chatMessages = [];
 
 export class GameScene extends Phaser.Scene {
     constructor(){
@@ -50,6 +51,9 @@ export class GameScene extends Phaser.Scene {
         this.load.audio('mageS', 'assets/musica/tropas/mago-explosion.mp3');
         this.load.audio('golemS', 'assets/musica/tropas/golem-golpe.mp3');
 
+        
+
+        
 
     }
 
@@ -62,6 +66,29 @@ export class GameScene extends Phaser.Scene {
         this.coin = this.add.sprite(1920/2, 50, 'coin').setScale(6, 6) ;
         textOro1 = this.add.text(1920/2-200, 50, 'oro1: 10',{ fontSize: '32px'});
         textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
+
+        this.textInput = this.add.dom(1135, 690).createFromCache("form").setOrigin(0.5);
+		this.chat = this.add.text(1000,10,"",{
+			lineSpacing: 15,
+			backgroundColor: "#21313CDD",
+			color: "#26924F",
+			padding: 10,
+			fontStyle: "bold"
+		});
+		this.chat.setFixedSize(270,645);
+        
+        this.tKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+		
+		this.tKey.on("down", event =>{
+			let chatbox = this.textInput.getChildByName("chat");
+			if(chatbox.value != ""){
+				
+				//POST
+
+				chatbox.value = "";
+			}
+		});
+
         this.crear=this.sound.add('Crear');
         this.muerte=this.sound.add('Matar');
         this.goblinS=this.sound.add('goblinS');
@@ -227,11 +254,91 @@ export class GameScene extends Phaser.Scene {
         chatText = this.add.text(687, 542, 'a', {fontSize: '35px'});
         this.down = false;
 
-        this.chat = new ChatPannel();
     }
 
     update(time, delta){
-        this.PlayerControl();
+
+        //controles player 1
+        if(Phaser.Input.Keyboard.JustDown(this.keySpace) && this.player1.oro >= 1){
+            this.crear.play();
+            var newUnity = new Unidades();
+            Object.assign(newUnity, this.unidadesPrefab1[this.player1.unidad]);
+            newUnity.instance(newUnity, this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
+            this.player1.AddUnidad(newUnity);
+            for (var i = 0; i < this.player2.unidades.length; i++){
+                //if(newUnity.camino == this.player2.unidades[i].camino){
+                if(newUnity.y == this.player2.unidades[i].y){
+                    //console.log(newUnity.camino, ', ', this.player2.unidades[i].camino);
+                //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player2.unidades[i].gameobject.y) < 10){
+                    newUnity.objectives.push(this.player2.unidades[i]);
+                    this.player2.unidades[i].objectives.push(newUnity);
+                }
+            }
+            newUnity.start(1);
+            this.player1.oro--;
+            newUnity = null;
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.keyW)){
+            this.player1.siguienteCamino(true);
+            
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.keyS)){
+            this.player1.siguienteCamino(false);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.keyA)){
+            this.player1.siguienteUnidad(false);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.keyD)){
+            this.player1.siguienteUnidad(true);
+        }
+        else{}
+
+        this.flechaA.setY(this.positions[this.player1.camino]);
+
+        if(Phaser.Input.Keyboard.JustDown(this.keyG)){
+            this.player1.base.damage(1);
+        }
+        
+        //controles player 2 
+        if(Phaser.Input.Keyboard.JustDown(this.keyEnter)&& this.player2.oro>=1){
+            this.crear.play();
+            var newUnity = new Unidades();
+            Object.assign(newUnity, this.unidadesPrefab2[this.player2.unidad]);
+            newUnity.instance(newUnity, this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
+            this.player2.AddUnidad(newUnity);
+            for (var i = 0; i < this.player1.unidades.length; i++){
+                //if(newUnity.camino == this.player1.unidades[i].camino){
+                    if(newUnity.y == this.player1.unidades[i].y){
+                    //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player1.unidades[i].gameobject.y) < 10){
+                    
+                    //console.log(newUnity.camino, ', ', this.player1.unidades[i].camino);
+                    newUnity.objectives.push(this.player1.unidades[i]);
+                    this.player1.unidades[i].objectives.push(newUnity);
+                }
+            }
+            newUnity.start(2);
+            this.player2.oro--;
+            newUnity = null;
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
+            this.player2.siguienteCamino(true);
+            
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
+            this.player2.siguienteCamino(false);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
+            this.player2.siguienteUnidad(false);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
+            this.player2.siguienteUnidad(true);
+        }
+
+        this.flechaB.setY(this.positions[this.player2.camino]);
+
+        if(Phaser.Input.Keyboard.JustDown(this.keyH)){
+            this.player2.base.damage(1);
+        }
 
 
 
@@ -351,100 +458,6 @@ export class GameScene extends Phaser.Scene {
         
         this.ChatKeyboard();
     }
-    ChatControl(){
-        if(!this.ChatActive)
-        {
-            return;
-        }
-        //Codigo de chat
-    }
-    PlayerControl(){
-        if(this.ChatActive)
-        {
-            return;
-        }
-        //controles player 1
-        if(Phaser.Input.Keyboard.JustDown(this.keySpace) && this.player1.oro >= 1){
-            this.crear.play();
-            var newUnity = new Unidades();
-            Object.assign(newUnity, this.unidadesPrefab1[this.player1.unidad]);
-            newUnity.instance(newUnity, this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
-            this.player1.AddUnidad(newUnity);
-            for (var i = 0; i < this.player2.unidades.length; i++){
-                //if(newUnity.camino == this.player2.unidades[i].camino){
-                if(newUnity.y == this.player2.unidades[i].y){
-                    //console.log(newUnity.camino, ', ', this.player2.unidades[i].camino);
-                //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player2.unidades[i].gameobject.y) < 10){
-                    newUnity.objectives.push(this.player2.unidades[i]);
-                    this.player2.unidades[i].objectives.push(newUnity);
-                }
-            }
-            newUnity.start(1);
-            this.player1.oro--;
-            newUnity = null;
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.keyW)){
-            this.player1.siguienteCamino(true);
-            
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.keyS)){
-            this.player1.siguienteCamino(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.keyA)){
-            this.player1.siguienteUnidad(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.keyD)){
-            this.player1.siguienteUnidad(true);
-        }
-        else{}
-
-        this.flechaA.setY(this.positions[this.player1.camino]);
-
-        if(Phaser.Input.Keyboard.JustDown(this.keyG)){
-            this.player1.base.damage(1);
-        }
-        
-        //controles player 2 
-        if(Phaser.Input.Keyboard.JustDown(this.keyEnter)&& this.player2.oro>=1){
-            this.crear.play();
-            var newUnity = new Unidades();
-            Object.assign(newUnity, this.unidadesPrefab2[this.player2.unidad]);
-            newUnity.instance(newUnity, this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
-            this.player2.AddUnidad(newUnity);
-            for (var i = 0; i < this.player1.unidades.length; i++){
-                //if(newUnity.camino == this.player1.unidades[i].camino){
-                    if(newUnity.y == this.player1.unidades[i].y){
-                    //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player1.unidades[i].gameobject.y) < 10){
-                    
-                    //console.log(newUnity.camino, ', ', this.player1.unidades[i].camino);
-                    newUnity.objectives.push(this.player1.unidades[i]);
-                    this.player1.unidades[i].objectives.push(newUnity);
-                }
-            }
-            newUnity.start(2);
-            this.player2.oro--;
-            newUnity = null;
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
-            this.player2.siguienteCamino(true);
-            
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
-            this.player2.siguienteCamino(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
-            this.player2.siguienteUnidad(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
-            this.player2.siguienteUnidad(true);
-        }
-
-        this.flechaB.setY(this.positions[this.player2.camino]);
-
-        if(Phaser.Input.Keyboard.JustDown(this.keyH)){
-            this.player2.base.damage(1);
-        }
-    }
     ChatKeyboard(){
         console.log('a');
         this.input.keyboard.on('keydown', function(event){
@@ -458,9 +471,6 @@ export class GameScene extends Phaser.Scene {
                     chatText.text += event.key;
                     console.log(chatText);
 
-            }
-            else if(event.keyCode == 13){
-                
             }
         })
         this.input.keyboard.on('keyup', function(event){
