@@ -53,12 +53,13 @@ export class GameScene extends Phaser.Scene {
     create(){
         
         this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6);
-        this.flechaA = this.add.image(120,560,'flecha1').setScale(0.3,0.3);
-        this.flechaB = this.add.image(1800,560,'flecha1').setScale(0.3,0.3);
+        this.flechaA = this.add.image(120,560,'flecha1').setScale(2,2);
+        this.flechaB = this.add.image(1800,560,'flecha1').setScale(2,2);
         this.flechaB.angle +=180;
-        this.coin = this.add.sprite(1920/2, 50, 'coin').setScale(6, 6) ;
-        textOro1 = this.add.text(1920/2-200, 50, 'oro1: 10',{ fontSize: '32px'});
-        textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
+        this.coin = this.add.sprite(90, 120, 'coin').setScale(2.5, 2.5);
+        this.coin2 = this.add.sprite(1830, 120, 'coin').setScale(2.5, 2.5);
+        textOro1 = this.add.text(120 , 100, 'gold 1 10', { font: "30px arial" });
+        textOro2 = this.add.text(1670, 100, 'gold 2: 10', { font: "30px arial" });
         this.crear=this.sound.add('Crear');
         this.muerte=this.sound.add('Matar');
         this.goblinS=this.sound.add('goblinS');
@@ -72,104 +73,105 @@ export class GameScene extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
-        this.coin.anims.play('idle');
+        //this.coin.anims.play('idle');
+        //this.coin2.anims.play('idle');
         //animaciones personajes
         this.anims.create({
             key: 'goblinR',
             frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'goblinB',
             frames: this.anims.generateFrameNumbers('goblinB', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'magoR',
             frames: this.anims.generateFrameNumbers('magoR', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'magoB',
             frames: this.anims.generateFrameNumbers('magoB', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'golemR',
             frames: this.anims.generateFrameNumbers('golemR', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'golemB',
             frames: this.anims.generateFrameNumbers('golemB', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
 
         this.anims.create({
             key: 'goblinRAT',
             frames: this.anims.generateFrameNumbers('goblinRA', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'goblinBAT',
             frames: this.anims.generateFrameNumbers('goblinBA', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'magoRAT',
             frames: this.anims.generateFrameNumbers('magoRA', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'magoBAT',
             frames: this.anims.generateFrameNumbers('magoBA', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'golemRAT',
             frames: this.anims.generateFrameNumbers('golemRA', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'golemBAT',
             frames: this.anims.generateFrameNumbers('golemBA', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
 
         this.anims.create({
             key: 'goblinRHit',
             frames: this.anims.generateFrameNumbers('goblinRH', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'goblinBHit',
             frames: this.anims.generateFrameNumbers('goblinBH', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'magoRHit',
             frames: this.anims.generateFrameNumbers('magoRH', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'magoBHit',
             frames: this.anims.generateFrameNumbers('magoBH', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         
@@ -417,8 +419,8 @@ export class GameScene extends Phaser.Scene {
         //update players
         this.player1.Update(delta);
         this.player2.Update(delta);
-        textOro1.setText('oro1: ' + this.player1.oro);
-        textOro2.setText('oro2: ' + this.player2.oro);
+        textOro1.setText('gold 1: ' + this.player1.oro);
+        textOro2.setText('gold 2: ' + this.player2.oro);
     } 
 }
 

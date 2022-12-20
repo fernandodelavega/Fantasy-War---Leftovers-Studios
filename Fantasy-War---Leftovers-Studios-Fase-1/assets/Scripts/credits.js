@@ -7,9 +7,6 @@ export class credits extends Phaser.Scene {
     preload(){
         this.load.image('fondoC', 'assets/images/tropas/fondo_sin_caminos.png');
         this.load.image('botonReinicio', 'assets/images/fase3/boton_restart.png');
-        
-        
-        
     }
     
     create(){
