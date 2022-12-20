@@ -75,10 +75,11 @@ export class GameScene extends Phaser.Scene {
 			padding: 10,
 			fontStyle: "bold"
 		});
-		this.chat.setFixedSize(270,645)
-        this.enterKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.);
+		this.chat.setFixedSize(270,645);
+        
+        this.tKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 		
-		this.enterKey.on("down", event =>{
+		this.tKey.on("down", event =>{
 			let chatbox = this.textInput.getChildByName("chat");
 			if(chatbox.value != ""){
 				
