@@ -1,4 +1,6 @@
-var loadedUsuarios;
+var loadedUsuarios = [];
+var usuario;
+//var ocurrencia=false;
 function loadUsuarios(callback) {
 	$.ajax({
     method:"GET",
@@ -69,7 +71,7 @@ $(document).ready(function()
             nombre: nombre,
             contra: contra
         }
-		loadedPerfiles.push(perfil);
+		loadedUsuarios.push(usuario);
         crearUsuario(usuario);
     
     }}
