@@ -81,7 +81,7 @@ export class GameScene extends Phaser.Scene {
 		
 		this.tKey.on("down", event =>{
 			let chatbox = this.textInput.getChildByName("chat");
-			if(chatbox.value != ""){
+			if(chatbox != ""){
 				
 				//POST
 
