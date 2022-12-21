@@ -87,9 +87,9 @@ $(document).ready(function()
         var nombre = $("#nameText").val();
         var contra = $("#passText").val();
         
-		for(var i=0;i<loadedUsuario.length;i++)
+		for(var i=0;i<loadedUsuarios.length;i++)
 		{
-			if(nombre==loadedUsuarios[i].nnombre)
+			if(nombre==loadedUsuarios[i].nombre)
 			{
 				if(contra!=loadedUsuarios[i].contra)
 				{
@@ -97,7 +97,7 @@ $(document).ready(function()
 				}
 				else
 				{
-					console.log("Usuario iniciado: "+loadedUsuario[i].nombre);
+					console.log("Usuario iniciado: "+loadedUsuarios[i].nombre);
 					usuario=loadedUsuarios[i].nombres;
 					
         			$("#passText").disabled=true;
