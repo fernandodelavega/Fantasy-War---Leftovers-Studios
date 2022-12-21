@@ -121,9 +121,15 @@ Pantalla principal en la que se puede elegir entre iniciar la partida o pulsar e
 
 #### Pantalla de Ayuda:
 
-![Ayuda](https://user-images.githubusercontent.com/115580903/204625186-613fed45-e78e-4fdc-b38d-aea8700e690d.PNG)
+![Ayuda1](https://user-images.githubusercontent.com/115580903/208794469-5e888da7-5109-4c26-8ae4-e6ffe0457182.PNG)
 
 Breve descripción e imagen de los distintos controles de ambos jugadores ( Actualmente para modo local).
+
+#### Pantalla de Creditos:
+
+![Creditos](https://user-images.githubusercontent.com/115580903/208794479-ffc3431f-b954-458a-8e41-c4b6ecab46bf.PNG)
+
+Pantalla en la cual se muestra a los creadores y desarolladores del juego.
 
 #### Pantalla de Juego:
 
@@ -133,15 +139,14 @@ Pantalla del juego en la que se desarollara la partida. En esta se puede ver el 
 
 #### Pantalla de Fin:
 
-![Fin](https://user-images.githubusercontent.com/115580903/204625526-c3199572-d0af-45ce-b84c-a7c278abf2d2.PNG)
+![Fin1](https://user-images.githubusercontent.com/115580903/208794493-44530550-5e5f-4b52-a967-ae8a528c8908.PNG)
 
-Pantalla de final de partida en la cual se muestra el ganador de la misma , los creditos de los creadores y un boton que permite volver al menu principal.
+Pantalla de final de partida en la cual se muestra el ganador de la misma y un boton que permite volver al menu principal.
 
 
 ### Diagrama de flujo:
 
 ![Diagrama de Flujo](https://user-images.githubusercontent.com/115580903/204632533-725dc706-7d29-4baa-914b-e1e9bac46382.png)
-
 
 
 ## Arte:
