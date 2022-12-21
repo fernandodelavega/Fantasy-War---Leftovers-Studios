@@ -15,16 +15,7 @@ public class FantasyWarApplication {
 	public UserService usersService(){
 		return new UserService(10);
 	}
-	public static void main(String[] args){
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	public static void main(String[] args){		
 		SpringApplication.run(FantasyWarApplication.class, args);
 	}
 
