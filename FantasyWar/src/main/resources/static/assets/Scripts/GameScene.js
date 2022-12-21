@@ -2,11 +2,12 @@ import {Base} from './Base.js';
 import {Player} from './Player.js';
 import {Unidades} from './Unidades.js';
 import {carta} from './carta.js';
+import { ChatPannel } from './ChatPannel.js';
 
 var textOro1;
 var textOro2;
 var chatText;
-
+var newMessage;
 var chatMessages = [];
 
 export class GameScene extends Phaser.Scene {
@@ -67,17 +68,18 @@ export class GameScene extends Phaser.Scene {
         textOro1 = this.add.text(1920/2-200, 50, 'oro1: 10',{ fontSize: '32px'});
         textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
 
-        this.textInput = this.add.dom(1920, 1080).setOrigin(1);
-		this.chat = this.add.text(1000,10,"",{
-			lineSpacing: 15,
-			backgroundColor: "#21313CDD",
-			color: "#26924F",
-			padding: 10,
-			fontStyle: "bold"
-		});
-		this.chat.setFixedSize(270,645);
+
+        //this.textInput = this.add.dom(1920, 1080).setOrigin(1);
+		//this.chat = this.add.text(1000,10,"",{
+		//	lineSpacing: 15,
+		//	backgroundColor: "#21313CDD",
+		//	color: "#26924F",
+		//	padding: 10,
+		//	fontStyle: "bold"
+		//});
+		//this.chat.setFixedSize(270,645);
         
-        this.tKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        //this.tKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 		
 		//this.tKey.on("down", event =>{
 		//	let chatbox = this.textInput.getChildByName("chat");
@@ -251,9 +253,11 @@ export class GameScene extends Phaser.Scene {
 
         
         //chat
-        chatText = this.add.text(687, 542, 'a', {fontSize: '35px'});
+        chatText = this.add.text(800, 700, '', {fontSize: '35px'});
         this.down = false;
 
+        this.currentMessage = '';
+        this.timer = 0;
     }
 
     update(time, delta){
@@ -457,6 +461,23 @@ export class GameScene extends Phaser.Scene {
 
         
         this.ChatKeyboard();
+        this.timer += delta;
+        if(this.timer > 500){
+            if(this.popUp != undefined){this.popUp.Desapear();}
+            LoadMessage();
+            if(newMessage != this.lastMessage){
+                if(newMessage == null){ return; }
+                this.lastMessage = newMessage;
+                this.popUp = new ChatPannel('carta', newMessage, this.physics, this);
+
+            }
+            
+            //if(this.newMessage == this.currentMessage){
+                
+                //this.ReciveMessage(this.newMessage);
+                //}
+            this.timer = 0;
+        }
     }
     ChatKeyboard(){
         console.log('a');
@@ -468,12 +489,13 @@ export class GameScene extends Phaser.Scene {
             }
             else if(event.keyCode == 32 ^ (event.keyCode >= 48 && event.keyCode <= 90)){
                 
-                    chatText.text += event.key;
-                    console.log(chatText);
-
+                chatText.text += event.key;
+                console.log(chatText);
+                
             }
             else if(event.keyCode == 13){
                 CreateMessage(chatText.text);
+                //this.ReciveMessage(chatText.text);
                 chatText.text = "";
             }
         })
@@ -481,16 +503,19 @@ export class GameScene extends Phaser.Scene {
             this.down = false;
         })
     }
+    ReciveMessage(){
+
+    }
 }
-function LoadMessage(callback, message) {
+function LoadMessage(callback) {
 	$.ajax({
     method:"GET",
     url:"http://localhost:8080/chat",
     processData:false,
     headers:{"Content-Type":"application/json"}
-    }).done(function(usuarios) {
-		console.log(usuarios);
-        callback(usuarios);
+    }).done(function(message) {
+		console.log(message);
+        newMessage = message[message.length - 1];
     })
 }
 

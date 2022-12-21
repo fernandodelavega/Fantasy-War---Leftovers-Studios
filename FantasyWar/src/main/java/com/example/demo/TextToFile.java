@@ -53,9 +53,7 @@ public  class TextToFile {
 			}
 			 
 			    // Print the string
-			    System.out.println(Arrays.toString(st));
-			
-			System.out.println("Done");
+			st = Arrays.copyOf(st, st.length-1);
 			return st;
 		}
 	}
