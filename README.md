@@ -123,7 +123,7 @@ Pantalla principal en la que se puede elegir entre iniciar la partida o pulsar e
 
 ![Ayuda1](https://user-images.githubusercontent.com/115580903/208794469-5e888da7-5109-4c26-8ae4-e6ffe0457182.PNG)
 
-Breve descripción e imagen de los distintos controles de ambos jugadores ( Actualmente para modo local).
+Breve descripción e imagen de los distintos controles de ambos jugadores ( Actualmente para modo local)(Pendiente de cambios).
 
 #### Pantalla de Creditos:
 
