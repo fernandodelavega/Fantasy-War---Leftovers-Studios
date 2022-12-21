@@ -115,7 +115,7 @@ Animación del Logo del equipo.
 
 #### Pantalla de Inicio:
 
-![Inicio](https://user-images.githubusercontent.com/115580903/204625038-b206d85a-d9ca-4407-b55d-647c527ad4c3.PNG)
+![Inicio1](https://user-images.githubusercontent.com/115580903/208793905-07458d3b-ddb5-49c9-b65b-bdeb48bc6279.PNG)
 
 Pantalla principal en la que se puede elegir entre iniciar la partida o pulsar el boton de ayuda que muestra los controles.
 
@@ -127,7 +127,7 @@ Breve descripción e imagen de los distintos controles de ambos jugadores ( Actu
 
 #### Pantalla de Juego:
 
-![Juego](https://user-images.githubusercontent.com/115580903/204625300-049ede88-1bc5-42e5-9394-8b07278cf49e.PNG)
+![Juego1](https://user-images.githubusercontent.com/115580903/208793921-b3a14fd9-7106-4a1a-a32b-7d3558a61e02.PNG)
 
 Pantalla del juego en la que se desarollara la partida. En esta se puede ver el oro de cada jugador, la vida de su base, la unidad seleccionada y el camino por el cual saldra la misma.
 
