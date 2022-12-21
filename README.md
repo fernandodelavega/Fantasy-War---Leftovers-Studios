@@ -168,9 +168,14 @@ Los efectos de sonido son de 16 bits y se han creado usando el programa "Chipton
 
 ## Marketing:
 Redes sociales: Instagram ()
+## Diagrama de Clases:
+
+![Diagrama de clases](https://user-images.githubusercontent.com/115580903/208800649-2ae122f5-8432-47fe-a9e3-7322c84d1428.PNG)
+
 
 ## Instrucciones de Ejecución:
 Requisitos:
+
 Spring Tool Suite de Eclipse
 
 1. Abrir Spring en Eclipse.
