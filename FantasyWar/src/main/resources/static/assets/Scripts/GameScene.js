@@ -79,15 +79,15 @@ export class GameScene extends Phaser.Scene {
         
         this.tKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 		
-		this.tKey.on("down", event =>{
-			let chatbox = this.textInput.getChildByName("chat");
-			if(chatbox != ""){
-				
-				//POST
-
-				chatbox.value = "";
-			}
-		});
+		//this.tKey.on("down", event =>{
+		//	let chatbox = this.textInput.getChildByName("chat");
+		//	if(chatbox != ""){
+		//		
+		//		//POST
+//
+		//		chatbox.value = "";
+		//	}
+		//});
 
         this.crear=this.sound.add('Crear');
         this.muerte=this.sound.add('Matar');
@@ -472,10 +472,38 @@ export class GameScene extends Phaser.Scene {
                     console.log(chatText);
 
             }
+            else if(event.keyCode == 13){
+                CreateMessage(chatText.text);
+                chatText.text = "";
+            }
         })
         this.input.keyboard.on('keyup', function(event){
             this.down = false;
         })
     }
+}
+function LoadMessage(callback, message) {
+	$.ajax({
+    method:"GET",
+    url:"http://localhost:8080/chat",
+    processData:false,
+    headers:{"Content-Type":"application/json"}
+    }).done(function(usuarios) {
+		console.log(usuarios);
+        callback(usuarios);
+    })
+}
+
+//Crear un usuario
+function CreateMessage(message) {
+    $.ajax({
+    method:"POST",
+    url:"http://localhost:8080/chat",
+    data:JSON.stringify(message),
+    processData:false,
+    headers:{"Content-Type":"application/json"}
+    }).done(function(message) {
+		console.log(message)
+    })
 }
 
