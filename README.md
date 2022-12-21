@@ -169,3 +169,16 @@ Los efectos de sonido son de 16 bits y se han creado usando el programa "Chipton
 ## Marketing:
 Redes sociales: Instagram ()
 
+## Instrucciones de Ejecución:
+Requisitos:
+Spring Tool Suite de Eclipse
+
+1. Abrir Spring en Eclipse.
+2. Seleccionamos File
+3. Open Projectyt from Files System>>Directory>>Seleccionamos donde se encuentra.
+//Teniendo el archivo/carpeta TankunMayhem[boot] seleccionado
+4. Play
+5. Run FantasyWar
+6. URL: Dependiendo del servidor donde se lanza tiene una dirección IP acompañada de un puerto que es el :8080.
+
+7. A partir de aqui se procede a interactuar directamente con la aplicación. 
