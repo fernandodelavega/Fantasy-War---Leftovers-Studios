@@ -146,8 +146,7 @@ Pantalla de final de partida en la cual se muestra el ganador de la misma y un b
 
 ### Diagrama de flujo:
 
-![Diagrama de Flujo](https://user-images.githubusercontent.com/115580903/204632533-725dc706-7d29-4baa-914b-e1e9bac46382.png)
-
+![Diagrama de Flujo1](https://user-images.githubusercontent.com/115580903/208795807-fdcd3940-3fe0-4f80-827e-4aa855353c69.png)
 
 ## Arte:
 En el juego se han interpretado varios diseños de cultura popular en un pixel art más abstracto. Dentro de las tropas tenemos goblins, golems y magos. 
