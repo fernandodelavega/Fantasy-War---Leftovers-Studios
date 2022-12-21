@@ -514,7 +514,6 @@ function LoadMessage(callback) {
     processData:false,
     headers:{"Content-Type":"application/json"}
     }).done(function(message) {
-		console.log(message);
         newMessage = message[message.length - 1];
     })
 }
