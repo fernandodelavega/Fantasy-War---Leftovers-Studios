@@ -115,34 +115,38 @@ Animación del Logo del equipo.
 
 #### Pantalla de Inicio:
 
-![Inicio](https://user-images.githubusercontent.com/115580903/204625038-b206d85a-d9ca-4407-b55d-647c527ad4c3.PNG)
+![Inicio1](https://user-images.githubusercontent.com/115580903/208793905-07458d3b-ddb5-49c9-b65b-bdeb48bc6279.PNG)
 
 Pantalla principal en la que se puede elegir entre iniciar la partida o pulsar el boton de ayuda que muestra los controles.
 
 #### Pantalla de Ayuda:
 
-![Ayuda](https://user-images.githubusercontent.com/115580903/204625186-613fed45-e78e-4fdc-b38d-aea8700e690d.PNG)
+![Ayuda1](https://user-images.githubusercontent.com/115580903/208794469-5e888da7-5109-4c26-8ae4-e6ffe0457182.PNG)
 
-Breve descripción e imagen de los distintos controles de ambos jugadores ( Actualmente para modo local).
+Breve descripción e imagen de los distintos controles de ambos jugadores ( Actualmente para modo local)(Pendiente de cambios).
+
+#### Pantalla de Creditos:
+
+![Creditos](https://user-images.githubusercontent.com/115580903/208794479-ffc3431f-b954-458a-8e41-c4b6ecab46bf.PNG)
+
+Pantalla en la cual se muestra a los creadores y desarolladores del juego.
 
 #### Pantalla de Juego:
 
-![Juego](https://user-images.githubusercontent.com/115580903/204625300-049ede88-1bc5-42e5-9394-8b07278cf49e.PNG)
+![Juego1](https://user-images.githubusercontent.com/115580903/208793921-b3a14fd9-7106-4a1a-a32b-7d3558a61e02.PNG)
 
 Pantalla del juego en la que se desarollara la partida. En esta se puede ver el oro de cada jugador, la vida de su base, la unidad seleccionada y el camino por el cual saldra la misma.
 
 #### Pantalla de Fin:
 
-![Fin](https://user-images.githubusercontent.com/115580903/204625526-c3199572-d0af-45ce-b84c-a7c278abf2d2.PNG)
+![Fin1](https://user-images.githubusercontent.com/115580903/208794493-44530550-5e5f-4b52-a967-ae8a528c8908.PNG)
 
-Pantalla de final de partida en la cual se muestra el ganador de la misma , los creditos de los creadores y un boton que permite volver al menu principal.
+Pantalla de final de partida en la cual se muestra el ganador de la misma y un boton que permite volver al menu principal.
 
 
 ### Diagrama de flujo:
 
-![Diagrama de Flujo](https://user-images.githubusercontent.com/115580903/204632533-725dc706-7d29-4baa-914b-e1e9bac46382.png)
-
-
+![Diagrama de Flujo1](https://user-images.githubusercontent.com/115580903/208795807-fdcd3940-3fe0-4f80-827e-4aa855353c69.png)
 
 ## Arte:
 En el juego se han interpretado varios diseños de cultura popular en un pixel art más abstracto. Dentro de las tropas tenemos goblins, golems y magos. 
@@ -164,4 +168,22 @@ Los efectos de sonido son de 16 bits y se han creado usando el programa "Chipton
 
 ## Marketing:
 Redes sociales: Instagram ()
+## Diagrama de Clases:
 
+![Diagrama de clases](https://user-images.githubusercontent.com/115580903/208800649-2ae122f5-8432-47fe-a9e3-7322c84d1428.PNG)
+
+
+## Instrucciones de Ejecución:
+Requisitos:
+
+Spring Tool Suite de Eclipse
+
+1. Abrir Spring en Eclipse.
+2. Seleccionamos File
+3. Open Projectyt from Files System>>Directory>>Seleccionamos donde se encuentra.
+//Teniendo el archivo/carpeta TankunMayhem[boot] seleccionado
+4. Play
+5. Run FantasyWar
+6. URL: Dependiendo del servidor donde se lanza tiene una dirección IP acompañada de un puerto que es el :8080.
+
+7. A partir de aqui se procede a interactuar directamente con la aplicación. 
