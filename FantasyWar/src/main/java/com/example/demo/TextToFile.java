@@ -6,10 +6,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 public  class TextToFile {
 
-
+	String[] messages = new String[0];
 	public static void main(String[] args) {
 		
 	}
@@ -19,10 +20,18 @@ public  class TextToFile {
 			if (!file.exists()) {
 	            file.createNewFile();
 	        }
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(text);
-			bw.write("\n");
+			try (
+			//FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+				System.out.println(file);
+				messages = push(messages, text);
+				for(String s : messages) {
+					bw.write(s);					
+					bw.write("\n");
+				}
+					
+			}
+			System.out.println(GetText(file)[0]);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -30,25 +39,25 @@ public  class TextToFile {
         
 	}
 	public String[] GetText(File file) throws IOException {
-		// Creating an object of BufferedReader class
-        BufferedReader br = new BufferedReader(new FileReader(file));
- 
-        // Declaring a string variable
-        String[] st = new String[0];
-        st = push(st, br.readLine());
-        // Condition holds true till
-        // there is character in a string
-        for(int i = 0; st[i] != null; i++){
-        	
-        	st = push(st, br.readLine());
-        
-        }
-         
-            // Print the string
-            System.out.println(st);
-        
-        System.out.println("Done");
-		return st;
+		try (// Creating an object of BufferedReader class
+		BufferedReader br = new BufferedReader(new FileReader(file))) {
+			// Declaring a string variable
+			String[] st = new String[0];
+			st = push(st, br.readLine());
+			// Condition holds true till
+			// there is character in a string
+			for(int i = 0; st[i] != null; i++){
+				
+				st = push(st, br.readLine());
+			
+			}
+			 
+			    // Print the string
+			    System.out.println(Arrays.toString(st));
+			
+			System.out.println("Done");
+			return st;
+		}
 	}
 	
 	private static String[] push(String[] array, String push) {
