@@ -39,35 +39,27 @@ export class GameScene extends Phaser.Scene {
         this.load.spritesheet('magoRH', 'assets/images/fase3/explosion_r.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('goblinBH', 'assets/images/fase3/tajo_b.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoBH', 'assets/images/fase3/explosion_b.png', { frameWidth: 35, frameHeight: 35 });
-        
-        
-        
-        
-        
-        
+
+
         this.load.audio('Crear', 'assets/musica/tropas/poner-tropa.mp3');
         this.load.audio('Matar', 'assets/musica/tropas/tropa-muere.mp3');
         
         this.load.audio('goblinS', 'assets/musica/tropas/goblin-slash.mp3');
         this.load.audio('mageS', 'assets/musica/tropas/mago-explosion.mp3');
         this.load.audio('golemS', 'assets/musica/tropas/golem-golpe.mp3');
-
-        
-
-        
-
     }
 
     create(){
         
         this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6);
-        this.flechaA = this.add.image(120,560,'flecha1').setScale(0.3,0.3);
-        this.flechaB = this.add.image(1800,560,'flecha1').setScale(0.3,0.3);
-        this.flechaB.angle +=180;
-        this.coin = this.add.sprite(1920/2, 50, 'coin').setScale(6, 6) ;
-        textOro1 = this.add.text(1920/2-200, 50, 'oro1: 10',{ fontSize: '32px'});
-        textOro2 = this.add.text(1920/2+50, 50, 'oro2: 10',{ fontSize: '32px'});
+        this.flechaA = this.add.image(50,560,'flecha1').setScale(2,2);
+        this.flechaB = this.add.image(1870,560,'flecha1').setScale(2,2);
+        this.flechaB.angle += 180;
 
+        this.coin = this.add.sprite(90, 110, 'coin').setScale(2.5, 2.5);
+        this.coin2 = this.add.sprite(1830, 110, 'coin').setScale(2.5, 2.5);
+        textOro1 = this.add.text(120, 100, 'GOLD: 10', { font: "20px 'PS2P'"});
+        textOro2 = this.add.text(1645, 100, 'GOLD: 10', { font: "20px 'PS2P'" });
 
         //this.textInput = this.add.dom(1920, 1080).setOrigin(1);
 		//this.chat = this.add.text(1000,10,"",{
@@ -101,112 +93,111 @@ export class GameScene extends Phaser.Scene {
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.coin.anims.play('idle');
+        this.coin2.anims.play('idle');
         //animaciones personajes
         this.anims.create({
             key: 'goblinR',
             frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'goblinB',
             frames: this.anims.generateFrameNumbers('goblinB', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'magoR',
             frames: this.anims.generateFrameNumbers('magoR', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'magoB',
             frames: this.anims.generateFrameNumbers('magoB', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'golemR',
             frames: this.anims.generateFrameNumbers('golemR', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
         this.anims.create({
             key: 'golemB',
             frames: this.anims.generateFrameNumbers('golemB', { start: 0, end: 3 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: -1
         });
 
         this.anims.create({
             key: 'goblinRAT',
             frames: this.anims.generateFrameNumbers('goblinRA', { start: 0, end: 2 }),
-            frameRate: 10,
-            repeat: 0
+            frameRate: 60,
+            repeat: 1
         });
         this.anims.create({
             key: 'goblinBAT',
             frames: this.anims.generateFrameNumbers('goblinBA', { start: 0, end: 2 }),
-            frameRate: 10,
-            repeat: 0
+            frameRate: 60,
+            repeat: 1
         });
         this.anims.create({
             key: 'magoRAT',
             frames: this.anims.generateFrameNumbers('magoRA', { start: 0, end: 2 }),
-            frameRate: 10,
-            repeat: 0
+            frameRate: 60,
+            repeat: 1
         });
         this.anims.create({
             key: 'magoBAT',
             frames: this.anims.generateFrameNumbers('magoBA', { start: 0, end: 2 }),
-            frameRate: 10,
-            repeat: 0
+            frameRate: 60,
+            repeat: 1
         });
         this.anims.create({
             key: 'golemRAT',
             frames: this.anims.generateFrameNumbers('golemRA', { start: 0, end: 2 }),
-            frameRate: 10,
-            repeat: 0
+            frameRate: 60,
+            repeat: 1
         });
         this.anims.create({
             key: 'golemBAT',
             frames: this.anims.generateFrameNumbers('golemBA', { start: 0, end: 2 }),
-            frameRate: 10,
-            repeat: 0
+            frameRate: 60,
+            repeat: 1
         });
 
         this.anims.create({
             key: 'goblinRHit',
             frames: this.anims.generateFrameNumbers('goblinRH', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'goblinBHit',
             frames: this.anims.generateFrameNumbers('goblinBH', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'magoRHit',
             frames: this.anims.generateFrameNumbers('magoRH', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         this.anims.create({
             key: 'magoBHit',
             frames: this.anims.generateFrameNumbers('magoBH', { start: 0, end: 2 }),
-            frameRate: 10,
+            frameRate: 60,
             repeat: 0
         });
         
-    
-
         this.cardsP1 = new Array();
         this.cardsP1.push(this.carta1P1 = new carta(1920/8, 1000, 'carta', 'goblinR', this.physics, 0));
         this.cardsP1.push(this.carta2P1 = new carta((1920/8)*2, 1000, 'carta', 'magoR', this.physics, 1));
@@ -232,7 +223,7 @@ export class GameScene extends Phaser.Scene {
 
         this.unidadesPrefab1 = new Array(); 
         this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR',this.goblinS,'goblinRAT','goblinRHit'));
-        this.unidadesPrefab1.push(new Unidades(20, 120, 4, 100, 700, 'magoR',this.mageS,'magoRAT','goblinRHit'));
+        this.unidadesPrefab1.push(new Unidades(20, 150, 4, 100, 700, 'magoR',this.mageS,'magoRAT','goblinRHit'));
         this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR',this.golemS,'golemRAT',null));
         
         this.unidadesPrefab2 = new Array(); 
@@ -253,7 +244,7 @@ export class GameScene extends Phaser.Scene {
 
         
         //chat
-        chatText = this.add.text(800, 700, '', {fontSize: '35px'});
+        chatText = this.add.text(800, 700, '', {fontFamily: 'PS2P'});
         this.down = false;
 
         this.currentMessage = '';
@@ -267,7 +258,7 @@ export class GameScene extends Phaser.Scene {
             this.crear.play();
             var newUnity = new Unidades();
             Object.assign(newUnity, this.unidadesPrefab1[this.player1.unidad]);
-            newUnity.instance(newUnity, this.player1.base.x, this.positions[this.player1.camino], this.player1.camino, this.player2.base, this.physics);
+            newUnity.instance(newUnity, this.player1.base.x, this.positions[this.player1.camino]-90, this.player1.camino, this.player2.base, this.physics);
             this.player1.AddUnidad(newUnity);
             for (var i = 0; i < this.player2.unidades.length; i++){
                 //if(newUnity.camino == this.player2.unidades[i].camino){
@@ -308,7 +299,7 @@ export class GameScene extends Phaser.Scene {
             this.crear.play();
             var newUnity = new Unidades();
             Object.assign(newUnity, this.unidadesPrefab2[this.player2.unidad]);
-            newUnity.instance(newUnity, this.player2.base.x, this.positions[this.player2.camino], this.player2.camino, this.player1.base, this.physics);
+            newUnity.instance(newUnity, this.player2.base.x, this.positions[this.player2.camino]-90, this.player2.camino, this.player1.base, this.physics);
             this.player2.AddUnidad(newUnity);
             for (var i = 0; i < this.player1.unidades.length; i++){
                 //if(newUnity.camino == this.player1.unidades[i].camino){
@@ -343,8 +334,6 @@ export class GameScene extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(this.keyH)){
             this.player2.base.damage(1);
         }
-
-
 
         ////Recorrer todos los objetos que interactuan y poner collition a false
         //for (var i = 0; i < this.player1.unidades.length; i++){
@@ -456,8 +445,8 @@ export class GameScene extends Phaser.Scene {
         //update players
         this.player1.Update(delta);
         this.player2.Update(delta);
-        textOro1.setText('oro1: ' + this.player1.oro);
-        textOro2.setText('oro2: ' + this.player2.oro);
+        textOro1.setText('GOLD: ' + this.player1.oro);
+        textOro2.setText('GOLD: ' + this.player2.oro);
 
         
         this.ChatKeyboard();
@@ -479,6 +468,7 @@ export class GameScene extends Phaser.Scene {
             this.timer = 0;
         }
     }
+
     ChatKeyboard(){
         console.log('a');
         this.input.keyboard.on('keydown', function(event){
@@ -503,10 +493,11 @@ export class GameScene extends Phaser.Scene {
             this.down = false;
         })
     }
-    ReciveMessage(){
 
-    }
+    ReceiveMessage() { }
+
 }
+
 function LoadMessage(callback) {
 	$.ajax({
     method:"GET",

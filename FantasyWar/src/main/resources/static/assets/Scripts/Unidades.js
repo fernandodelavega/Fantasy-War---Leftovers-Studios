@@ -23,7 +23,7 @@ export class Unidades
         this.camino = camino;
         this.enemyBase = enemyBase;
         this.image = unidad.image;
-        this.gameobject = physics.add.sprite(positionx, positiony, this.image).setScale(2, 2);
+        this.gameobject = physics.add.sprite(positionx, positiony, this.image).setScale(6, 6);
         //this.atack = physics.add.sprite(positionx, positiony, this.image).setScale(2, 2);
         this.gameobject.anims.play(this.image, true);
         
