@@ -9,6 +9,7 @@ var textOro1;
 var textOro2;
 var chatText;
 var newMessage;
+var chatEnabled = false;
 var chatMessages = [];
 
 export class GameScene extends Phaser.Scene {
@@ -256,7 +257,7 @@ export class GameScene extends Phaser.Scene {
         this.currentMessage = '';
         this.timer = 0;
 
-        this.chatEnabled = false;
+        chatEnabled = false;
 
     }
 
@@ -349,7 +350,7 @@ export class GameScene extends Phaser.Scene {
 
     ChatKeyboard(){
         this.input.keyboard.on('keydown', function(event){
-            if(!this.chatEnabled) {return;}
+            if(!chatEnabled) {return;}
             console.log('a');
             if(this.down){return;}
             this.down = true;
@@ -363,11 +364,11 @@ export class GameScene extends Phaser.Scene {
                 
             }
             else if(event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC){
-                this.chatEnabled = false;
+                chatEnabled = false;
             }
             else if(event.keyCode == 13){
                 CreateMessage(chatText.text);
-                this.chatEnabled = false;
+                chatEnabled = false;
                 //this.ReciveMessage(chatText.text);
                 chatText.text = "";
             }

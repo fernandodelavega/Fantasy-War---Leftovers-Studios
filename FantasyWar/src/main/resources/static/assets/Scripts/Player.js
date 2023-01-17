@@ -1,3 +1,4 @@
+import { GameScene } from "./GameScene";
 
 export class Player
 {
@@ -51,7 +52,7 @@ export class Player
     InstanciarUnidad(){
 
         if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1){
-            this.crear.play();
+            this.gameScene.crear.play();
             var newUnity = new Unidades();
             Object.assign(newUnity, this.gameScene.unidadesPrefab1[this.unidad]);
             newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.physics);
@@ -83,10 +84,10 @@ export class Player
             this.siguienteUnidad(true);
         }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyT)){
-            this.gameScene.chatEnabled = true;
+            GameScene.chatEnabled = true;
         }
         else{}
-
+        return;
         //this.gameScene.flechaA.setY(this.positions[this.camino]);
     }
     Update(delta){
@@ -98,6 +99,6 @@ export class Player
         }
 
         this.InstanciarUnidad();
-
+        return;
     }
 }
