@@ -137,6 +137,14 @@ export class GameScene extends Phaser.Scene {
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
 
+    //chat
+        chatText = this.add.text(800, 700, '', {fontFamily: 'PS2P'});
+        this.down = false;
+
+        this.currentMessage = '';
+        this.timer = 0;
+
+        chatEnabled = false;
     }
 
     update(time, delta){

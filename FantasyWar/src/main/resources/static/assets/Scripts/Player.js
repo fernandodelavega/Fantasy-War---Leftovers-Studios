@@ -1,12 +1,15 @@
 import { GameScene } from "./GameScene.js";
 import { Unidades } from "./Unidades.js";
 
+var chatText;
+
+var playerState = 0;
 export class Player
 {
     base;
     unidades;
-    camino
-    constructor(name, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene)
+    camino;
+    constructor(name, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene, flecha)
     {
         this.ID = name
         this.vida = vida;
@@ -19,7 +22,9 @@ export class Player
         this.contador = 0;
         this.enemyPlayer = enemyPlayer;
         this.gameScene = gameScene;
-        this.chatEnabled = false;
+        this.flecha = flecha;
+        //this.playerState = playerDefault;
+        chatText = this.gameScene.add.text(800, 700, '', {fontFamily: 'PS2P'});
     }
     AddUnidad(nuevaUnidad){
         this.unidades.push(nuevaUnidad);
@@ -29,10 +34,12 @@ export class Player
         if(isUp){
 
             this.camino = (this.camino + 1) % 3;
+            this.flecha.setY(this.gameScene.positions[this.camino]);
         }
         else if(!isUp){
             
             this.camino = (this.camino - 1 < 0)? 3 - this.camino - 1 : (this.camino - 1) % 3;
+            this.flecha.setY(this.gameScene.positions[this.camino]);
         }
     }
     siguienteUnidad(isRight){
@@ -54,7 +61,7 @@ export class Player
     }
     InstanciarUnidad(){
 
-        if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1){
+        if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1 && !this.chatEnabled){
             this.gameScene.crear.play();
             var newUnity = new Unidades();
             Object.assign(newUnity, this.unidadesPrefab[this.unidad]);
@@ -91,22 +98,24 @@ export class Player
             this.siguienteUnidad(true);
         }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyT)){
-            this.chatEnabled = true;
+            playerState = 1;
             
         }
         else{}
-        this.gameScene.flechaA.setY(this.gameScene.positions[this.camino]);
+        
         return;
     }
     
     ChatKeyboard(){
         this.gameScene.input.keyboard.on('keydown', function(event){
-            if(!this.chatEnabled) {return;}
-            console.log('a');
+            //if(!this.chatEnabled) {return;}
+            //console.log('a');
+            if(playerState==0){return;}
             if(this.down){return;}
             this.down = true;
             if(event.keyCode == 8 && chatText.text.length > 0){
                 chatText.text = chatText.text.substr(0, chatText.text.length - 1);
+                
             }
             else if(event.keyCode == 32 ^ (event.keyCode >= 48 && event.keyCode <= 90)){
                 
@@ -114,15 +123,17 @@ export class Player
                 console.log(chatText);
                 
             }
-             else if(event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC){
-                 this.chatEnabled = false;
+            else if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC){
+                 playerState = 0;
+                 chatText.text = "";
              }
              else if(event.keyCode == 13){
-                 CreateMessage(chatText.text);
-                 this.chatEnabled = false;
+                 //CreateMessage(chatText.text);
+                 playerState = 0;
                  //this.ReciveMessage(chatText.text);
                  chatText.text = "";
              }
+            
         })
         this.gameScene.input.keyboard.on('keyup', function(event){
             this.down = false;
@@ -130,16 +141,26 @@ export class Player
     }
 
     Update(delta){
-        console.log(this.chatEnabled);
+        console.log(playerState);
         this.AddOro(delta);
 
         // if(GameScene.chatEnabled){
         //     return;
         // }
 
-        this.InstanciarUnidad();
         
-        this.ChatKeyboard();
+        if(playerState == 0){
+            this.InstanciarUnidad();
+        }else if(playerState == 1){
+            this.ChatKeyboard();
+        }
+
+
+        
+
+        
+        
+        
         this.timer += delta;
         if(this.timer > 500){
             if(this.gameScene.popUp != undefined){this.gameScene.popUp.Desapear();}

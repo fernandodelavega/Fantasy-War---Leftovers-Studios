@@ -95,7 +95,7 @@ export class GameScene extends Phaser.Scene {
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.coin.anims.play('idle');
@@ -104,99 +104,99 @@ export class GameScene extends Phaser.Scene {
         this.anims.create({
             key: 'goblinR',
             frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'goblinB',
             frames: this.anims.generateFrameNumbers('goblinB', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'magoR',
             frames: this.anims.generateFrameNumbers('magoR', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'magoB',
             frames: this.anims.generateFrameNumbers('magoB', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'golemR',
             frames: this.anims.generateFrameNumbers('golemR', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'golemB',
             frames: this.anims.generateFrameNumbers('golemB', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'goblinRAT',
             frames: this.anims.generateFrameNumbers('goblinRA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'goblinBAT',
             frames: this.anims.generateFrameNumbers('goblinBA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'magoRAT',
             frames: this.anims.generateFrameNumbers('magoRA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'magoBAT',
             frames: this.anims.generateFrameNumbers('magoBA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'golemRAT',
             frames: this.anims.generateFrameNumbers('golemRA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'golemBAT',
             frames: this.anims.generateFrameNumbers('golemBA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
 
         this.anims.create({
             key: 'goblinRHit',
             frames: this.anims.generateFrameNumbers('goblinRH', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 0
         });
         this.anims.create({
             key: 'goblinBHit',
             frames: this.anims.generateFrameNumbers('goblinBH', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 0
         });
         this.anims.create({
             key: 'magoRHit',
             frames: this.anims.generateFrameNumbers('magoRH', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 0
         });
         this.anims.create({
             key: 'magoBHit',
             frames: this.anims.generateFrameNumbers('magoBH', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 0
         });
         
@@ -250,13 +250,14 @@ export class GameScene extends Phaser.Scene {
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         this.keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
 
+
         
         //chat
-        chatText = this.add.text(800, 700, '', {fontFamily: 'PS2P'});
-        this.down = false;
+        // chatText = this.add.text(800, 700, '', {fontFamily: 'PS2P'});
+        // this.down = false;
 
-        this.currentMessage = '';
-        this.timer = 0;
+        // this.currentMessage = '';
+        // this.timer = 0;
 
         
 
@@ -269,8 +270,8 @@ export class GameScene extends Phaser.Scene {
         if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
             this.player1.unidades = [];
             this.player2.unidades = [];
-            this.player1.oro = 10;
-            this.player2.oro = 10;
+            this.player1.oro = 5;
+            this.player2.oro = 5;
             if (this.player1.base.vida <= 0 && this.player2.base.vida > 0){
                 this.player1.base.vida = 100;
                 this.player2.base.vida = 100;
@@ -334,6 +335,7 @@ export class GameScene extends Phaser.Scene {
 
         //update players
         this.player2.Update(delta);
+        
         //this.player1.Update(delta);
         textOro1.setText('GOLD: ' + this.player1.oro);
         textOro2.setText('GOLD: ' + this.player2.oro);
@@ -345,13 +347,13 @@ export class GameScene extends Phaser.Scene {
     
     addPlayer(id) {
         if(this.player1 == undefined){
-            this.player1 = new Player(id, 100, 10, this.base1, 1, this.unidadesPrefab1, this.player2, this);
+            this.player1 = new Player(id, 100, 5, this.base1, 1, this.unidadesPrefab1, this.player2, this, this.flechaA);
             try{
             this.player2.enemyPlayer = this.player1;
             }catch{}
         }
         else if(this.player2 == undefined){
-            this.player2 = new Player(id, 100, 10, this.base2, 1, this.unidadesPrefab2, this.player1, this);
+            this.player2 = new Player(id, 100, 5, this.base2, 1, this.unidadesPrefab2, this.player1, this, this.flechaB);
             try{
             this.player1.enemyPlayer = this.player2;
             }catch{}
