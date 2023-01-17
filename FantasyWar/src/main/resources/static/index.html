@@ -3,6 +3,8 @@
 <head> 
     <meta charset="UTF-8" />
     <title>Fantasy-War</title>
+
+    <link rel="preload" as="font" href="assets/PS2P.ttf" type="font/ttf"/>
     <script src="assets/Scripts/Phaser/phaser.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     
@@ -13,6 +15,13 @@
         </script>
     -->
 <style type="text/css">
+
+	@font-face {
+	font-family: PS2P;
+	src: url('assets/PS2P.ttf');
+	line-height: 300%;
+	}
+
     body {
         margin: 0;
     }
@@ -24,17 +33,25 @@
 				width: 250;
 			}
     </style>
-    <script src="assets/Scripts/init.js" type = 'module'></script>
-    <script src="assets/Scripts/userScript.js"></script>
-    <div id = "input-form">			
-        <input type="text" name="chat" placeholder="Enter a message">	
-    </div>
+
+
+<div id = "input-form">			
+    <input type="text" name="chat" placeholder="Enter a message">	
+</div>
+
+<div style="font-family:PS2P; left:-1000px; visibility:hidden;">.</div>
+
 </head>
 
 <body>
-   
+    
+    <script src="assets/Scripts/init.js" type = 'module'></script>
+    <script src="assets/Scripts/WebSocketConfig.js"></script>
+    <script src="assets/Scripts/userScript.js"></script>
  <input type="text" id="nameText" placeholder="Nombre usuario"/> <input type="password" id="passText" placeholder="Contraseña"/> 
  <input type="button" value="Iniciar sesión" id="initButton"/> <input type="button" value="Crear usuario" id="createButton"/>
+
+
  
 </body>
 </html>

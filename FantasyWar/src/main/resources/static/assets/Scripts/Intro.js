@@ -36,7 +36,7 @@ export class Intro extends Phaser.Scene {
             //playing=true;
             
         //}
-        if(tempoIntro > 1300){
+        if(tempoIntro > 250){
             
             this.musica.play();
                 

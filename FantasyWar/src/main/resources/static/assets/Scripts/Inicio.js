@@ -33,7 +33,7 @@ export class Inicio extends Phaser.Scene {
         });
         this.fondo.anims.play('back');
         this.add.image(1920/2, 1080/2, 'fondo').setScale(6, 6);
-        this.add.image(1920/2, 1080/2, 'letras').setScale(18, 18);
+        this.add.image(1920/2, 1080/3, 'letras').setScale(18, 18);
 
 
 
@@ -56,7 +56,7 @@ export class Inicio extends Phaser.Scene {
         var controles;
         controles = this.add.image();
 
-        this.boton1= this.add.image(1800, 100, 'help').setScale(0.25,0.25).setInteractive();
+        this.boton1= this.add.image(1800, 100, 'help').setScale(6,6).setInteractive();
         this.boton1.on('pointerdown', () =>{
             this.botonO.play();
             if (c == 1){
@@ -70,7 +70,7 @@ export class Inicio extends Phaser.Scene {
             }
             else{
 
-                this.controles = this.add.image(960,540,'controles');
+                this.controles = this.add.image(960,540,'controles').setScale(6,6);
                 c = 1;
                 console.log('cread');
 
