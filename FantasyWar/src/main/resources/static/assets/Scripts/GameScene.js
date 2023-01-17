@@ -3,6 +3,7 @@ import {Player} from './Player.js';
 import {Unidades} from './Unidades.js';
 import {carta} from './carta.js';
 import { ChatPannel } from './ChatPannel.js';
+import { Espectator } from './espectator.js';
 
 var textOro1;
 var textOro2;
@@ -12,7 +13,7 @@ var chatMessages = [];
 
 export class GameScene extends Phaser.Scene {
     constructor(){
-        super({key: "GameScene"}); 
+        super({key: "GameScene"});
     }
     preload(){
         this.load.image('backGround', 'assets/images/fase3/fondo_completo.png');
@@ -208,14 +209,18 @@ export class GameScene extends Phaser.Scene {
         this.cardsP2.push(this.carta2P2 = new carta((1920/8)*6, 1000, 'carta', 'magoB', this.physics, 1));
         this.cardsP2.push(this.carta1P2 = new carta((1920/8)*5, 1000, 'carta', 'golemB', this.physics, 0));
         
+        this.espectators = new Array();
+
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(100, 120, 520, 'pina', this.physics, this.graphics1);
-        this.player1 = new Player(1000, 10, this.base1, 1);
-        
+        //this.player1 = new Player(1000, 10, this.base1, 1);
+        this.addPlayer(1);
+
         this.graphics2 = this.add.graphics();
         this.base2 = new Base(100, 1800, 520, 'pina', this.physics, this.graphics2);
-        this.player2 = new Player(1000, 10, this.base2, 1);
-        
+        //this.player2 = new Player(1000, 10, this.base2, 1);
+        this.addPlayer(2);
+
         this.positions = new Array();
         this.positions.push(900);
         this.positions.push(580);
@@ -241,6 +246,7 @@ export class GameScene extends Phaser.Scene {
         this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
+        this.keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
 
         
         //chat
@@ -249,142 +255,14 @@ export class GameScene extends Phaser.Scene {
 
         this.currentMessage = '';
         this.timer = 0;
+
+        this.chatEnabled = false;
+
     }
 
     update(time, delta){
 
-        //controles player 1
-        if(Phaser.Input.Keyboard.JustDown(this.keySpace) && this.player1.oro >= 1){
-            this.crear.play();
-            var newUnity = new Unidades();
-            Object.assign(newUnity, this.unidadesPrefab1[this.player1.unidad]);
-            newUnity.instance(newUnity, this.player1.base.x, this.positions[this.player1.camino]-90, this.player1.camino, this.player2.base, this.physics);
-            this.player1.AddUnidad(newUnity);
-            for (var i = 0; i < this.player2.unidades.length; i++){
-                //if(newUnity.camino == this.player2.unidades[i].camino){
-                if(newUnity.y == this.player2.unidades[i].y){
-                    //console.log(newUnity.camino, ', ', this.player2.unidades[i].camino);
-                //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player2.unidades[i].gameobject.y) < 10){
-                    newUnity.objectives.push(this.player2.unidades[i]);
-                    this.player2.unidades[i].objectives.push(newUnity);
-                }
-            }
-            newUnity.start(1);
-            this.player1.oro--;
-            newUnity = null;
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.keyW)){
-            this.player1.siguienteCamino(true);
-            
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.keyS)){
-            this.player1.siguienteCamino(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.keyA)){
-            this.player1.siguienteUnidad(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.keyD)){
-            this.player1.siguienteUnidad(true);
-        }
-        else{}
-
-        this.flechaA.setY(this.positions[this.player1.camino]);
-
-        if(Phaser.Input.Keyboard.JustDown(this.keyG)){
-            this.player1.base.damage(1);
-        }
-        
-        //controles player 2 
-        if(Phaser.Input.Keyboard.JustDown(this.keyEnter)&& this.player2.oro>=1){
-            this.crear.play();
-            var newUnity = new Unidades();
-            Object.assign(newUnity, this.unidadesPrefab2[this.player2.unidad]);
-            newUnity.instance(newUnity, this.player2.base.x, this.positions[this.player2.camino]-90, this.player2.camino, this.player1.base, this.physics);
-            this.player2.AddUnidad(newUnity);
-            for (var i = 0; i < this.player1.unidades.length; i++){
-                //if(newUnity.camino == this.player1.unidades[i].camino){
-                    if(newUnity.y == this.player1.unidades[i].y){
-                    //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player1.unidades[i].gameobject.y) < 10){
-                    
-                    //console.log(newUnity.camino, ', ', this.player1.unidades[i].camino);
-                    newUnity.objectives.push(this.player1.unidades[i]);
-                    this.player1.unidades[i].objectives.push(newUnity);
-                }
-            }
-            newUnity.start(2);
-            this.player2.oro--;
-            newUnity = null;
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.cursors.up)){
-            this.player2.siguienteCamino(true);
-            
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.cursors.down)){
-            this.player2.siguienteCamino(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.cursors.left)){
-            this.player2.siguienteUnidad(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.cursors.right)){
-            this.player2.siguienteUnidad(true);
-        }
-
-        this.flechaB.setY(this.positions[this.player2.camino]);
-
-        if(Phaser.Input.Keyboard.JustDown(this.keyH)){
-            this.player2.base.damage(1);
-        }
-
-        ////Recorrer todos los objetos que interactuan y poner collition a false
-        //for (var i = 0; i < this.player1.unidades.length; i++){
-        //    this.player1.unidades[i].setColliding(false);
-        //}
-        //for (var i = 0; i < this.player2.unidades.length; i++){
-        //    this.player2.unidades[i].setColliding(false);
-        //}
-        //this.player1.base.setColliding(false);
-        //this.player2.base.setColliding(false);
-        //
-        //
-        ////colisiones entre unidades del jugador 1 con el 2
-        //for (var i = 0; i < this.player1.unidades.length; i++){
-        //    for(var j=0; j < this.player1.unidades[i].objectives.length; j++){
-        //    
-        //    
-        //        if(Math.abs(this.player1.unidades[i].x-this.player1.unidades[i].objectives[j].x)<=this.player1.unidades[i].range){
-        //            this.player1.unidades[i].stop();
-        //            this.player1.unidades[i].objectives[j].stop();
-        //            this.player1.unidades[i].Atack(this.player1.unidades[i],this.player1.unidades[i].objectives[j]);
-        //            if(this.player1.unidades[i].objectives[j].vida<=0){
-        //
-        //                //eliminar el objetivo de todos los arrays donde está y deshabilitarlo con this.player1.unidades[i].objectives[j].disableBody(true, true);
-        //                this.player1.unidades[i].stack=0;
-        //                this.player1.unidades[i].start(1);
-        //            }
-        //        }
-        //    }
-        //
-        //}
-        //
-        ////colisiones entre unidades del jugador 2 con el 1
-        //for (var i = 0; i < this.player2.unidades.length; i++){
-        //    for(var j=0; j < this.player2.unidades[i].objectives.length; j++){
-        //    
-        //    
-        //        if(Math.abs(this.player2.unidades[i].x-this.player2.unidades[i].objectives[j].x)<=this.player2.unidades[i].range){
-        //            this.player2.unidades[i].stop();
-        //            this.player2.unidades[i].objectives[j].stop();
-        //            this.player2.unidades[i].Atack(this.player2.unidades[i],this.player2.unidades[i].objectives[j]);
-        //            if(this.player2.unidades[i].objectives[j].vida<=0){
-        //                //eliminar el objetivo de todos los arrays donde está y deshabilitarlo con this.player1.unidades[i].objectives[j].disableBody(true, true);
-        //                this.player2.unidades[i].stack=0;
-        //                this.player2.unidades[i].start(2);
-        //            }
-        //        }
-        //    }
-        //
-        //}
-
+        //if()
         //Finalizar escena
         if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
             if (this.player1.base.vida <= 0 && this.player2.base.vida > 0){
@@ -454,7 +332,7 @@ export class GameScene extends Phaser.Scene {
         if(this.timer > 500){
             if(this.popUp != undefined){this.popUp.Desapear();}
             LoadMessage();
-            if(newMessage != this.lastMessage){
+            if(newMessage != this.lastMessage && newMessage != ""){
                 if(newMessage == null){ return; }
                 this.lastMessage = newMessage;
                 this.popUp = new ChatPannel('carta', newMessage, this.physics, this);
@@ -470,8 +348,9 @@ export class GameScene extends Phaser.Scene {
     }
 
     ChatKeyboard(){
-        console.log('a');
         this.input.keyboard.on('keydown', function(event){
+            if(!this.chatEnabled) {return;}
+            console.log('a');
             if(this.down){return;}
             this.down = true;
             if(event.keyCode == 8 && chatText.text.length > 0){
@@ -483,8 +362,12 @@ export class GameScene extends Phaser.Scene {
                 console.log(chatText);
                 
             }
+            else if(event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC){
+                this.chatEnabled = false;
+            }
             else if(event.keyCode == 13){
                 CreateMessage(chatText.text);
+                this.chatEnabled = false;
                 //this.ReciveMessage(chatText.text);
                 chatText.text = "";
             }
@@ -493,10 +376,22 @@ export class GameScene extends Phaser.Scene {
             this.down = false;
         })
     }
+    addPlayer(id) {
+        if(this.player1 == undefined){
+            this.player1 = new Player(id, 1000, 10, this.base1, 1, this.player2, this);
+        }
+        else if(this.player2 == undefined){
+            this.player2 = new Player(id, 1000, 10, this.base2, 1, this.player1, this);
+        }
+        else {
+            this.espectators.push(new Espectator(id));
+        }
+    }
 
     ReceiveMessage() { }
 
 }
+
 
 function LoadMessage(callback) {
 	$.ajax({
