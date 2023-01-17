@@ -258,12 +258,12 @@ export class GameScene extends Phaser.Scene {
         this.currentMessage = '';
         this.timer = 0;
 
-        chatEnabled = false;
+        
 
     }
 
     update(time, delta){
-
+        
         //if()
         //Finalizar escena
         if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
@@ -334,59 +334,15 @@ export class GameScene extends Phaser.Scene {
 
         //update players
         this.player2.Update(delta);
-        this.player1.Update(delta);
+        //this.player1.Update(delta);
         textOro1.setText('GOLD: ' + this.player1.oro);
         textOro2.setText('GOLD: ' + this.player2.oro);
 
         
-        this.ChatKeyboard();
-        this.timer += delta;
-        if(this.timer > 500){
-            if(this.popUp != undefined){this.popUp.Desapear();}
-            LoadMessage();
-            if(newMessage != this.lastMessage && newMessage != ""){
-                if(newMessage == null){ return; }
-                this.lastMessage = newMessage;
-                this.popUp = new ChatPannel('carta', newMessage, this.physics, this);
-            }
-            
-            //if(this.newMessage == this.currentMessage){
-                
-                //this.ReciveMessage(this.newMessage);
-                //}
-            this.timer = 0;
-        }
+        
     }
 
-    ChatKeyboard(){
-        this.input.keyboard.on('keydown', function(event){
-            //if(!chatEnabled) {return;}
-            console.log('a');
-            if(this.down){return;}
-            this.down = true;
-            if(event.keyCode == 8 && chatText.text.length > 0){
-                chatText.text = chatText.text.substr(0, chatText.text.length - 1);
-            }
-            else if(event.keyCode == 32 ^ (event.keyCode >= 48 && event.keyCode <= 90)){
-                
-                chatText.text += event.key;
-                console.log(chatText);
-                
-            }
-            else if(event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC){
-                chatEnabled = false;
-            }
-            else if(event.keyCode == 13){
-                CreateMessage(chatText.text);
-                chatEnabled = false;
-                //this.ReciveMessage(chatText.text);
-                chatText.text = "";
-            }
-        })
-        this.input.keyboard.on('keyup', function(event){
-            this.down = false;
-        })
-    }
+    
     addPlayer(id) {
         if(this.player1 == undefined){
             this.player1 = new Player(id, 100, 10, this.base1, 1, this.unidadesPrefab1, this.player2, this);

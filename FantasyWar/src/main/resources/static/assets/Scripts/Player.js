@@ -19,6 +19,7 @@ export class Player
         this.contador = 0;
         this.enemyPlayer = enemyPlayer;
         this.gameScene = gameScene;
+        this.chatEnabled = false;
     }
     AddUnidad(nuevaUnidad){
         this.unidades.push(nuevaUnidad);
@@ -77,27 +78,59 @@ export class Player
             this.oro--;
             newUnity = null;
         }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyW)){
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyW) && !this.chatEnabled){
             this.siguienteCamino(true);
         }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyS)){
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyS) && !this.chatEnabled){
             this.siguienteCamino(false);
         }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyA)){
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyA) && !this.chatEnabled){
             this.siguienteUnidad(false);
         }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyD)){
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyD) && !this.chatEnabled ){
             this.siguienteUnidad(true);
         }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyT)){
-            GameScene.chatEnabled = true;
+            this.chatEnabled = true;
+            
         }
         else{}
         this.gameScene.flechaA.setY(this.gameScene.positions[this.camino]);
         return;
     }
+    
+    ChatKeyboard(){
+        this.gameScene.input.keyboard.on('keydown', function(event){
+            if(!this.chatEnabled) {return;}
+            console.log('a');
+            if(this.down){return;}
+            this.down = true;
+            if(event.keyCode == 8 && chatText.text.length > 0){
+                chatText.text = chatText.text.substr(0, chatText.text.length - 1);
+            }
+            else if(event.keyCode == 32 ^ (event.keyCode >= 48 && event.keyCode <= 90)){
+                
+                chatText.text += event.key;
+                console.log(chatText);
+                
+            }
+             else if(event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC){
+                 this.chatEnabled = false;
+             }
+             else if(event.keyCode == 13){
+                 CreateMessage(chatText.text);
+                 this.chatEnabled = false;
+                 //this.ReciveMessage(chatText.text);
+                 chatText.text = "";
+             }
+        })
+        this.gameScene.input.keyboard.on('keyup', function(event){
+            this.down = false;
+        })
+    }
+
     Update(delta){
-        
+        console.log(this.chatEnabled);
         this.AddOro(delta);
 
         // if(GameScene.chatEnabled){
@@ -105,6 +138,25 @@ export class Player
         // }
 
         this.InstanciarUnidad();
+        
+        this.ChatKeyboard();
+        this.timer += delta;
+        if(this.timer > 500){
+            if(this.gameScene.popUp != undefined){this.gameScene.popUp.Desapear();}
+            LoadMessage();
+            if(newMessage != this.gameScene.lastMessage && newMessage != ""){
+                if(newMessage == null){ return; }
+                this.gameScene.lastMessage = newMessage;
+                this.gameScene.popUp = new ChatPannel('carta', newMessage, this.physics, this);
+            }
+            
+            //if(this.newMessage == this.currentMessage){
+                
+                //this.ReciveMessage(this.newMessage);
+                //}
+            this.timer = 0;
+        }
+
         return;
     }
 }
