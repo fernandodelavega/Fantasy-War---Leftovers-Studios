@@ -1,4 +1,4 @@
-import { GameScene } from "./GameScene";
+
 
 var connection = new WebSocket('ws://192.168.0.104:8080/echo');
 connection.onopen = function () {

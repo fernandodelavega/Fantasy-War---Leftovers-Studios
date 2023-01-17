@@ -1,11 +1,12 @@
-import { GameScene } from "./GameScene";
+import { GameScene } from "./GameScene.js";
+import { Unidades } from "./Unidades.js";
 
 export class Player
 {
     base;
     unidades;
     camino
-    constructor(name, vida, oro, base, caminoSeleccionado, enemyPlayer, gameScene)
+    constructor(name, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene)
     {
         this.ID = name
         this.vida = vida;
@@ -14,6 +15,7 @@ export class Player
         this.camino = caminoSeleccionado;
         this.unidad = 1;
         this.unidades = new Array();
+        this.unidadesPrefab = unidadesPref;
         this.contador = 0;
         this.enemyPlayer = enemyPlayer;
         this.gameScene = gameScene;
@@ -54,8 +56,13 @@ export class Player
         if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1){
             this.gameScene.crear.play();
             var newUnity = new Unidades();
-            Object.assign(newUnity, this.gameScene.unidadesPrefab1[this.unidad]);
-            newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.physics);
+            Object.assign(newUnity, this.unidadesPrefab[this.unidad]);
+            if(this.ID == 1){
+                newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+            }
+            else if(this.ID == 2){
+                newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+            }
             this.AddUnidad(newUnity);
             for (var i = 0; i < this.enemyPlayer.unidades.length; i++){
                 //if(newUnity.camino == this.player2.unidades[i].camino){
@@ -72,7 +79,6 @@ export class Player
         }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyW)){
             this.siguienteCamino(true);
-            
         }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyS)){
             this.siguienteCamino(false);
@@ -87,16 +93,16 @@ export class Player
             GameScene.chatEnabled = true;
         }
         else{}
+        this.gameScene.flechaA.setY(this.gameScene.positions[this.camino]);
         return;
-        //this.gameScene.flechaA.setY(this.positions[this.camino]);
     }
     Update(delta){
         
         this.AddOro(delta);
 
-        if(this.gameScene.chatEnabled){
-            return;
-        }
+        // if(GameScene.chatEnabled){
+        //     return;
+        // }
 
         this.InstanciarUnidad();
         return;
