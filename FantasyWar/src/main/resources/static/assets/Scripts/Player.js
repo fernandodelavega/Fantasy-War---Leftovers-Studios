@@ -1,5 +1,6 @@
 import { GameScene } from "./GameScene.js";
 import { Unidades } from "./Unidades.js";
+import "./WebSocketConfig.js";
 
 var chatText;
 
@@ -44,11 +45,9 @@ export class Player
     }
     siguienteUnidad(isRight){
         if(isRight){
-
             this.unidad = (this.unidad + 1) % 3;
         }
         else if(!isRight){
-            
             this.unidad = (this.unidad - 1 < 0)? 3 - this.unidad - 1 : (this.unidad - 1) % 3;
         }
     }
@@ -124,21 +123,23 @@ export class Player
                 
             }
             else if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC){
-                 playerState = 0;
-                 chatText.text = "";
-             }
-             else if(event.keyCode == 13){
-                 //CreateMessage(chatText.text);
-                 playerState = 0;
-                 //this.ReciveMessage(chatText.text);
-                 chatText.text = "";
-             }
+                playerState = 0;
+                chatText.text = "";
+            }
+            else if(event.keyCode == 13){
+                CreateMessage(chatText.text);
+                playerState = 0;
+                //this.ReciveMessage(chatText.text);
+                chatText.text = "";
+            }
             
         })
         this.gameScene.input.keyboard.on('keyup', function(event){
             this.down = false;
         })
     }
+
+    
 
     Update(delta){
         console.log(playerState);
@@ -155,29 +156,27 @@ export class Player
             this.ChatKeyboard();
         }
 
-
         
-
-        
-        
-        
-        this.timer += delta;
-        if(this.timer > 500){
-            if(this.gameScene.popUp != undefined){this.gameScene.popUp.Desapear();}
-            LoadMessage();
-            if(newMessage != this.gameScene.lastMessage && newMessage != ""){
-                if(newMessage == null){ return; }
-                this.gameScene.lastMessage = newMessage;
-                this.gameScene.popUp = new ChatPannel('carta', newMessage, this.physics, this);
-            }
+        // this.timer += delta;
+        // if(this.timer > 500){
+        //     if(this.gameScene.popUp != undefined){this.gameScene.popUp.Desapear();}
+        //     LoadMessage();
+        //     if(newMessage != this.gameScene.lastMessage && newMessage != ""){
+        //         if(newMessage == null){ return; }
+        //         this.gameScene.lastMessage = newMessage;
+        //         this.gameScene.popUp = new ChatPannel('carta', newMessage, this.physics, this);
+        //     }
             
-            //if(this.newMessage == this.currentMessage){
+        //     //if(this.newMessage == this.currentMessage){
                 
-                //this.ReciveMessage(this.newMessage);
-                //}
-            this.timer = 0;
-        }
+        //         //this.ReciveMessage(this.newMessage);
+        //         //}
+        //     this.timer = 0;
+        // }
 
         return;
     }
+}
+function CreateMessage(text){
+    SendMessage(text);
 }

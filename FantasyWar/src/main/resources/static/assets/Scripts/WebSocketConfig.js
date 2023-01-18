@@ -1,30 +1,26 @@
+var socket = new WebSocket("ws://localhost:8080/echo");
 
+socket.onopen = function(event) {
+    console.log("Connected to server");
 
-var connection = new WebSocket('ws://192.168.0.104:8080/echo');
-connection.onopen = function () {
-    connection.send('Hi');
-}
-connection.onclose = function () {
-    connection.send("Bye");
-}
-connection.onerror = function(e) {
-    console.log("WS error: " + e);
-}
-connection.onmessage = function(msg) {
-    switch(msg){
-        case "unidad":
-            break;
-        case "chat":
-            break;
-        default:
-            
-            break;
+    /*
+    Json:{
+        type: "chat",
+        body: "mensaje",
     }
-    console.log("WS message: " + msg.data);
+    */
+};
+
+socket.onmessage = function(event) {
+    console.log("Received message from server: " + event.data);
+};
+
+socket.onclose = function(event) {
+    console.log("Disconnected from server");
+};
+
+function SendMessage(msg){
+    console.log(msg);
+    socket.send(JSON.stringify({type:"chat", body: msg}))
 }
-function sendMessage(message){
-    connection.send(message);
-}
-function Login(user, password){
-    connection.send();
-}
+// Send a message to the server
