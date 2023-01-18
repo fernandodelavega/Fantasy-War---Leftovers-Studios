@@ -19,8 +19,8 @@ socket.onclose = function(event) {
     console.log("Disconnected from server");
 };
 
-function SendMessage(msg){
+function SendMessage(type, msg){
     console.log(msg);
-    socket.send(JSON.stringify({type:"chat", body: msg}))
+    socket.send(JSON.stringify({type: type, body: msg}))
 }
 // Send a message to the server

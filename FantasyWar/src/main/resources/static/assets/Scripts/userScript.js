@@ -36,6 +36,7 @@ $(document).ready(function()
         
         for (var i = 0; i < usuarios.length; i++) {
             loadedUsuarios.push(usuarios[i]);
+			System.out.println(loadedUsuarios + "\n");
         }
     });
 	
@@ -73,6 +74,7 @@ $(document).ready(function()
         }
 		loadedUsuarios.push(usuario);
         crearUsuario(usuario);
+		SendMessage("usuario", JSON.stringify(usuario))
     
     }}
     $("#nameText").val('');
@@ -99,7 +101,7 @@ $(document).ready(function()
 				{
 					console.log("Usuario iniciado: "+loadedUsuarios[i].nombre);
 					usuario=loadedUsuarios[i].nombres;
-					
+					SendMessage("usuario", "Ha iniciado sesión el usuario: "+ nombre);
         			$("#passText").disabled=true;
         			$("#initButton").disabled=true;
 				}
