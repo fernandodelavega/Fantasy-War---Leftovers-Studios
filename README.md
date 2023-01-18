@@ -4,6 +4,11 @@
 ## Game in development for Juegos en Red
  - Name: *Fantasy War*
  - Description: Fantasy RTS 1 VS 1 
+
+[![Watch the video](https://img.youtube.com/vi/05a0YlsGIGo/maxresdefault.jpg)](https://youtu.be/05a0YlsGIGo)
+
+05a0YlsGIGo
+
 ## Developers: 
 | Name                      | Official email                   | GitHub             |
 | :---                      |    :----:                        |          ---:      |
@@ -32,7 +37,6 @@ Una sola entrega.
 
 ## Mecánicas de juego:
 
-https://youtu.be/05a0YlsGIGo
 
 ### Jugabilidad:
 
