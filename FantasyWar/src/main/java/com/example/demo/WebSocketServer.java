@@ -1,4 +1,5 @@
 package com.example.demo;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,9 +32,10 @@ public class WebSocketServer extends TextWebSocketHandler{
         String[] response = {};
         System.out.println("Received message from client: " + message.getPayload());
         ObjectMapper mapper = new ObjectMapper();
+        JsonObject json = new JsonObject();
         try {
             JsonNode node = mapper.readTree(message.getPayload());
-            System.out.println(node.get("type").asText());
+            //System.out.println(node.get("type").asText());
             if(node.get("type").asText().equals("usuario")){
 
             }
@@ -41,6 +44,11 @@ public class WebSocketServer extends TextWebSocketHandler{
                 chatController.NewMessage(node.get("body").asText());
                 try {
                     response = chatController.GetMessage();
+
+
+                    json.addProperty("type", "chat");
+                    json.addProperty("body", response[response.length-1]);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -52,7 +60,7 @@ public class WebSocketServer extends TextWebSocketHandler{
             	System.out.println("fuera");
             }
             try {
-                handleTextMessage((WebSocketSession)session, (CharSequence)Arrays.toString(response));
+                handleTextMessage((WebSocketSession)session, (CharSequence) json.toString());
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

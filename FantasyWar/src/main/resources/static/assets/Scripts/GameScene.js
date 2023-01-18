@@ -8,6 +8,7 @@ import { Espectator } from './espectator.js';
 var textOro1;
 var textOro2;
 var chatText;
+
 var newMessage;
 var chatEnabled = false;
 var chatMessages = [];
@@ -257,9 +258,8 @@ export class GameScene extends Phaser.Scene {
         // this.down = false;
 
         // this.currentMessage = '';
-        // this.timer = 0;
-
-        
+        this.timer = 0;
+        gamescene = this;
 
     }
 
@@ -339,8 +339,16 @@ export class GameScene extends Phaser.Scene {
         //this.player1.Update(delta);
         textOro1.setText('GOLD: ' + this.player1.oro);
         textOro2.setText('GOLD: ' + this.player2.oro);
-
-        
+        if(this.popUp != undefined){
+            this.timer += delta;
+            if(this.timer > 500){
+                
+                this.popUp.Desapear();
+                this.popUp = undefined;
+                this.timer = 0;
+                
+            }
+        }
         
     }
 
@@ -363,32 +371,36 @@ export class GameScene extends Phaser.Scene {
         }
     }
 
-    ReceiveMessage() { }
+    ReceiveMessage(message) {
+        console.log("recivido)");
+        this.popUp = new ChatPannel('carta', message, this.physics, this);
+        
+    }
 
 }
 
 
-function LoadMessage(callback) {
-	$.ajax({
-    method:"GET",
-    url:"http://localhost:8080/chat",
-    processData:false,
-    headers:{"Content-Type":"application/json"}
-    }).done(function(message) {
-        newMessage = message[message.length - 1];
-    })
-}
+// function LoadMessage(callback) {
+// 	$.ajax({
+//     method:"GET",
+//     url:"http://localhost:8080/chat",
+//     processData:false,
+//     headers:{"Content-Type":"application/json"}
+//     }).done(function(message) {
+//         newMessage = message[message.length - 1];
+//     })
+// }
 
-//Crear un usuario
-function CreateMessage(message) {
-    $.ajax({
-    method:"POST",
-    url:"http://localhost:8080/chat",
-    data:JSON.stringify(message),
-    processData:false,
-    headers:{"Content-Type":"application/json"}
-    }).done(function(message) {
-		console.log(message)
-    })
-}
+// //Crear un usuario
+// function CreateMessage(message) {
+//     $.ajax({
+//     method:"POST",
+//     url:"http://localhost:8080/chat",
+//     data:JSON.stringify(message),
+//     processData:false,
+//     headers:{"Content-Type":"application/json"}
+//     }).done(function(message) {
+// 		console.log(message)
+//     })
+// }
 

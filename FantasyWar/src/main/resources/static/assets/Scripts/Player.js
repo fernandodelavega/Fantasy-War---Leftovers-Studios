@@ -156,27 +156,9 @@ export class Player
             this.ChatKeyboard();
         }
 
-        
-        // this.timer += delta;
-        // if(this.timer > 500){
-        //     if(this.gameScene.popUp != undefined){this.gameScene.popUp.Desapear();}
-        //     LoadMessage();
-        //     if(newMessage != this.gameScene.lastMessage && newMessage != ""){
-        //         if(newMessage == null){ return; }
-        //         this.gameScene.lastMessage = newMessage;
-        //         this.gameScene.popUp = new ChatPannel('carta', newMessage, this.physics, this);
-        //     }
-            
-        //     //if(this.newMessage == this.currentMessage){
-                
-        //         //this.ReciveMessage(this.newMessage);
-        //         //}
-        //     this.timer = 0;
-        // }
-
         return;
     }
 }
 function CreateMessage(text){
-    SendMessage(text);
+    SendMessage("chat", text);
 }
