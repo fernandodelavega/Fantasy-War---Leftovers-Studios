@@ -32,6 +32,8 @@ Una sola entrega.
 
 ## Mecánicas de juego:
 
+https://youtu.be/05a0YlsGIGo
+
 ### Jugabilidad:
 
 Juego multijugador online de 2 personas, con partidas en las que los jugadores intentan destruir la base enemiga mientras defienden la suya, enviando tropas por los distintos caminos. Las tropas cuestan oro, del cual se genera uno cada 3 segundos.
