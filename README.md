@@ -150,7 +150,7 @@ Los efectos de sonido son de 16 bits y se han creado usando el programa "Chipton
 Redes sociales: Instagram ()
 ## Diagrama de Clases:
 
-![Diagrama de clases](https://user-images.githubusercontent.com/115580903/208800649-2ae122f5-8432-47fe-a9e3-7322c84d1428.PNG)
+![Diagrama de clases](https://user-images.githubusercontent.com/115580903/213111010-4d705ce6-cbeb-465a-8624-0e0679f1c049.png)
 
 
 ## Instrucciones de Ejecución:
