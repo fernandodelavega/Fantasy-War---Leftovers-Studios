@@ -28,7 +28,7 @@ public class FantasyWarApplication implements WebSocketConfigurer {
 	}
 	@Bean
 	public WebSocketHandler messageHandler() {
-		return new WebSocketMessageHandler();
+		return new WebSocketServer();
 	}
 
 }

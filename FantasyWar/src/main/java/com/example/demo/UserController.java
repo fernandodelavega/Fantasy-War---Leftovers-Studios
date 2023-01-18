@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.io.File;
+import java.util.Random;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,97 +30,81 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/usuarios")
 public class UserController {
 
-	Map<Long, User> usuarios = new ConcurrentHashMap<>(); 
-	AtomicLong nextId = new AtomicLong(0);
+	Random rand = new Random();
+	public static File users = new File("src\\main\\java\\com\\example\\demo\\usuarios.txt");
+	public static TextToFile ttf = new TextToFile();
+
 	
-	@GetMapping
-	public Collection<User> items() throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader("src\\main\\java\\com\\example\\demo\\usuarios.txt"));
-        while(br.readLine()!=null) {
-        User usuario=new User();
-        long id = nextId.incrementAndGet();
-        usuario.setId(id);
-        String nombre=br.readLine();
-        String contra=br.readLine();
-        usuario.setNombre(nombre);
-        usuario.setContra(contra);
-        usuarios.put(id, usuario);
-        }
-        br.close();
-        System.out.println(usuarios);
-        return usuarios.values();
+	public void NewUser(String user, String pass){
+		ttf.NewText(users, (Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9))));
+		ttf.NewText(users, user);
+		ttf.NewText(users, pass);
+	}
+	
+
+	public String[] GetUser() throws IOException {
 		
+		return ttf.GetText(users);
+	}
+	
+	
+	public static void main() throws IOException {
+
 		
 	}
 
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public User nuevoUser(@RequestBody User usuario) {
+	// Map<Long, User> usuarios = new ConcurrentHashMap<>(); 
+	// AtomicLong nextId = new AtomicLong(0);
+	
+	// @GetMapping
+	// public Collection<User> items() throws IOException{
+	// 	BufferedReader br = new BufferedReader(new FileReader("src\\main\\java\\com\\example\\demo\\usuarios.txt"));
+    //     while(br.readLine()!=null) {
+    //     User usuario=new User();
+    //     long id = nextId.incrementAndGet();
+    //     usuario.setId(id);
+    //     String nombre=br.readLine();
+    //     String contra=br.readLine();
+    //     usuario.setNombre(nombre);
+    //     usuario.setContra(contra);
+    //     usuarios.put(id, usuario);
+    //     }
+    //     br.close();
+    //     System.out.println(usuarios);
+    //     return usuarios.values();
+		
+		
+	// }
 
-		long id = nextId.incrementAndGet();
-		usuario.setId(id);
-		usuarios.put(id, usuario);
-		try {
-		    String carga = "Existe \n" + usuario.getNombre()+'\n'+usuario.getContra()+'\n';
-		    Files.write(Paths.get("src\\main\\java\\com\\example\\demo\\usuarios.txt"), carga.getBytes(), StandardOpenOption.APPEND);
-		} catch (IOException e) {
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();
-		    }
+	// @PostMapping
+	// @ResponseStatus(HttpStatus.CREATED)
+	// public User nuevoUser(@RequestBody User usuario) {
+
+	// 	long id = nextId.incrementAndGet();
+	// 	usuario.setId(id);
+	// 	usuarios.put(id, usuario);
+	// 	try {
+	// 	    String carga = "Existe \n" + usuario.getNombre()+'\n'+usuario.getContra()+'\n';
+	// 	    Files.write(Paths.get("src\\main\\java\\com\\example\\demo\\usuarios.txt"), carga.getBytes(), StandardOpenOption.APPEND);
+	// 	} catch (IOException e) {
+	// 	      System.out.println("An error occurred.");
+	// 	      e.printStackTrace();
+	// 	    }
 		    
-			/*FileWriter myWriter = new FileWriter("src\\main\\java\\com\\example\\demo\\usuarios.txt");
-		      myWriter.append(usuario.getNombre()+'\n'+usuario.getContra()+'\n');
-		      myWriter.flush();
-		      myWriter.close();
+	// 		/*FileWriter myWriter = new FileWriter("src\\main\\java\\com\\example\\demo\\usuarios.txt");
+	// 	      myWriter.append(usuario.getNombre()+'\n'+usuario.getContra()+'\n');
+	// 	      myWriter.flush();
+	// 	      myWriter.close();
 		      
-		      System.out.println("Successfully wrote to the file.");
-		    } catch (IOException e) {
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();
-		    }*/
+	// 	      System.out.println("Successfully wrote to the file.");
+	// 	    } catch (IOException e) {
+	// 	      System.out.println("An error occurred.");
+	// 	      e.printStackTrace();
+	// 	    }*/
 
-		return usuario;
-	}
+	// 	return usuario;
+	// }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<User> actulizaItem(@PathVariable long id, @RequestBody User updtUsuario) {
-
-		User savedUsuario = usuarios.get(updtUsuario.getId());
-
-		if (savedUsuario != null) {
-
-			usuarios.put(id, updtUsuario);
-
-			return new ResponseEntity<>(updtUsuario, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<User> getItem(@PathVariable long id) {
-
-		User savedItem = usuarios.get(id);
-
-		if (savedItem != null) {
-			return new ResponseEntity<>(savedItem, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<User> borraItem(@PathVariable long id) {
-
-		User savedUsuario = usuarios.get(id);
-
-		if (savedUsuario != null) {
-			usuarios.remove(savedUsuario.getId());
-			return new ResponseEntity<>(savedUsuario, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
-
+	
 }
 

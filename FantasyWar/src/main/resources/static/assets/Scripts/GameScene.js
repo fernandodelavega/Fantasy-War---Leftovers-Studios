@@ -8,6 +8,7 @@ import { Espectator } from './espectator.js';
 var textOro1;
 var textOro2;
 var chatText;
+
 var newMessage;
 var chatEnabled = false;
 var chatMessages = [];
@@ -95,7 +96,7 @@ export class GameScene extends Phaser.Scene {
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.coin.anims.play('idle');
@@ -104,99 +105,99 @@ export class GameScene extends Phaser.Scene {
         this.anims.create({
             key: 'goblinR',
             frames: this.anims.generateFrameNumbers('goblinR', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'goblinB',
             frames: this.anims.generateFrameNumbers('goblinB', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'magoR',
             frames: this.anims.generateFrameNumbers('magoR', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'magoB',
             frames: this.anims.generateFrameNumbers('magoB', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'golemR',
             frames: this.anims.generateFrameNumbers('golemR', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
         this.anims.create({
             key: 'golemB',
             frames: this.anims.generateFrameNumbers('golemB', { start: 0, end: 3 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: -1
         });
 
         this.anims.create({
             key: 'goblinRAT',
             frames: this.anims.generateFrameNumbers('goblinRA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'goblinBAT',
             frames: this.anims.generateFrameNumbers('goblinBA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'magoRAT',
             frames: this.anims.generateFrameNumbers('magoRA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'magoBAT',
             frames: this.anims.generateFrameNumbers('magoBA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'golemRAT',
             frames: this.anims.generateFrameNumbers('golemRA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
         this.anims.create({
             key: 'golemBAT',
             frames: this.anims.generateFrameNumbers('golemBA', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 1
         });
 
         this.anims.create({
             key: 'goblinRHit',
             frames: this.anims.generateFrameNumbers('goblinRH', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 0
         });
         this.anims.create({
             key: 'goblinBHit',
             frames: this.anims.generateFrameNumbers('goblinBH', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 0
         });
         this.anims.create({
             key: 'magoRHit',
             frames: this.anims.generateFrameNumbers('magoRH', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 0
         });
         this.anims.create({
             key: 'magoBHit',
             frames: this.anims.generateFrameNumbers('magoBH', { start: 0, end: 2 }),
-            frameRate: 60,
+            frameRate: 10,
             repeat: 0
         });
         
@@ -210,18 +211,6 @@ export class GameScene extends Phaser.Scene {
         this.cardsP2.push(this.carta2P2 = new carta((1920/8)*6, 1000, 'carta', 'magoB', this.physics, 1));
         this.cardsP2.push(this.carta1P2 = new carta((1920/8)*5, 1000, 'carta', 'golemB', this.physics, 0));
         
-        this.espectators = new Array();
-
-        this.graphics1 = this.add.graphics();
-        this.base1 = new Base(100, 120, 520, 'pina', this.physics, this.graphics1);
-        //this.player1 = new Player(1000, 10, this.base1, 1);
-        this.addPlayer(1);
-
-        this.graphics2 = this.add.graphics();
-        this.base2 = new Base(100, 1800, 520, 'pina', this.physics, this.graphics2);
-        //this.player2 = new Player(1000, 10, this.base2, 1);
-        this.addPlayer(2);
-
         this.positions = new Array();
         this.positions.push(900);
         this.positions.push(580);
@@ -237,6 +226,19 @@ export class GameScene extends Phaser.Scene {
         this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS,'magoBAT','magoBHit'));
         this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB',this.goblinS,'goblinBAT','goblinBHit'));
 
+        this.espectators = new Array();
+
+        this.graphics1 = this.add.graphics();
+        this.base1 = new Base(100, 120, 520, 'pina', this.physics, this.graphics1);
+        //this.player1 = new Player(1000, 10, this.base1, 1);
+        //this.addPlayer(1);
+
+        this.graphics2 = this.add.graphics();
+        this.base2 = new Base(100, 1800, 520, 'pina', this.physics, this.graphics2);
+        //this.player2 = new Player(1000, 10, this.base2, 1);
+        //this.addPlayer(2);
+
+
         //teclado
         this.cursors = this.input.keyboard.createCursorKeys();
         this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -249,31 +251,43 @@ export class GameScene extends Phaser.Scene {
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         this.keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
 
+
         
         //chat
-        chatText = this.add.text(800, 700, '', {fontFamily: 'PS2P'});
-        this.down = false;
+        // chatText = this.add.text(800, 700, '', {fontFamily: 'PS2P'});
+        // this.down = false;
 
-        this.currentMessage = '';
+        // this.currentMessage = '';
         this.timer = 0;
-
-        chatEnabled = false;
+        gamescene = this;
 
     }
 
     update(time, delta){
-
-        //if()
+        
+        if(this.player1 == undefined || this.player2 == undefined){
+            return;
+        }
         //Finalizar escena
         if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
+            this.player1.unidades = [];
+            this.player2.unidades = [];
+            this.player1.oro = 5;
+            this.player2.oro = 5;
             if (this.player1.base.vida <= 0 && this.player2.base.vida > 0){
+                this.player1.base.vida = 100;
+                this.player2.base.vida = 100;
                 this.scene.start('player2W');
             }
             else if (this.player2.base.vida <=0 && this.player1.base.vida > 0){
+                this.player1.base.vida = 100;
+                this.player2.base.vida = 100;
                 this.scene.start('player1W');
             }
             else {
-                this.scena.start('draw');
+                this.player1.base.vida = 100;
+                this.player2.base.vida = 100;
+                this.scene.start('draw');
             }
         }
 
@@ -322,99 +336,79 @@ export class GameScene extends Phaser.Scene {
         }
 
         //update players
-        this.player1.Update(delta);
-        this.player2.Update(delta);
+        if(this.player1.id==myId){
+            this.player1.Update(delta);
+        }else if (this.player2.id==myId){
+            this.player2.Update(delta);
+        }
+        
+        //this.player2.Update(delta);
+        
+        //this.player1.Update(delta);
         textOro1.setText('GOLD: ' + this.player1.oro);
         textOro2.setText('GOLD: ' + this.player2.oro);
-
-        
-        this.ChatKeyboard();
-        this.timer += delta;
-        if(this.timer > 500){
-            if(this.popUp != undefined){this.popUp.Desapear();}
-            LoadMessage();
-            if(newMessage != this.lastMessage && newMessage != ""){
-                if(newMessage == null){ return; }
-                this.lastMessage = newMessage;
-                this.popUp = new ChatPannel('carta', newMessage, this.physics, this);
-
-            }
-            
-            //if(this.newMessage == this.currentMessage){
+        if(this.popUp != undefined){
+            this.timer += delta;
+            if(this.timer > 500){
                 
-                //this.ReciveMessage(this.newMessage);
-                //}
-            this.timer = 0;
+                this.popUp.Desapear();
+                this.popUp = undefined;
+                this.timer = 0;
+                
+            }
         }
+        
     }
 
-    ChatKeyboard(){
-        this.input.keyboard.on('keydown', function(event){
-            if(!chatEnabled) {return;}
-            console.log('a');
-            if(this.down){return;}
-            this.down = true;
-            if(event.keyCode == 8 && chatText.text.length > 0){
-                chatText.text = chatText.text.substr(0, chatText.text.length - 1);
-            }
-            else if(event.keyCode == 32 ^ (event.keyCode >= 48 && event.keyCode <= 90)){
-                
-                chatText.text += event.key;
-                console.log(chatText);
-                
-            }
-            else if(event.keyCode === Phaser.Input.Keyboard.KeyCodes.ESC){
-                chatEnabled = false;
-            }
-            else if(event.keyCode == 13){
-                CreateMessage(chatText.text);
-                chatEnabled = false;
-                //this.ReciveMessage(chatText.text);
-                chatText.text = "";
-            }
-        })
-        this.input.keyboard.on('keyup', function(event){
-            this.down = false;
-        })
-    }
+    
     addPlayer(id) {
         if(this.player1 == undefined){
-            this.player1 = new Player(id, 1000, 10, this.base1, 1, this.player2, this);
+            this.player1 = new Player(id, 100, 5, this.base1, 1, this.unidadesPrefab1, this.player2, this, this.flechaA);
+            try{
+            this.player2.enemyPlayer = this.player1;
+            }catch{}
         }
         else if(this.player2 == undefined){
-            this.player2 = new Player(id, 1000, 10, this.base2, 1, this.player1, this);
+            this.player2 = new Player(id, 100, 5, this.base2, 1, this.unidadesPrefab2, this.player1, this, this.flechaB);
+            try{
+            this.player1.enemyPlayer = this.player2;
+            }catch{}
         }
         else {
             this.espectators.push(new Espectator(id));
         }
     }
 
-    ReceiveMessage() { }
+    ReceiveMessage(message) {
+        console.log("recivido)");
+        this.popUp = new ChatPannel('carta', message, this.physics, this);
+        
+    }
 
 }
 
 
-function LoadMessage(callback) {
-	$.ajax({
-    method:"GET",
-    url:"http://localhost:8080/chat",
-    processData:false,
-    headers:{"Content-Type":"application/json"}
-    }).done(function(message) {
-        newMessage = message[message.length - 1];
-    })
-}
+// function LoadMessage(callback) {
+// 	$.ajax({
+//     method:"GET",
+//     url:"http://localhost:8080/chat",
+//     processData:false,
+//     headers:{"Content-Type":"application/json"}
+//     }).done(function(message) {
+//         newMessage = message[message.length - 1];
+//     })
+// }
 
-//Crear un usuario
-function CreateMessage(message) {
-    $.ajax({
-    method:"POST",
-    url:"http://localhost:8080/chat",
-    data:JSON.stringify(message),
-    processData:false,
-    headers:{"Content-Type":"application/json"}
-    }).done(function(message) {
-		console.log(message)
-    })
-}
+// //Crear un usuario
+// function CreateMessage(message) {
+//     $.ajax({
+//     method:"POST",
+//     url:"http://localhost:8080/chat",
+//     data:JSON.stringify(message),
+//     processData:false,
+//     headers:{"Content-Type":"application/json"}
+//     }).done(function(message) {
+// 		console.log(message)
+//     })
+// }
 

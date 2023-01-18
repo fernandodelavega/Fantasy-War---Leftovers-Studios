@@ -1,30 +1,59 @@
-import { GameScene } from "./GameScene";
-
-var connection = new WebSocket('ws://192.168.0.104:8080/echo');
-connection.onopen = function () {
-    connection.send('Hi');
-}
-connection.onclose = function () {
-    connection.send("Bye");
-}
-connection.onerror = function(e) {
-    console.log("WS error: " + e);
-}
-connection.onmessage = function(msg) {
-    switch(msg){
-        case "unidad":
-            break;
-        case "chat":
-            break;
-        default:
-            
-            break;
+var gamescene;
+var myId;
+var sent = false;
+var socket = new WebSocket("ws://localhost:8080/echo");
+socket.onopen = function(event) {
+    console.log("Connected to server");
+    
+    /*
+    Json:{
+        type: "chat",
+        body: "mensaje",
     }
-    console.log("WS message: " + msg.data);
+    */
+   /*
+    JSON:{
+        type: "unidad",
+        player: int "1, 2",
+        numUnidad: int,
+        camino: int
+    }
+    */
 }
-function sendMessage(message){
-    connection.send(message);
+
+socket.onmessage = function(event) {
+    console.log("Received message from server: " + event.data);
+    if(JSON.parse(event.data).type == "chat"){
+        gamescene.ReceiveMessage(JSON.parse(event.data)["body"]);
+    }
+    if(JSON.parse(event.data).type == "user"){
+        gamescene.addPlayer(JSON.parse(event.data)["body"]);
+        if(sent == false){
+            return;
+        }
+        if(myId==undefined){
+            myId=JSON.parse(event.data)["body"];
+            sent = false;
+        }
+    }
+    if(JSON.parse(event.data).type == "unidad"){
+        if(JSON.parse(event.data).player == 1){
+            gamescene.player1.Instanciate(JSON.parse(event.data).unidad, JSON.parse(event.data).camino);
+        }else if(JSON.parse(event.data).player == 2){
+            gamescene.player2.Instanciate(JSON.parse(event.data).unidad, JSON.parse(event.data).camino);
+        }
+    }
 }
-function Login(user, password){
-    connection.send();
+
+socket.onclose = function(event) {
+    console.log("Disconnected from server");
 }
+
+function SendMessage(type, msg){
+    console.log(msg);
+    sent = true;
+    socket.send(JSON.stringify({type:type, body: msg}))
+}
+
+
+// Send a message to the server
