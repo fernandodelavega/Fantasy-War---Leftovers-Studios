@@ -12,7 +12,7 @@ export class Player
     camino;
     constructor(name, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene, flecha)
     {
-        this.ID = name
+        this.id = name
         this.vida = vida;
         this.oro = oro;
         this.base = base;
@@ -61,28 +61,32 @@ export class Player
     InstanciarUnidad(){
 
         if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1 && !this.chatEnabled){
-            this.gameScene.crear.play();
-            var newUnity = new Unidades();
-            Object.assign(newUnity, this.unidadesPrefab[this.unidad]);
-            if(this.ID == 1){
-                newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
-            }
-            else if(this.ID == 2){
-                newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
-            }
-            this.AddUnidad(newUnity);
-            for (var i = 0; i < this.enemyPlayer.unidades.length; i++){
-                //if(newUnity.camino == this.player2.unidades[i].camino){
-                if(newUnity.y == this.enemyPlayer.unidades[i].y){
-                    //console.log(newUnity.camino, ', ', this.player2.unidades[i].camino);
-                //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player2.unidades[i].gameobject.y) < 10){
-                    newUnity.objectives.push(this.enemyPlayer.unidades[i]);
-                    this.enemyPlayer.unidades[i].objectives.push(newUnity);
+            
+            var player;
+            var newUnidad = this.unidad;
+            var camino = this.camino;
+            if(this.gameScene.player1.id == myId){
+                player = 1;
+                newUnidad = this.unidad;
+                camino = this.camino;
+                var unidad = {
+                    player: player,
+                    numUnidad: newUnidad,
+                    road: camino
                 }
+                SendMessage("unidad", JSON.stringify(unidad));//newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
             }
-            newUnity.start(1);
-            this.oro--;
-            newUnity = null;
+            else if(this.gameScene.player2.id == myId){
+                player = 2;
+                newUnidad = this.unidad;
+                camino = this.camino;
+                var unidad = {
+                    player: player,
+                    numUnidad: newUnidad,
+                    road: camino
+                }
+                SendMessage("unidad", JSON.stringify(unidad));//newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+            }
         }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyW) && !this.chatEnabled){
             this.siguienteCamino(true);
@@ -138,7 +142,27 @@ export class Player
             this.down = false;
         })
     }
+    Instanciate(numUnidad, camino){
+        this.gameScene.crear.play();
+        var newUnity = new Unidades();
+        Object.assign(newUnity, this.unidadesPrefab[numUnidad]);
 
+        newUnity.instance(newUnity, this.base.x, this.gameScene.positions[camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+
+        this.AddUnidad(newUnity);
+        for (var i = 0; i < this.enemyPlayer.unidades.length; i++){
+            //if(newUnity.camino == this.player2.unidades[i].camino){
+            if(newUnity.y == this.enemyPlayer.unidades[i].y){
+                //console.log(newUnity.camino, ', ', this.player2.unidades[i].camino);
+            //if(Phaser.Math.Distance.Between(0, newUnity.gameobject.y, 0, this.player2.unidades[i].gameobject.y) < 10){
+                newUnity.objectives.push(this.enemyPlayer.unidades[i]);
+                this.enemyPlayer.unidades[i].objectives.push(newUnity);
+            }
+        }
+        newUnity.start(1);
+        this.oro--;
+        newUnity = null;
+    }
     
 
     Update(delta){

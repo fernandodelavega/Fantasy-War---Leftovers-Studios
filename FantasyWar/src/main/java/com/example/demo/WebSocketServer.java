@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -11,23 +12,46 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 
+import jakarta.websocket.Session;
+
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 
 @Controller
 public class WebSocketServer extends TextWebSocketHandler{
+	private static Set<WebSocketSession> sessions = new CopyOnWriteArraySet<>();
+	private static Set<WebSocketSession> sessionsPerClient = new CopyOnWriteArraySet<>();
+
+	// private static Set<InetAddress> localHost = new CopyOnWriteArraySet<>();
     ChatController chatController = new ChatController();
     UserController userController = new UserController();
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) {
+    public void afterConnectionEstablished(WebSocketSession session) throws UnknownHostException {
+    	
+        // for(InetAddress l : localHost) {
+    	// 	if(l == InetAddress.getLocalHost())
+    	// 		return;
+    	// }
+    	// localHost.add(InetAddress.getLocalHost());
+    	sessionsPerClient.add(session);
+        sessions.add(session);
+        if(sessionsPerClient.size() == 2){
+            sessions.remove(session);
+            sessionsPerClient = new CopyOnWriteArraySet<>();
+        }
+    	System.out.println(sessions);
     	
         System.out.println("Client connected: " + session.getId());
     }
 
     @Override
-    public void handleTextMessage(WebSocketSession session, TextMessage message) {
+    public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         System.out.println("mensaje recivido");
         String[] response = {};
         System.out.println("Received message from client: " + message.getPayload());
@@ -35,17 +59,25 @@ public class WebSocketServer extends TextWebSocketHandler{
         JsonObject json = new JsonObject();
         try {
             JsonNode node = mapper.readTree(message.getPayload());
-            System.out.println(node.get("type").asText());
+            
+            
             if(node.get("type").asText().equals("usuario1")){
+            	System.out.println("Nuevo usuario");
                 
-                for(int i = 1; i<userController.GetUser().length;i=i+3){
-                    if(userController.GetUser()[i].equals(node.get("body").get("nombre").asText())){
-                        System.out.println("Usuario ya en uso");
-                    }else{
-                        userController.NewUser(node.get("body").get("nombre").asText(),node.get("body").get("contra").asText())
-                        json.addProperty("type":"user");
-                        json.addProperty("body": userController.GetUser()[i-1]);
-                    }
+            	if(userController.GetUser().length == 0) {
+            		userController.NewUser(mapper.readTree(node.get("body").asText()).get("nombre").asText(), mapper.readTree(node.get("body").asText()).get("contra").asText());
+                    json.addProperty("type","user");
+                    json.addProperty("body", userController.GetUser()[0]);
+            	}else {            		
+            		for(int i = 1; i<userController.GetUser().length;i=i+3){
+            			if(userController.GetUser()[i].equals(mapper.readTree(node.get("body").asText()).get("nombre").asText())){
+            				System.out.println("Usuario ya en uso");
+            			}else{
+            				userController.NewUser(mapper.readTree(node.get("body").asText()).get("nombre").asText(),mapper.readTree(node.get("body").asText()).get("contra").asText());
+            				json.addProperty("type","user");
+            				json.addProperty("body", userController.GetUser()[i-1]);
+            			}
+            	}
                 }
 
             
@@ -75,11 +107,11 @@ public class WebSocketServer extends TextWebSocketHandler{
             }else if(node.get("type").asText().equals("usuario2")){
                 System.out.println("usuario");
                 for(int i = 1; i<userController.GetUser().length;i=i+3){
-                    if(userController.GetUser()[i].equals(node.get("body").get("nombre").asText())){
-                        if(userController.GetUser()[i+1].equals(node.get("body").get("contra").asText())){
+                    if(userController.GetUser()[i].equals(mapper.readTree(node.get("body").asText()).get("nombre").asText())){
+                        if(userController.GetUser()[i+1].equals(mapper.readTree(node.get("body").asText()).get("contra").asText())){
                            System.out.println("usuario coincide");
-                           json.addProperty("type":"user");
-                           json.addProperty("body": userController.GetUser()[i-1]);
+                           json.addProperty("type","user");
+                           json.addProperty("body", userController.GetUser()[i-1]);
                         }else{System.out.println("contraseña incorrecto");}
                     }else{
                         System.out.println("usuario incorrecto");
@@ -106,7 +138,11 @@ public class WebSocketServer extends TextWebSocketHandler{
                 }
             }
             else if(node.get("type").asText().equals("unidad")){
-                
+            	System.out.println("unidad nueva");
+                json.addProperty("type", "unidad");
+                json.addProperty("player", mapper.readTree(node.get("body").asText()).get("player").asText());
+                json.addProperty("unidad", mapper.readTree(node.get("body").asText()).get("numUnidad").asText());
+                json.addProperty("camino", mapper.readTree(node.get("body").asText()).get("road").asText());
             }
             else {
             	System.out.println("fuera");
@@ -125,14 +161,18 @@ public class WebSocketServer extends TextWebSocketHandler{
             e.printStackTrace();
         }
     }
-
-
-    public void afterConnectionClossed(WebSocketSession session) {
+    
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    	sessions.remove(session);
         System.out.println("Client disconnected: " + session.getId());
     }
 
     protected void handleTextMessage(WebSocketSession session,CharSequence message) throws Exception {
-
-        session.sendMessage(new TextMessage(message));
+    	for(WebSocketSession s : sessions) {
+    		if(s.isOpen()) {
+    			s.sendMessage(new TextMessage(message));
+    		}
+    	}
     }
 }

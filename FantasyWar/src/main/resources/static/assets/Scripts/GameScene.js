@@ -265,7 +265,9 @@ export class GameScene extends Phaser.Scene {
 
     update(time, delta){
         
-        //if()
+        if(this.player1 == undefined || this.player2 == undefined){
+            return;
+        }
         //Finalizar escena
         if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
             this.player1.unidades = [];
@@ -335,9 +337,9 @@ export class GameScene extends Phaser.Scene {
 
         //update players
         if(this.player1.id==myId){
-            this.player1.update(delta);
+            this.player1.Update(delta);
         }else if (this.player2.id==myId){
-            this.player2.update(delta);
+            this.player2.Update(delta);
         }
         
         //this.player2.Update(delta);

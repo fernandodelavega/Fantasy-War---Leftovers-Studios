@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.io.FileReader;
 import java.io.BufferedReader;
+import java.io.File;
+import java.util.Random;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +30,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/usuarios")
 public class UserController {
 
+	Random rand = new Random();
 	public static File users = new File("src\\main\\java\\com\\example\\demo\\usuarios.txt");
 	public static TextToFile ttf = new TextToFile();
 
 	
 	public void NewUser(String user, String pass){
-		ttf.NewText(users, (rand()%9).toString()+(rand()%9).toString()+(rand()%9).toString()+(rand()%9).toString()+(rand()%9).toString()+(rand()%9).toString()+(rand()%9).toString()+(rand()%9).toString()+(rand()%9).toString()+(rand()%9).toString());
+		ttf.NewText(users, (Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9)))+(Integer.toString(rand.nextInt(9))));
 		ttf.NewText(users, user);
 		ttf.NewText(users, pass);
 	}
