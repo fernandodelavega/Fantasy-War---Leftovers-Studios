@@ -73,7 +73,7 @@ $(document).ready(function()
         }
 		loadedUsuarios.push(usuario);
         crearUsuario(usuario);
-		SendMessage("usuario", JSON.stringify(usuario))
+		SendMessage("usuario1", JSON.stringify(usuario))
     
     }}
     $("#nameText").val('');
@@ -100,7 +100,7 @@ $(document).ready(function()
 				{
 					console.log("Usuario iniciado: "+loadedUsuarios[i].nombre);
 					usuario=loadedUsuarios[i].nombres;
-					SendMessage("usuario", "Ha iniciado sesión el usuario: "+ nombre);
+					SendMessage("usuario2", "Ha iniciado sesión el usuario: "+ nombre);
         			$("#passText").disabled=true;
         			$("#initButton").disabled=true;
 				}
