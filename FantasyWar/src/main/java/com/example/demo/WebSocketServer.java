@@ -33,34 +33,8 @@ public class WebSocketServer extends TextWebSocketHandler{
         try {
             JsonNode node = mapper.readTree(message.getPayload());
             System.out.println(node.get("type").asText());
-            if(node.get("type").asText().equals("usuario1")){
-                System.out.println("usuario");
-                String nombre=": ";
-                String val1 = ":";
-                String val2 = ",";
-                char act;
-                boolean encontrado = false;
-                String user = node.get("body").asText();
-                for(int i=0; i<user.length() ; i++){
-                    if(encontrado == true){
-                        if(user.charAt(i)==val2.charAt(0)){
-                            break;
-                        }
-                        act = user.charAt(i);
-                        nombre = nombre + act;
-                    }else if (user.charAt(i)==val1.charAt(0)){
-                        encontrado=true;
-                    }
-                    
+            if(node.get("type").asText().equals("usuario")){
 
-                }
-                
-                System.out.println("se ha iniciado sesion con el usuario"+ nombre);
-            }else if(node.get("type").asText().equals("usuario2")){
-                System.out.println("usuario");
-                
-                
-                System.out.println(node.get("body").asText());
             }
             else if(node.get("type").asText().equals("chat")){
             	System.out.println("dentro");
