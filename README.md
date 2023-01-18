@@ -5,9 +5,12 @@
  - Name: *Fantasy War*
  - Description: Fantasy RTS 1 VS 1 
 
-[![Watch the video](https://img.youtube.com/vi/05a0YlsGIGo/maxresdefault.jpg)](https://youtu.be/05a0YlsGIGo)
 
-05a0YlsGIGo
+
+
+https://user-images.githubusercontent.com/115580903/213113743-261afbc1-30ec-4564-9ef3-9e13746a25bb.mp4
+
+
 
 ## Developers: 
 | Name                      | Official email                   | GitHub             |
