@@ -68,12 +68,13 @@ $(document).ready(function()
         
         
         var usuario = {
-            nombre: nombre,
+            
+			nombre: nombre,
             contra: contra
         }
 		loadedUsuarios.push(usuario);
-        crearUsuario(usuario);
-		SendMessage("usuario1", JSON.stringify(usuario))
+        //crearUsuario(usuario);
+		SendMessage("usuario1", usuario)
     
     }}
     $("#nameText").val('');

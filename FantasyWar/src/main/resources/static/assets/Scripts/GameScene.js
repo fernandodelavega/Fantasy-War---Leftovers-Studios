@@ -231,12 +231,12 @@ export class GameScene extends Phaser.Scene {
         this.graphics1 = this.add.graphics();
         this.base1 = new Base(100, 120, 520, 'pina', this.physics, this.graphics1);
         //this.player1 = new Player(1000, 10, this.base1, 1);
-        this.addPlayer(1);
+        //this.addPlayer(1);
 
         this.graphics2 = this.add.graphics();
         this.base2 = new Base(100, 1800, 520, 'pina', this.physics, this.graphics2);
         //this.player2 = new Player(1000, 10, this.base2, 1);
-        this.addPlayer(2);
+        //this.addPlayer(2);
 
 
         //teclado
@@ -334,7 +334,13 @@ export class GameScene extends Phaser.Scene {
         }
 
         //update players
-        this.player2.Update(delta);
+        if(this.player1.id==myId){
+            this.player1.update(delta);
+        }else if (this.player2.id==myId){
+            this.player2.update(delta);
+        }
+        
+        //this.player2.Update(delta);
         
         //this.player1.Update(delta);
         textOro1.setText('GOLD: ' + this.player1.oro);
