@@ -5,18 +5,20 @@
  - Name: *Fantasy War*
  - Description: Fantasy RTS 1 VS 1 
 ## Developers: 
-| Name | Official email | GitHub |
-| :---        |    :----:   |          ---: |
-| Fernando de la Vega Valle | *f.delavegav@alumnos.urjc.es* | @fernandodelavega |
-| Alexander Tercero Moreno | *a.tercero.2020@alumnos.urjc.es* | @alexandeiro |
-| Pascual Gázquez Compán | *p.gazquez.2018@alumnos.urjc.es* | @pascualgazquez |
-| Diego Nicolás Barreales| *d.nicolas.2019@alumnos.urjc.es* | @dieguoin |
+| Name                      | Official email                   | GitHub             |
+| :---                      |    :----:                        |          ---:      |
+| Fernando de la Vega Valle | *f.delavegav@alumnos.urjc.es*    | @fernandodelavega  |
+| Alexander Tercero Moreno  | *a.tercero.2020@alumnos.urjc.es* | @alexandeiro       |
+| Pascual Gázquez Compán    | *p.gazquez.2018@alumnos.urjc.es* | @pascualgazquez    |
+| Diego Nicolás Barreales   | *d.nicolas.2019@alumnos.urjc.es* | @dieguoin          |
 
 
 # GDD
 ## Introducción
 ### Concepto del juego:
 Se tratará de un juego en el que 2 jugadores se enfrentarán uno contra otro para intentar destruir la base del contrario. El campo de batalla consta de tres carriles, en los cuales, los jugadores tendrán que colocar tropas para intentar llegar a la base del enemigo a la vez que defienden las suya propia.
+
+
 ### Características principales:
 Género: 
 Estrategia en tiempo real(Real Time Strategy o RTS)
@@ -32,8 +34,8 @@ Una sola entrega.
 
 ### Jugabilidad:
 
-Juego multijugador local de 2 personas, las partidas son cortas de 5 minutos como máximo, en las que los jugadores intentan destruir la base enemiga mientras defienden la suya, enviando tropas por los caminos. Las tropas cuestan oro, del cual se genera uno cada 3 segundos.
-El ganador se decide cuando una base es destruida o cuando se acaba el tiempo. El jugador que más vida tenga será el ganador. Es posible que haya un empate.
+Juego multijugador online de 2 personas, con partidas en las que los jugadores intentan destruir la base enemiga mientras defienden la suya, enviando tropas por los distintos caminos. Las tropas cuestan oro, del cual se genera uno cada 3 segundos.
+El ganador se decide cuando una base es destruida. El jugador que más vida tenga será el ganador. Es posible que haya un empate en caso de que los 2 jugadores bajen a 0 de vida a la vez.
 
 ### Flujo del juego:
 - 1 Inicia partida
@@ -43,9 +45,6 @@ El ganador se decide cuando una base es destruida o cuando se acaba el tiempo. E
 - 3.1 Una base es destruida → Victoria del jugador que la ha destruido
 
 - 3.2 Se acaba el tiempo → Empate
-
-
-
 
 
 ### Personajes:
@@ -58,45 +57,22 @@ Cada personaje tiene unas estadísticas:
 	
 Goblin: 
 
-Atacante básico con daño a melée.
+Atacante con daño a melée.
 
 Precio:1
-
 
 
 Mago:
 
-Atacante básico de rango.
+Atacante de rango.
 
 Precio:1
-
-
-
-Paladín:
-
-Tanque básico.
-Precio:1
-
-
-
-Caballero:
-
-Atacante fuerte de melée.
-Precio:3
-
-
-
-Dragon:
-
-Atacante fuerte de rango.
-Precio:3
-
 
 
 Golem:
 
-Tanque fuerte.
-Precio: 3
+Tanque con daño a melé.
+Precio: 1
 
 
 
@@ -147,6 +123,10 @@ Pantalla de final de partida en la cual se muestra el ganador de la misma y un b
 ### Diagrama de flujo:
 
 ![Diagrama de Flujo1](https://user-images.githubusercontent.com/115580903/208795807-fdcd3940-3fe0-4f80-827e-4aa855353c69.png)
+
+## Conexión online
+
+El juego es multijugador online, para lo que se han implementado websockets conectando los clientes con el servidor. Se han utilizado para crear y conectar los usuarios, comunicación con mensajes temporales e instanciar las tropas de cada jugador.
 
 ## Arte:
 En el juego se han interpretado varios diseños de cultura popular en un pixel art más abstracto. Dentro de las tropas tenemos goblins, golems y magos. 
