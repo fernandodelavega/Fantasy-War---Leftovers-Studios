@@ -4,6 +4,7 @@ import {Unidades} from './Unidades.js';
 import {carta} from './carta.js';
 import { ChatPannel } from './ChatPannel.js';
 import { Espectator } from './espectator.js';
+import './WebSocketConfig.js';
 
 var textOro1;
 var textOro2;
@@ -251,13 +252,18 @@ export class GameScene extends Phaser.Scene {
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         this.keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
 
-
         
-        //chat
-        // chatText = this.add.text(800, 700, '', {fontFamily: 'PS2P'});
-        // this.down = false;
-
-        // this.currentMessage = '';
+        this.player1 = new Player(undefined, 100, 5, this.base1, 1, this.unidadesPrefab1, this.player2, this, this.flechaA);
+        try{
+        this.player2.enemyPlayer = this.player1;
+        }catch{}
+    
+        this.player2 = new Player(undefined, 100, 5, this.base2, 1, this.unidadesPrefab2, this.player1, this, this.flechaB);
+        try{
+        this.player1.enemyPlayer = this.player2;
+        }catch{}
+        
+        
         this.timer = 0;
         gamescene = this;
 
@@ -265,15 +271,12 @@ export class GameScene extends Phaser.Scene {
 
     update(time, delta){
         
-        if(this.player1 == undefined || this.player2 == undefined){
+        if(this.player1.id == undefined || this.player2.id == undefined){
             return;
         }
         //Finalizar escena
         if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
-            this.player1.unidades = [];
-            this.player2.unidades = [];
-            this.player1.oro = 5;
-            this.player2.oro = 5;
+            this.Reset();
             if (this.player1.base.vida <= 0 && this.player2.base.vida > 0){
                 this.player1.base.vida = 100;
                 this.player2.base.vida = 100;
@@ -349,7 +352,7 @@ export class GameScene extends Phaser.Scene {
         textOro2.setText('GOLD: ' + this.player2.oro);
         if(this.popUp != undefined){
             this.timer += delta;
-            if(this.timer > 500){
+            if(this.timer > 1500){
                 
                 this.popUp.Desapear();
                 this.popUp = undefined;
@@ -357,34 +360,33 @@ export class GameScene extends Phaser.Scene {
                 
             }
         }
-        
     }
 
-    
-    addPlayer(id) {
-        if(this.player1 == undefined){
-            this.player1 = new Player(id, 100, 5, this.base1, 1, this.unidadesPrefab1, this.player2, this, this.flechaA);
-            try{
-            this.player2.enemyPlayer = this.player1;
-            }catch{}
+    addPlayer(id){
+        if(this.player1.id == undefined){
+            this.player1.id = id;
         }
-        else if(this.player2 == undefined){
-            this.player2 = new Player(id, 100, 5, this.base2, 1, this.unidadesPrefab2, this.player1, this, this.flechaB);
-            try{
-            this.player1.enemyPlayer = this.player2;
-            }catch{}
+        else if(this.player2.id == undefined){
+            this.player2.id = id
         }
         else {
             this.espectators.push(new Espectator(id));
         }
     }
-
+    Reset(){
+        this.player1.id = undefined;
+        this.player2.id = undefined;
+        this.player1.unidades = [];
+        this.player2.unidades = [];
+        this.player1.oro = 5;
+        this.player2.oro = 5;
+        myId = undefined;
+    }
     ReceiveMessage(message) {
         console.log("recivido)");
         this.popUp = new ChatPannel('carta', message, this.physics, this);
         
     }
-
 }
 
 

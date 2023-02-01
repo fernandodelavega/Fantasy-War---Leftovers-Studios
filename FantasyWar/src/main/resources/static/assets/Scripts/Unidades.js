@@ -36,12 +36,9 @@ export class Unidades
         this.isColliding = isColliding;
     }
     start(player){
-        if(player == 1){
-            this.gameobject.setVelocity(this.velocidadMovimiento, 0);
-        }
-        else if(player == 2){
-            this.gameobject.setVelocity(this.velocidadMovimiento, 0);
-        }
+
+        this.gameobject.setVelocity(this.velocidadMovimiento, 0);
+
     }
     stop(){
         this.gameobject.setVelocity(0, 0);

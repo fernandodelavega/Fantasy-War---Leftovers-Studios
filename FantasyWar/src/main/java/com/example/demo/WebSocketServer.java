@@ -39,8 +39,8 @@ public class WebSocketServer extends TextWebSocketHandler{
     	// 		return;
     	// }
     	// localHost.add(InetAddress.getLocalHost());
-    	sessionsPerClient.add(session);
         sessions.add(session);
+    	sessionsPerClient.add(session);
         if(sessionsPerClient.size() == 2){
             sessions.remove(session);
             sessionsPerClient = new CopyOnWriteArraySet<>();
