@@ -380,6 +380,7 @@ export class GameScene extends Phaser.Scene {
         this.player2.unidades = [];
         this.player1.oro = 5;
         this.player2.oro = 5;
+        sent = false;
         myId = undefined;
     }
     ReceiveMessage(message) {

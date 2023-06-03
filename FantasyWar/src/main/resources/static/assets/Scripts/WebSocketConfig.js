@@ -3,22 +3,8 @@ var myId;
 var sent = false;
 var socket = new WebSocket("ws://localhost:8080/echo");
 socket.onopen = function(event) {
-    console.log("Connected to server");
+    //console.log("Connected to server");
     
-    /*
-    Json:{
-        type: "chat",
-        body: "mensaje",
-    }
-    */
-   /*
-    JSON:{
-        type: "unidad",
-        player: int "1, 2",
-        numUnidad: int,
-        camino: int
-    }
-    */
 }
 
 socket.onmessage = function(event) {
@@ -28,13 +14,14 @@ socket.onmessage = function(event) {
     }
     if(JSON.parse(event.data).type == "user"){
         gamescene.addPlayer(JSON.parse(event.data)["body"]);
-        if(sent == false){
+        if(!sent){
             return;
         }
-        if(myId==undefined){
+        if(myId == undefined){
             myId=JSON.parse(event.data)["body"];
             sent = false;
         }
+        //console.log(myId);
     }
     if(JSON.parse(event.data).type == "unidad"){
         if(JSON.parse(event.data).player == 1){
@@ -46,11 +33,11 @@ socket.onmessage = function(event) {
 }
 
 socket.onclose = function(event) {
-    console.log("Disconnected from server");
+    //console.log("Disconnected from server");
 }
 
 function SendMessage(type, msg){
-    console.log(msg);
+    //console.log(msg);
     sent = true;
     socket.send(JSON.stringify({type:type, body: msg}))
 }

@@ -166,7 +166,7 @@ export class Player
     
 
     Update(delta){
-        console.log(playerState);
+        //console.log(playerState);
         this.AddOro(delta);
 
         // if(GameScene.chatEnabled){
