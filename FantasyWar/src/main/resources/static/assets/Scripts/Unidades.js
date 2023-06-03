@@ -1,9 +1,12 @@
+import { GameScene } from "./GameScene";
+
 export class Unidades
 {
     gameobject;
-
+    player;
     constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound, atc1, atc2)
     {
+        
         this.vida = vida;
         this.ataque = ataque;
         this.velocidadAtaque = velocidadAtaque;
@@ -16,10 +19,12 @@ export class Unidades
         this.sound = sound;
         this.atc1 = atc1;
         this.atc2 = atc2;
-    }
-    instance(unidad, positionx, positiony, camino, enemyBase, physics){
-
         
+    }
+    instance(playerNumber, player, unidad, positionx, positiony, camino, enemyBase, physics){
+
+        this.playerNumber = playerNumber;
+        this.player = player;
         this.camino = camino;
         this.enemyBase = enemyBase;
         this.image = unidad.image;
@@ -140,15 +145,26 @@ export class Unidades
         }
     }
     CheckDead(enemy){
+
         if(enemy.vida<=0){
-        enemy.gameobject.body.enable = false;
-        enemy.gameobject.destroy();
+        enemy.SendDie();
         this.actualEnemy = null;
-        enemy.isDead = true;
-        delete this;
         this.restart();
         }
         //this.restart();
         //delete(enemy);
+    }
+    SendDie(){
+        
+        var muerteUnidad = {
+            player: this.playerNumber,
+            position: this.player.unidades.findIndex(this)
+        }
+        SendMessage("muerteUnidad", JSON.stringify(muerteUnidad));
+    }
+    Die(){
+        this.gameobject.body.enable = false;
+        this.gameobject.destroy();
+        this.isDead = true;
     }
 }

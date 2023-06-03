@@ -17,6 +17,7 @@ var chatMessages = [];
 export class GameScene extends Phaser.Scene {
     constructor(){
         super({key: "GameScene"});
+        
     }
     preload(){
         this.load.image('backGround', 'assets/images/fase3/fondo_completo.png');
@@ -265,12 +266,13 @@ export class GameScene extends Phaser.Scene {
         
         
         this.timer = 0;
+        
         gamescene = this;
-
     }
-
+    
     update(time, delta){
         
+        console.log(gamescene);
         if(this.player1.id == undefined || this.player2.id == undefined){
             return;
         }
@@ -295,42 +297,9 @@ export class GameScene extends Phaser.Scene {
         }
 
         ///////Update Unidades /////
-        for(var i = 0; i < this.player1.unidades.length; i++){
-            if(this.player1.unidades[i].isDead){
-                this.muerte.play();
-                this.player1.unidades.splice(i, 1)
-                ////
-                for(var i = 0; i < this.player2.unidades.length; i++){
-                    for(var j = 0; j < this.player2.unidades[i].objectives.length; j++){
-                        if(this.player2.unidades[i].objectives[j].isDead){
-                            this.player2.unidades[i].objectives.splice(j, 1);
-                        }
-                    }
-                }
-                ////
-            }
-            if(i < this.player1.unidades.length){
-                this.player1.unidades[i].Update(delta);
-            }
-        }
-        for(var i = 0; i < this.player2.unidades.length; i++){
-            if(this.player2.unidades[i].isDead){
-                this.muerte.play();
-                this.player2.unidades.splice(i, 1)
-                ////
-                for(var i = 0; i < this.player1.unidades.length; i++){
-                    for(var j = 0; j < this.player1.unidades[i].objectives.length; j++){
-                        if(this.player1.unidades[i].objectives[j].isDead){
-                            this.player1.unidades[i].objectives.splice(j, 1);
-                        }
-                    }
-                }
-                ////
-            }
-            if(i < this.player2.unidades.length){
-                this.player2.unidades[i].Update(delta);
-            }
-        }
+        this.updateUnidadesPlayer1(delta);
+        this.updateUnidadesPlayer2(delta);
+        
         for (var i = 0; i < this.cardsP1.length; i++){
             this.cardsP1[i].update(this.player1.unidad)
         }
@@ -362,6 +331,55 @@ export class GameScene extends Phaser.Scene {
         }
     }
 
+    updateUnidadesPlayer1(delta)
+    {
+        for(var i = 0; i < this.player1.unidades.length; i++){
+            if(this.player1.unidades[i].isDead){
+                this.DeadPlayer1();
+                //mandar mensaje al servidor
+            }
+            if(i < this.player1.unidades.length){
+                this.player1.unidades[i].Update(delta);
+            }
+        }
+    }
+    updateUnidadesPlayer2(delta)
+    {
+        for(var i = 0; i < this.player2.unidades.length; i++){
+            if(this.player2.unidades[i].isDead){
+                //mandar mensaje al servidor
+                this.DeadPlayer2();
+            }
+            if(i < this.player2.unidades.length){
+                this.player2.unidades[i].Update(delta);
+            }
+        }
+    }
+    DeadPlayer1(){
+        this.muerte.play();
+                this.player1.unidades.splice(i, 1)
+                ////
+                for(var i = 0; i < this.player2.unidades.length; i++){
+                    for(var j = 0; j < this.player2.unidades[i].objectives.length; j++){
+                        if(this.player2.unidades[i].objectives[j].isDead){
+                            this.player2.unidades[i].objectives.splice(j, 1);
+                        }
+                    }
+                }
+    }
+    DeadPlayer2(){
+        this.muerte.play();
+                this.player2.unidades.splice(i, 1)
+                ////
+                for(var i = 0; i < this.player1.unidades.length; i++){
+                    for(var j = 0; j < this.player1.unidades[i].objectives.length; j++){
+                        if(this.player1.unidades[i].objectives[j].isDead){
+                            this.player1.unidades[i].objectives.splice(j, 1);
+                        }
+                    }
+                }
+    }
+
     addPlayer(id){
         if(this.player1.id == undefined){
             this.player1.id = id;
@@ -384,7 +402,6 @@ export class GameScene extends Phaser.Scene {
         myId = undefined;
     }
     ReceiveMessage(message) {
-        console.log("recivido)");
         this.popUp = new ChatPannel('carta', message, this.physics, this);
         
     }

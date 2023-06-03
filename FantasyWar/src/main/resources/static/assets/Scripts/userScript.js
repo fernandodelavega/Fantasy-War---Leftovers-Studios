@@ -38,9 +38,6 @@ $(document).ready(function()
         var nombre = $("#nameText").val();
         var contra = $("#passText").val();
         
-        
-        
-        
         var usuario = {
             nombre: nombre,
             contra: contra

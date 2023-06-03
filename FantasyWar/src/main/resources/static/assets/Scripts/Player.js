@@ -51,13 +51,7 @@ export class Player
             this.unidad = (this.unidad - 1 < 0)? 3 - this.unidad - 1 : (this.unidad - 1) % 3;
         }
     }
-    AddOro(delta){
-        this.contador += delta / 1000;
-        if(this.contador >= 2){
-            this.oro++;
-            this.contador = 0;
-        }
-    }
+    
     InstanciarUnidad(){
 
         if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1 && !this.chatEnabled){
@@ -102,7 +96,6 @@ export class Player
         }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyT)){
             playerState = 1;
-            
         }
         else{}
         
@@ -147,7 +140,7 @@ export class Player
         var newUnity = new Unidades();
         Object.assign(newUnity, this.unidadesPrefab[numUnidad]);
 
-        newUnity.instance(newUnity, this.base.x, this.gameScene.positions[camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+        newUnity.instance((myId == this.gameScene.player1.id)? 1 : 2, this, newUnity, this.base.x, this.gameScene.positions[camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
 
         this.AddUnidad(newUnity);
         for (var i = 0; i < this.enemyPlayer.unidades.length; i++){
@@ -163,12 +156,37 @@ export class Player
         this.oro--;
         newUnity = null;
     }
+    SendOro(gold){
+        if(this.gameScene.player1.id == myId){
+            var nuevoOro = {
+                player: 1,
+                oro: gold
+            }
+        }
+        if(this.gameScene.player2.id == myId){
+            var nuevoOro = {
+                player: 2,
+                oro: gold
+            }
+        }
+        
+        SendMessage("oro", JSON.stringify(nuevoOro));
+    }
+    AddOro(oroCantidad){
+    
+        this.oro = oroCantidad;
+    }
     
 
     Update(delta){
         //console.log(playerState);
-        this.AddOro(delta);
-
+        
+        this.contador += delta / 1000;
+        if(this.contador >= 2){
+            this.oro++;
+            this.SendOro(this.oro);
+            this.contador = 0;
+        }
         // if(GameScene.chatEnabled){
         //     return;
         // }

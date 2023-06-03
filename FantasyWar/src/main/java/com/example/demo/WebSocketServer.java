@@ -138,11 +138,22 @@ public class WebSocketServer extends TextWebSocketHandler{
                 }
             }
             else if(node.get("type").asText().equals("unidad")){
-            	System.out.println("unidad nueva");
+            	//System.out.println("unidad nueva");
                 json.addProperty("type", "unidad");
                 json.addProperty("player", mapper.readTree(node.get("body").asText()).get("player").asText());
                 json.addProperty("unidad", mapper.readTree(node.get("body").asText()).get("numUnidad").asText());
                 json.addProperty("camino", mapper.readTree(node.get("body").asText()).get("road").asText());
+            }
+            else if(node.get("type").asText().equals("oro")){
+                System.out.print("oro" + node);
+                json.addProperty("type", "oro");
+                json.addProperty("player", mapper.readTree(node.get("body").asText()).get("player").asText());
+                json.addProperty("cantidad", mapper.readTree(node.get("body").asText()).get("oro").asInt());
+            }
+            else if(node.get("type").asText().equals("muerteUnidad")){
+                json.addProperty("type", "muerteUnidad");
+                json.addProperty("playerNumber", mapper.readTree(node.get("body").asText()).get("playerNumber").asText());
+                json.addProperty("arrayPos", mapper.readTree(node.get("body").asText()).get("position").asText());
             }
             else {
             	System.out.println("fuera");
