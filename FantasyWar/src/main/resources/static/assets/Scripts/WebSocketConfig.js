@@ -6,7 +6,7 @@ socket.onopen = function(event) {
     //console.log("Connected to server");
     
 }
-
+//sass
 socket.onmessage = function(event) {
     console.log("Received message from server: " + event.data);
     if(JSON.parse(event.data).type == "chat"){
