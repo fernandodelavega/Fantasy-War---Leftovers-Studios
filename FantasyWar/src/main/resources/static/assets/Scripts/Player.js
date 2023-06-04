@@ -1,4 +1,4 @@
-import { GameScene } from "./GameScene.js";
+
 import { Unidades } from "./Unidades.js";
 import "./WebSocketConfig.js";
 
@@ -135,12 +135,12 @@ export class Player
             this.down = false;
         })
     }
-    Instanciate(numUnidad, camino){
+    Instanciate(numUnidad, camino, playerNumber){
         this.gameScene.crear.play();
         var newUnity = new Unidades();
         Object.assign(newUnity, this.unidadesPrefab[numUnidad]);
 
-        newUnity.instance((myId == this.gameScene.player1.id)? 1 : 2, this, newUnity, this.base.x, this.gameScene.positions[camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+        newUnity.instance(playerNumber, this, newUnity, this.base.x, this.gameScene.positions[camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics, this.unidades.length);
 
         this.AddUnidad(newUnity);
         for (var i = 0; i < this.enemyPlayer.unidades.length; i++){
@@ -155,6 +155,7 @@ export class Player
         newUnity.start(1);
         this.oro--;
         newUnity = null;
+        console.log(this.unidades);
     }
     SendOro(gold){
         if(this.gameScene.player1.id == myId){

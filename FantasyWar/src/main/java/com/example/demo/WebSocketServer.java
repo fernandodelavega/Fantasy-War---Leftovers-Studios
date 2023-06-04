@@ -109,10 +109,10 @@ public class WebSocketServer extends TextWebSocketHandler{
                 for(int i = 1; i<userController.GetUser().length;i=i+3){
                     if(userController.GetUser()[i].equals(mapper.readTree(node.get("body").asText()).get("nombre").asText())){
                         if(userController.GetUser()[i+1].equals(mapper.readTree(node.get("body").asText()).get("contra").asText())){
-                           System.out.println("usuario coincide");
+                           //System.out.println("usuario coincide");
                            json.addProperty("type","user");
                            json.addProperty("body", userController.GetUser()[i-1]);
-                        }else{System.out.println("contraseña incorrecto");}
+                        }
                     }else{
                         System.out.println("usuario incorrecto");
                         
@@ -152,7 +152,7 @@ public class WebSocketServer extends TextWebSocketHandler{
             }
             else if(node.get("type").asText().equals("muerteUnidad")){
                 json.addProperty("type", "muerteUnidad");
-                json.addProperty("playerNumber", mapper.readTree(node.get("body").asText()).get("playerNumber").asText());
+                json.addProperty("playerNumber", mapper.readTree(node.get("body").asText()).get("player").asText());
                 json.addProperty("arrayPos", mapper.readTree(node.get("body").asText()).get("position").asText());
             }
             else {

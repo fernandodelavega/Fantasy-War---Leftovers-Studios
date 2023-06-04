@@ -1,10 +1,10 @@
+import './WebSocketConfig.js';
 import {Base} from './Base.js';
 import {Player} from './Player.js';
 import {Unidades} from './Unidades.js';
 import {carta} from './carta.js';
 import { ChatPannel } from './ChatPannel.js';
 import { Espectator } from './espectator.js';
-import './WebSocketConfig.js';
 
 var textOro1;
 var textOro2;
@@ -17,7 +17,6 @@ var chatMessages = [];
 export class GameScene extends Phaser.Scene {
     constructor(){
         super({key: "GameScene"});
-        
     }
     preload(){
         this.load.image('backGround', 'assets/images/fase3/fondo_completo.png');
@@ -55,7 +54,8 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(){
-        
+        gamescene = this;
+        console.log(this);
         this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6);
         this.flechaA = this.add.image(50,560,'flecha1').setScale(2,2);
         this.flechaB = this.add.image(1870,560,'flecha1').setScale(2,2);
@@ -267,12 +267,12 @@ export class GameScene extends Phaser.Scene {
         
         this.timer = 0;
         
-        gamescene = this;
+        
     }
     
     update(time, delta){
         
-        console.log(gamescene);
+        
         if(this.player1.id == undefined || this.player2.id == undefined){
             return;
         }

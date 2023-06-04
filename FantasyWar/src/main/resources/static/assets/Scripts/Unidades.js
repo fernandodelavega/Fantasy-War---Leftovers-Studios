@@ -1,5 +1,3 @@
-import { GameScene } from "./GameScene";
-
 export class Unidades
 {
     gameobject;
@@ -19,10 +17,9 @@ export class Unidades
         this.sound = sound;
         this.atc1 = atc1;
         this.atc2 = atc2;
-        
     }
-    instance(playerNumber, player, unidad, positionx, positiony, camino, enemyBase, physics){
-
+    instance(playerNumber, player, unidad, positionx, positiony, camino, enemyBase, physics, arrayPos){
+        
         this.playerNumber = playerNumber;
         this.player = player;
         this.camino = camino;
@@ -35,6 +32,7 @@ export class Unidades
         this.timer = 0;
         this.cool = 0;
         this.isDead = false;
+        this.arrayNumber = arrayPos;
         return this;
     }
     setColliding(isColliding){
@@ -154,12 +152,14 @@ export class Unidades
         //this.restart();
         //delete(enemy);
     }
+    
     SendDie(){
-        
+        if(myId != this.player.id)return;
         var muerteUnidad = {
             player: this.playerNumber,
-            position: this.player.unidades.findIndex(this)
+            position: this.arrayNumber
         }
+        
         SendMessage("muerteUnidad", JSON.stringify(muerteUnidad));
     }
     Die(){
