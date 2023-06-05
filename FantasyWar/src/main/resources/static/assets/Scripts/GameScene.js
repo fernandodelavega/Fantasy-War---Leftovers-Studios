@@ -319,16 +319,16 @@ export class GameScene extends Phaser.Scene {
         //this.player1.Update(delta);
         textOro1.setText('GOLD: ' + this.player1.oro);
         textOro2.setText('GOLD: ' + this.player2.oro);
-        if(this.popUp != undefined){
-            this.timer += delta;
-            if(this.timer > 1500){
-                
-                this.popUp.Desapear();
-                this.popUp = undefined;
-                this.timer = 0;
-                
-            }
-        }
+        //if(this.popUp != undefined){
+        //    this.timer += delta;
+        //    if(this.timer > 1500){
+        //        
+        //        this.popUp.Desapear();
+        //        this.popUp = undefined;
+        //        this.timer = 0;
+        //        
+        //    }
+        //}
     }
 
     updateUnidadesPlayer1(delta)
@@ -402,6 +402,7 @@ export class GameScene extends Phaser.Scene {
         myId = undefined;
     }
     ReceiveMessage(message) {
+        this.popUp?.Desapear();
         this.popUp = new ChatPannel('carta', message, this.physics, this);
         
     }

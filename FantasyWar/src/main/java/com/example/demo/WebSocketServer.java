@@ -53,7 +53,8 @@ public class WebSocketServer extends TextWebSocketHandler{
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         System.out.println("mensaje recivido");
-        String[] response = {};
+        String[] chat = {};
+        String[] response = new String[4];
         System.out.println("Received message from client: " + message.getPayload());
         ObjectMapper mapper = new ObjectMapper();
         JsonObject json = new JsonObject();
@@ -127,11 +128,13 @@ public class WebSocketServer extends TextWebSocketHandler{
             	System.out.println("dentro");
                 chatController.NewMessage(node.get("body").asText());
                 try {
-                    response = chatController.GetMessage();
-
+                    chat = chatController.GetMessage();
 
                     json.addProperty("type", "chat");
-                    json.addProperty("body", response[response.length-1]);
+                    json.addProperty("message1", chat[chat.length - 1]);
+                    json.addProperty("message2", (chat.length > 1)? chat[chat.length - 2] : "");
+                    json.addProperty("message3", (chat.length > 2)?chat[chat.length - 3] : "");
+                    json.addProperty("message4", (chat.length > 3)?chat[chat.length - 4] : "");
 
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -12,7 +12,8 @@ socket.onmessage = function(event) {
     //console.log(gamescene);
     //console.log("Received message from server: " + event.data);
     if(JSON.parse(event.data).type == "chat"){
-        gamescene.ReceiveMessage(JSON.parse(event.data)["body"]);
+        message = [JSON.parse(event.data)["message1"], JSON.parse(event.data)["message2"], JSON.parse(event.data)["message3"], JSON.parse(event.data)["message4"]];
+        gamescene.ReceiveMessage(message);
     }
     if(JSON.parse(event.data).type == "user"){
         gamescene.addPlayer(JSON.parse(event.data)["body"]);
