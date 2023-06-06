@@ -219,14 +219,14 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(260);
 
         this.unidadesPrefab1 = new Array(); 
-        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR',this.goblinS,'goblinRAT','goblinRHit'));
+        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 100, 'goblinR',this.goblinS,'goblinRAT','goblinRHit'));
         this.unidadesPrefab1.push(new Unidades(20, 150, 4, 100, 700, 'magoR',this.mageS,'magoRAT','goblinRHit'));
-        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR',this.golemS,'golemRAT',null));
+        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 100, 'golemR',this.golemS,'golemRAT',null));
         
         this.unidadesPrefab2 = new Array(); 
-        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB',this.golemS,'golemBAT',null));
+        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 100, 'golemB',this.golemS,'golemBAT',null));
         this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS,'magoBAT','magoBHit'));
-        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB',this.goblinS,'goblinBAT','goblinBHit'));
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 100, 'goblinB',this.goblinS,'goblinBAT','goblinBHit'));
 
         this.espectators = new Array();
 
