@@ -24,6 +24,7 @@ export class GameScene extends Phaser.Scene {
         this.load.image('flecha1','assets/images/flecha1.png');
         this.load.image('carta', 'assets/images/carta.png');
         this.load.image('fondoChat', 'assets/images/chat_square.png');
+        this.load.image('iconoChat', 'assets/images/chat_icon.png');
 
         this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png', { frameWidth: 35, frameHeight: 35 });
@@ -59,7 +60,9 @@ export class GameScene extends Phaser.Scene {
         console.log(this);
         this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6);
         this.chatBackground = this.add.image(1920/2, 96, 'fondoChat').setScale(6, 6);
+        this.chatIcon = this.add.image(1920/2 + 462, 96, 'iconoChat').setScale(6, 6);
         this.textChat = this.add.text(1920/2 + 360, 42, 'chat', {color: '#FFFFFF', align: 'center', font: "36px 'PS2P'"}).setOrigin(1);
+
         this.flechaA = this.add.image(50,560,'flecha1').setScale(2,2);
         this.flechaB = this.add.image(1870,560,'flecha1').setScale(2,2);
         this.flechaB.angle += 180;
