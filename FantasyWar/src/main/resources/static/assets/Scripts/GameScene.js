@@ -357,27 +357,33 @@ export class GameScene extends Phaser.Scene {
     }
     DeadPlayer1(){
         this.muerte.play();
-                this.player1.unidades.splice(i, 1)
-                ////
-                for(var i = 0; i < this.player2.unidades.length; i++){
-                    for(var j = 0; j < this.player2.unidades[i].objectives.length; j++){
-                        if(this.player2.unidades[i].objectives[j].isDead){
-                            this.player2.unidades[i].objectives.splice(j, 1);
-                        }
-                    }
+        this.player1.unidades.splice(i, 1)
+        for(var i = 0; i < this.player1.unidades.length; i++){
+            this.player1.unidades[i].arrayNumber = i;
+        }
+        ////
+        for(var i = 0; i < this.player2.unidades.length; i++){
+            for(var j = 0; j < this.player2.unidades[i].objectives.length; j++){
+                if(this.player2.unidades[i].objectives[j].isDead){
+                    this.player2.unidades[i].objectives.splice(j, 1);
                 }
+            }
+        }
     }
     DeadPlayer2(){
         this.muerte.play();
-                this.player2.unidades.splice(i, 1)
-                ////
-                for(var i = 0; i < this.player1.unidades.length; i++){
-                    for(var j = 0; j < this.player1.unidades[i].objectives.length; j++){
-                        if(this.player1.unidades[i].objectives[j].isDead){
-                            this.player1.unidades[i].objectives.splice(j, 1);
-                        }
-                    }
+        this.player2.unidades.splice(i, 1)
+        for(var i = 0; i < this.player2.unidades.length; i++){
+            this.player2.unidades[i].arrayNumber = i;
+        }
+        ////
+        for(var i = 0; i < this.player1.unidades.length; i++){
+            for(var j = 0; j < this.player1.unidades[i].objectives.length; j++){
+                if(this.player1.unidades[i].objectives[j].isDead){
+                    this.player1.unidades[i].objectives.splice(j, 1);
                 }
+            }
+        }
     }
 
     addPlayer(id){

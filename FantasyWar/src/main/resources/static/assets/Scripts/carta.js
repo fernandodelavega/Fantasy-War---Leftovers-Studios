@@ -17,4 +17,12 @@ export class carta{
             this.cardtranslucid.visible = true;
         }
     }
+    Disable(){
+        this.card.setTint(0x444444);
+        this.cardtranslucid.setTint(0xff9999);
+    }
+    Enable(){
+        this.card.setTint(0xffffff);
+        this.cardtranslucid.setTint(0xff0000);
+    }
 }

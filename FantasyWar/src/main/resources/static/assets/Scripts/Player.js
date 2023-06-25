@@ -3,6 +3,7 @@ import { Unidades } from "./Unidades.js";
 import "./WebSocketConfig.js";
 
 var chatText;
+let timeBetweenUnidades = 1000;
 
 var playerState = 0;
 export class Player
@@ -10,6 +11,7 @@ export class Player
     base;
     unidades;
     camino;
+    cooldownUnidades = timeBetweenUnidades;
     constructor(name, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene, flecha)
     {
         this.id = name
@@ -55,7 +57,7 @@ export class Player
     InstanciarUnidad(){
 
         if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1 && !this.chatEnabled){
-            
+            if(this.cooldownUnidades < timeBetweenUnidades) return;
             var player;
             var newUnidad = this.unidad;
             var camino = this.camino;
@@ -81,6 +83,16 @@ export class Player
                 }
                 SendMessage("unidad", JSON.stringify(unidad));//newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
             }
+            if(this.gameScene.player1 == this){
+                for(var i = 0; i < this.gameScene.cardsP1.length; i++){
+                    this.gameScene.cardsP1[i].Disable();
+                }
+            }else{
+                for(var i = 0; i < this.gameScene.cardsP2.length; i++){
+                    this.gameScene.cardsP2[i].Disable();
+                }
+            }
+            this.cooldownUnidades = 0;
         }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyW) && !this.chatEnabled){
             this.siguienteCamino(true);
@@ -199,6 +211,18 @@ export class Player
             this.ChatKeyboard();
         }
 
+        this.cooldownUnidades += delta;
+        if(this.cooldownUnidades > timeBetweenUnidades){
+            if(this.gameScene.player1 == this){
+                for(var i = 0; i < this.gameScene.cardsP1.length; i++){
+                    this.gameScene.cardsP1[i].Enable();
+                }
+            }else{
+                for(var i = 0; i < this.gameScene.cardsP2.length; i++){
+                    this.gameScene.cardsP2[i].Enable();
+                }
+            }
+        }
         return;
     }
 }

@@ -45,8 +45,10 @@ socket.onmessage = function(event) {
         console.log("Received message from server: " + event.data);
         if(JSON.parse(event.data).playerNumber == 1){
             gamescene.player1.unidades[JSON.parse(event.data).arrayPos].Die();
+            console.log(gamescene.player1.unidades);
         }else if(JSON.parse(event.data).playerNumber == 2){
             gamescene.player2.unidades[JSON.parse(event.data).arrayPos].Die();
+            console.log(gamescene.player2.unidades);
         }
     }
 }
