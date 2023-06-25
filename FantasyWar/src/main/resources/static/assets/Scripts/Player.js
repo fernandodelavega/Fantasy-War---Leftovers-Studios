@@ -27,7 +27,7 @@ export class Player
         this.gameScene = gameScene;
         this.flecha = flecha;
         //this.playerState = playerDefault;
-        chatText = this.gameScene.add.text(800, 700, '', {fontFamily: 'PS2P'});
+        chatText = this.gameScene.add.text(1920/ 2 - 354, 166, '', {fontFamily: 'PS2P', align: 'center'});
     }
     AddUnidad(nuevaUnidad){
         this.unidades.push(nuevaUnidad);
