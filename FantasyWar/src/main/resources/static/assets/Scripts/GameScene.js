@@ -20,6 +20,7 @@ export class GameScene extends Phaser.Scene {
     }
     preload(){
         this.load.image('backGround', 'assets/images/fase3/fondo_completo.png');
+        this.load.image('fondoC', 'assets/images/tropas/fondo_sin_caminos.png');
         this.load.image('pina', 'assets/images/pina.png');
         this.load.image('flecha1','assets/images/flecha1.png');
         this.load.image('carta', 'assets/images/carta.png');
@@ -270,7 +271,8 @@ export class GameScene extends Phaser.Scene {
         this.player1.enemyPlayer = this.player2;
         }catch{}
         
-        
+        this.fondoInicio = this.add.image(1920/2, 1080/2, 'fondoC').setScale(6, 6);
+        this.fondoInicio.destroy();
         this.timer = 0;
         
         
@@ -279,7 +281,7 @@ export class GameScene extends Phaser.Scene {
     update(time, delta){
         
         
-        if(this.player1.id == undefined || this.player2.id == undefined){
+        if(!this.player1.ready || !this.player2.ready){
             return;
         }
         //Finalizar escena
@@ -392,16 +394,17 @@ export class GameScene extends Phaser.Scene {
         }
     }
 
-    addPlayer(id){
-        if(this.player1.id == undefined){
-            this.player1.id = id;
-        }
-        else if(this.player2.id == undefined){
-            this.player2.id = id
-        }
-        else {
-            this.espectators.push(new Espectator(id));
-        }
+    addPlayers(player1Name, player1ID, player1Ready, player2Name, player2ID, player2Ready){
+        
+        this.player1.name = player1Name;
+        this.player1.id = player1ID;
+        this.player1.ready = player1Ready;
+        console.log(this.player1.name);
+        
+        this.player2.name = player2Name;
+        this.player2.id = player2ID;
+        this.player2.ready = player2Ready
+        console.log(this.player2.name);
     }
     Reset(){
         this.player1.id = undefined;

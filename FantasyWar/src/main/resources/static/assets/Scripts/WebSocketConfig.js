@@ -8,22 +8,46 @@ socket.onopen = function(event) {
 }
 //sass
 socket.onmessage = function(event) {
-    
+    var player1Name, player1ID, player1Ready, player2Name, player2ID, player2Ready;
     //console.log(gamescene);
-    //console.log("Received message from server: " + event.data);
+    console.log("Received message from server: " + event.data);
     if(JSON.parse(event.data).type == "chat"){
         message = [JSON.parse(event.data)["message1"], JSON.parse(event.data)["message2"], JSON.parse(event.data)["message3"], JSON.parse(event.data)["message4"]];
         gamescene.ReceiveMessage(message);
     }
     if(JSON.parse(event.data).type == "user"){
-        gamescene.addPlayer(JSON.parse(event.data)["body"]);
+		
+        if(JSON.parse(event.data).player1 == null){
+            player1Name = null;
+            player1ID = null;
+            player1Ready = false; 
+        }else{
+            player1Name = JSON.parse(event.data).player1.PlayerName;
+            player1ID = JSON.parse(event.data).player1.ID;
+            player1Ready = JSON.parse(event.data).player1.Ready;
+        }
+        
+        if(JSON.parse(event.data).player2 == null){
+            player2Name = null;
+            player2ID  = null;
+            player2Ready = false; 
+        }else{
+            player2Name = JSON.parse(event.data).player2.PlayerName;
+            player2ID  = JSON.parse(event.data).player2.ID;
+            player2Ready = JSON.parse(event.data).player2.Ready;
+        }
+
+
+		gamescene.addPlayers(player1Name, player1ID, player1Ready, player2Name, player2ID, player2Ready);
+		
+        /*gamescene.addPlayer(JSON.parse(event.data)["body"]);
         if(!sent){
             return;
         }
         if(myId == undefined){
             myId=JSON.parse(event.data)["body"];
             sent = false;
-        }
+        }*/
         //console.log(myId);
     }
     if(JSON.parse(event.data).type == "unidad"){

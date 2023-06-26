@@ -12,9 +12,11 @@ export class Player
     unidades;
     camino;
     cooldownUnidades = timeBetweenUnidades;
-    constructor(name, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene, flecha)
+    ready = false;
+    name
+    constructor(id, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene, flecha)
     {
-        this.id = name
+        this.id = id
         this.vida = vida;
         this.oro = oro;
         this.base = base;
