@@ -63,7 +63,7 @@ public class WebSocketServer extends TextWebSocketHandler{
         JsonObject json = new JsonObject();
         try {
             JsonNode node = mapper.readTree(message.getPayload());
-            
+            String newId = new String();
             
             if(node.get("type").asText().equals("usuario1")){
             	System.out.println("Nuevo usuario");
@@ -74,11 +74,13 @@ public class WebSocketServer extends TextWebSocketHandler{
             		userController.NewUser(mapper.readTree(node.get("body").asText()).get("nombre").asText(), mapper.readTree(node.get("body").asText()).get("contra").asText());
                     //json.addProperty("type","user");
                     //json.addProperty("body", userController.GetUser()[0]);
+            		
+            		newId = userController.GetUser()[0];
                     if(player1.getName() == null) {
-                    	player1 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), userController.GetUser()[0]);
+                    	player1 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), newId);
                     }
                     else if(player2.getName() == null){
-                    	player2 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), userController.GetUser()[0]);
+                    	player2 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), newId);
                     }
             	}else {            		
             		for(int i = 1; i<userController.GetUser().length;i=i+3){
@@ -86,13 +88,15 @@ public class WebSocketServer extends TextWebSocketHandler{
             				System.out.println("Usuario ya en uso");
             			}else{
             				userController.NewUser(mapper.readTree(node.get("body").asText()).get("nombre").asText(),mapper.readTree(node.get("body").asText()).get("contra").asText());
+            				i+=3;
+            				newId = userController.GetUser()[i-1];
             				//json.addProperty("type","user");
             				//json.addProperty("body", userController.GetUser()[i-1]);
             				if(player1.getName() == null) {
-                            	player1 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), userController.GetUser()[i-1]);
+                            	player1 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), newId);
                             }
                             else if(player2.getName() == null){
-                            	player2 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), userController.GetUser()[i-1]);
+                            	player2 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), newId);
                             }
             			}
             		}
@@ -101,6 +105,7 @@ public class WebSocketServer extends TextWebSocketHandler{
             	json.addProperty("type","user");
                 json.add("player1", player1.GetPlayer());
                 json.add("player2", player2.GetPlayer());
+                json.addProperty("newId", newId);
                 
                 
             }else if(node.get("type").asText().equals("usuario2")){
@@ -108,18 +113,17 @@ public class WebSocketServer extends TextWebSocketHandler{
                 for(int i = 1; i<userController.GetUser().length;i=i+3){
                     if(userController.GetUser()[i].equals(mapper.readTree(node.get("body").asText()).get("nombre").asText())){
                         if(userController.GetUser()[i+1].equals(mapper.readTree(node.get("body").asText()).get("contra").asText())){
-                           if(player1.getName() == null) {
-                           	player1 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), userController.GetUser()[i-1]);
-                           }
-                           else if(player2.getName() == null && !player1.getID().equals(userController.GetUser()[i-1]) ){
-                        	   System.out.println(player1.getID());
-                        	   System.out.println(userController.GetUser()[i-1]);
-                        	   System.out.println(!player1.getID().equals(userController.GetUser()[i-1]));
-                           	player2 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), userController.GetUser()[i-1]);
-                           }
-                           json.addProperty("type","user");
-                           json.add("player1", player1.GetPlayer());
-                           json.add("player2", player2.GetPlayer());
+                        	newId = userController.GetUser()[i-1];
+                        	if(player1.getName() == null) {
+                        		player1 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), newId);
+                        	}
+                        	else if(player2.getName() == null && !player1.getID().equals(userController.GetUser()[i-1]) ){
+                        		player2 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), newId);
+                        	}
+                        	json.addProperty("type","user");
+                        	json.add("player1", player1.GetPlayer());
+                        	json.add("player2", player2.GetPlayer());
+                        	json.addProperty("newId", newId);
                         }
                     }else{
                         System.out.println("usuario incorrecto");
@@ -164,6 +168,23 @@ public class WebSocketServer extends TextWebSocketHandler{
                 json.addProperty("type", "muerteUnidad");
                 json.addProperty("playerNumber", mapper.readTree(node.get("body").asText()).get("player").asText());
                 json.addProperty("arrayPos", mapper.readTree(node.get("body").asText()).get("position").asText());
+            }
+            else if(node.get("type").asText().equals("userReady")) {
+            	if(player1.getID().equals(mapper.readTree(node.get("body").asText()).get("playerID").asText())) {
+            		player1.SetReady(mapper.readTree(node.get("body").asText()).get("readyStatus").asBoolean());
+            	}
+            	else if(player2.getID().equals(mapper.readTree(node.get("body").asText()).get("playerID").asText())) {
+            		player2.SetReady(mapper.readTree(node.get("body").asText()).get("readyStatus").asBoolean());
+            	}
+            	json.addProperty("type","user");
+                json.add("player1", player1.GetPlayer());
+                json.add("player2", player2.GetPlayer());
+            }
+            else if(node.get("type").asText().equals("reset")) {
+            	player1 = new Player();
+            	player2 = new Player();
+            	json.addProperty("type", "winner");
+            	json.addProperty("winnerID", node.get("body").asText());
             }
             else {
             	System.out.println("fuera");

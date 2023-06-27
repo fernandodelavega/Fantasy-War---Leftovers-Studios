@@ -23,7 +23,7 @@ public  class TextToFile {
 			try (
 			//FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-				System.out.println(file);
+				//System.out.println(file);
 				messages = push(messages, text);
 				for(String s : messages) {
 					bw.write(s);					
@@ -31,7 +31,7 @@ public  class TextToFile {
 				}
 					
 			}
-			System.out.println(GetText(file)[0]);
+			//System.out.println(GetText(file)[0]);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

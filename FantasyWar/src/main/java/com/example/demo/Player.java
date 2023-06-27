@@ -23,8 +23,8 @@ public class Player {
 	public boolean GetReady() {
 		return ready;
 	}
-	public void SetReady() {
-		ready = !ready;
+	public void SetReady(boolean ready) {
+		this.ready = ready;
 	}
 	public String getID() {
 		return ID;

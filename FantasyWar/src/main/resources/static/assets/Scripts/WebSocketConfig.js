@@ -1,7 +1,7 @@
 var gamescene;
 
-var myId;
-var sent = false;
+var myId = undefined;
+var changeId = false;
 var socket = new WebSocket("ws://localhost:8080/echo");
 socket.onopen = function(event) {
     //console.log("Connected to server");
@@ -36,7 +36,11 @@ socket.onmessage = function(event) {
             player2ID  = JSON.parse(event.data).player2.ID;
             player2Ready = JSON.parse(event.data).player2.Ready;
         }
-
+        if(changeId){
+            myId = JSON.parse(event.data).newId;
+            changeId = false;
+            console.log(myId)
+        }
 
 		gamescene.addPlayers(player1Name, player1ID, player1Ready, player2Name, player2ID, player2Ready);
 		
@@ -75,6 +79,10 @@ socket.onmessage = function(event) {
             console.log(gamescene.player2.unidades);
         }
     }
+    if(JSON.parse(event.data).type == "winner"){
+        gamescene.FinishGame(JSON.parse(event.data).winnerID);
+    }
+    
 }
 socket.onclose = function(event) {
     //console.log("Disconnected from server");
@@ -84,8 +92,9 @@ function SendMessage(type, msg){
     if(type != "oro"){
         console.log(msg);
     }
-    
-    sent = true;
+    if((type == "usuario1" || type == "usuario2") && myId == undefined){
+        changeId = true;
+    }
     if (!isOpen(socket)) return;
     socket.send(JSON.stringify({type:type, body: msg}));
 }

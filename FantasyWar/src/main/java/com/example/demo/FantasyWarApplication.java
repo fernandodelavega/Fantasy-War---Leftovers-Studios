@@ -19,6 +19,7 @@ public class FantasyWarApplication implements WebSocketConfigurer {
 		return new UserService(10);
 	}
 	public static void main(String[] args){		
+		UserController.StartFile();
 		SpringApplication.run(FantasyWarApplication.class, args);
 	}
 	

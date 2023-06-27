@@ -15,6 +15,7 @@ var chatEnabled = false;
 var chatMessages = [];
 
 export class GameScene extends Phaser.Scene {
+    started = false;
     constructor(){
         super({key: "GameScene"});
     }
@@ -26,6 +27,8 @@ export class GameScene extends Phaser.Scene {
         this.load.image('carta', 'assets/images/carta.png');
         this.load.image('fondoChat', 'assets/images/chat_square.png');
         this.load.image('iconoChat', 'assets/images/chat_icon.png');
+        this.load.image('readyNo', 'assets/images/fase3/ready_no.png');
+        this.load.image('readyYes', 'assets/images/fase3/ready_yes.png');
 
         this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png', { frameWidth: 35, frameHeight: 35 });
@@ -272,7 +275,12 @@ export class GameScene extends Phaser.Scene {
         }catch{}
         
         this.fondoInicio = this.add.image(1920/2, 1080/2, 'fondoC').setScale(6, 6);
-        this.fondoInicio.destroy();
+        this.boton= this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
+        this.boton.on('pointerdown', () =>{
+            this.Ready();
+            SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
+        });
+        
         this.timer = 0;
         
         
@@ -281,27 +289,15 @@ export class GameScene extends Phaser.Scene {
     update(time, delta){
         
         
-        if(!this.player1.ready || !this.player2.ready){
+        if(!this.started){
             return;
         }
         //Finalizar escena
         if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
-            this.Reset();
-            if (this.player1.base.vida <= 0 && this.player2.base.vida > 0){
-                this.player1.base.vida = 100;
-                this.player2.base.vida = 100;
-                this.scene.start('player2W');
-            }
-            else if (this.player2.base.vida <=0 && this.player1.base.vida > 0){
-                this.player1.base.vida = 100;
-                this.player2.base.vida = 100;
-                this.scene.start('player1W');
-            }
-            else {
-                this.player1.base.vida = 100;
-                this.player2.base.vida = 100;
-                this.scene.start('draw');
-            }
+            this.SendFinnish((this.player1.base.vida <= 0 && this.player2.base.vida > 0)? this.player2.id :
+                    (this.player2.base.vida <=0 && this.player1.base.vida > 0)? this.player1.id :
+                    null);
+            
         }
 
         ///////Update Unidades /////
@@ -405,21 +401,74 @@ export class GameScene extends Phaser.Scene {
         this.player2.id = player2ID;
         this.player2.ready = player2Ready
         console.log(this.player2.name);
+
+        if(this.player1.ready == true && this.player2.ready == true){
+            this.Start();
+        }
+
     }
     Reset(){
         this.player1.id = undefined;
         this.player2.id = undefined;
+        this.player1.name = undefined;
+        this.player2.name = undefined;
+        this.player1.ready = false;
+        this.player2.ready = false;
+
         this.player1.unidades = [];
         this.player2.unidades = [];
         this.player1.oro = 5;
         this.player2.oro = 5;
         sent = false;
+        this.started = false;
         myId = undefined;
+        
     }
     ReceiveMessage(message) {
         this.popUp?.Desapear();
         this.popUp = new ChatPannel('carta', message, this.physics, this);
         
+    }
+    SendFinnish(winner){
+        SendMessage("reset", winner)
+    }
+    FinishGame(winnerId){
+        if(winnerId == this.player1.id){
+            this.scene.start('player1W');
+        }
+        else if(winnerId == this.player2.id){
+            this.scene.start('player2W');
+        }else{
+            this.scene.start('draw');
+        }
+        this.Reset();
+        
+        this.player1.base.vida = 100;
+        this.player2.base.vida = 100;
+    }
+    Ready(){
+        this.boton.destroy();
+        this.boton = this.add.image(950, 780, 'readyYes').setScale(6,6).setInteractive();
+        this.boton.on('pointerdown', () =>{
+            this.NotReady();
+            SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: false}));
+        });
+    }
+    NotReady(){
+        this.boton.destroy();
+        this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
+        this.boton.on('pointerdown', () =>{
+            this.Ready();
+            SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
+        });
+    }
+    StartCall(){
+        SendMessage();
+    }
+    Start(){
+        this.fondoInicio.destroy();
+        this.boton.destroy();
+        this.started = true;
     }
 }
 
