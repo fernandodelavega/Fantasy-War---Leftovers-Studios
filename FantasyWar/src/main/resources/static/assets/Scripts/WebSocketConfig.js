@@ -1,10 +1,14 @@
 var gamescene;
 
+var sessionSettings;
 var myId = undefined;
 var changeId = false;
 var socket = new WebSocket("ws://localhost:8080/echo");
 socket.onopen = function(event) {
     //console.log("Connected to server");
+    sessionSettings = document.getElementById("user")
+    console.log(sessionSettings);
+    sessionSettings.style.display = "none";
 }
 //sass
 socket.onmessage = function(event) {
@@ -39,6 +43,7 @@ socket.onmessage = function(event) {
         if(changeId){
             myId = JSON.parse(event.data).newId;
             changeId = false;
+            sessionSettings.style.display = "none";
             console.log(myId)
         }
 

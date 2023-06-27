@@ -1,0 +1,18 @@
+body {
+    background-color: #91b6a3;
+}
+
+
+canvas {
+    border: solid 5px #fff;
+}
+
+#user {
+    transform: scale(2);
+    position: absolute;
+    z-index: 100;
+    color: white;
+    top: 50%;
+    left: 45%;
+    
+}
