@@ -275,11 +275,8 @@ export class GameScene extends Phaser.Scene {
         }catch{}
         
         this.fondoInicio = this.add.image(1920/2, 1080/2, 'fondoC').setScale(6, 6);
-        this.boton= this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
-        this.boton.on('pointerdown', () =>{
-            this.Ready();
-            SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
-        });
+        
+        
         
         this.timer = 0;
         
@@ -401,6 +398,14 @@ export class GameScene extends Phaser.Scene {
         this.player2.id = player2ID;
         this.player2.ready = player2Ready
         console.log(this.player2.name);
+
+        if(myId != undefined){
+            this.boton= this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
+            this.boton.on('pointerdown', () =>{
+                this.Ready();
+                SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
+            });
+        }
 
         if(this.player1.ready == true && this.player2.ready == true){
             this.Start();
