@@ -20,25 +20,28 @@ socket.onmessage = function(event) {
         gamescene.ReceiveMessage(message);
     }
     if(JSON.parse(event.data).type == "user"){
-		
         if(JSON.parse(event.data).player1 == null){
             player1Name = null;
             player1ID = null;
             player1Ready = false; 
+            player1PowerUp = null;
         }else{
             player1Name = JSON.parse(event.data).player1.PlayerName;
             player1ID = JSON.parse(event.data).player1.ID;
             player1Ready = JSON.parse(event.data).player1.Ready;
+            player1PowerUp = JSON.parse(event.data).player1.powerUp
         }
         
         if(JSON.parse(event.data).player2 == null){
             player2Name = null;
             player2ID  = null;
             player2Ready = false; 
+            player2PowerUp = false;
         }else{
             player2Name = JSON.parse(event.data).player2.PlayerName;
             player2ID  = JSON.parse(event.data).player2.ID;
             player2Ready = JSON.parse(event.data).player2.Ready;
+            player2PowerUp = JSON.parse(event.data).player2.powerUp
         }
         if(changeId){
             myId = JSON.parse(event.data).newId;
@@ -47,7 +50,7 @@ socket.onmessage = function(event) {
             console.log(myId)
         }
 
-		gamescene.addPlayers(player1Name, player1ID, player1Ready, player2Name, player2ID, player2Ready);
+		gamescene.addPlayers(player1Name, player1ID, player1Ready, player1PowerUp, player2Name, player2ID, player2Ready, player2PowerUp);
 		
         /*gamescene.addPlayer(JSON.parse(event.data)["body"]);
         if(!sent){
@@ -82,6 +85,14 @@ socket.onmessage = function(event) {
         }else if(JSON.parse(event.data).playerNumber == 2){
             gamescene.player2.unidades[JSON.parse(event.data).arrayPos].Die();
             console.log(gamescene.player2.unidades);
+        }
+    }
+    else if(JSON.parse(event.data).type == "PowerUp"){
+        if(JSON.parse(event.data).playerID == gamescene.player1.id){
+            gamescene.player1.powerUp.Effect();
+        }
+        else if(JSON.parse(event.data).playerID == gamescene.player2.id){
+            gamescene.player2.powerUp.Effect(JSON.parse(event.data).playerID);
         }
     }
     if(JSON.parse(event.data).type == "winner"){

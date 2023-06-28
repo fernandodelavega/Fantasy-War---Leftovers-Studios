@@ -4,6 +4,7 @@ import "./WebSocketConfig.js";
 
 var chatText;
 let timeBetweenUnidades = 1000;
+let timeBetweenPowerUp = 5000;
 
 var playerState = 0;
 export class Player
@@ -12,8 +13,10 @@ export class Player
     unidades;
     camino;
     cooldownUnidades = timeBetweenUnidades;
+    cooldownPowerUp = timeBetweenPowerUp;
     ready = false;
     name
+    powerUp;
     constructor(id, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene, flecha)
     {
         this.id = id
@@ -108,6 +111,9 @@ export class Player
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyD) && !this.chatEnabled ){
             this.siguienteUnidad(true);
         }
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyEnter) && !this.chatEnabled ){
+            this.UsePowerUp();
+        }
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyT)){
             playerState = 1;
         }
@@ -192,7 +198,11 @@ export class Player
         this.oro = oroCantidad;
     }
     
-
+    UsePowerUp(){
+        if(this.cooldownPowerUp < timeBetweenPowerUp) return;
+        this.powerUp.SendEffect();
+        this.cooldownPowerUp = 0;
+    }
     Update(delta){
         //console.log(playerState);
         
@@ -212,6 +222,8 @@ export class Player
         }else if(playerState == 1){
             this.ChatKeyboard();
         }
+        this.cooldownPowerUp += delta;
+        if(this.cooldownPowerUp > timeBetweenPowerUp);
 
         this.cooldownUnidades += delta;
         if(this.cooldownUnidades > timeBetweenUnidades){
@@ -228,6 +240,7 @@ export class Player
         return;
     }
 }
+
 function CreateMessage(text){
     SendMessage("chat", text);
 }

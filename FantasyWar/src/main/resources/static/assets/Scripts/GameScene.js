@@ -5,6 +5,9 @@ import {Unidades} from './Unidades.js';
 import {carta} from './carta.js';
 import { ChatPannel } from './ChatPannel.js';
 import { Espectator } from './espectator.js';
+import {Nuke} from './Nuke.js';
+import {Heal} from './Heal.js';
+import {Trade} from './Trade.js';
 
 var textOro1;
 var textOro2;
@@ -29,6 +32,13 @@ export class GameScene extends Phaser.Scene {
         this.load.image('iconoChat', 'assets/images/chat_icon.png');
         this.load.image('readyNo', 'assets/images/fase3/ready_no.png');
         this.load.image('readyYes', 'assets/images/fase3/ready_yes.png');
+        this.load.image('nukeActive', 'assets/images/fase3/pwr_bomb_yes.png');
+        this.load.image('nukeInactive', 'assets/images/fase3/pwr_bomb_no.png');
+        this.load.image('healActive', 'assets/images/fase3/pwr_heal_yes.png');
+        this.load.image('healInactive', 'assets/images/fase3/pwr_heal_no.png');
+        this.load.image('tradeActive', 'assets/images/fase3/pwr_coin_yes.png');
+        this.load.image('tradeInactive', 'assets/images/fase3/pwr_coin_no.png');
+        this.load.image('enterkey', 'assets/images/fase3/enterkey.png')
 
         this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png', { frameWidth: 35, frameHeight: 35 });
@@ -76,35 +86,15 @@ export class GameScene extends Phaser.Scene {
         textOro1 = this.add.text(120, 100, 'GOLD: 10', { font: "20px 'PS2P'"});
         textOro2 = this.add.text(1645, 100, 'GOLD: 10', { font: "20px 'PS2P'" });
 
-        //this.textInput = this.add.dom(1920, 1080).setOrigin(1);
-		//this.chat = this.add.text(1000,10,"",{
-		//	lineSpacing: 15,
-		//	backgroundColor: "#21313CDD",
-		//	color: "#26924F",
-		//	padding: 10,
-		//	fontStyle: "bold"
-		//});
-		//this.chat.setFixedSize(270,645);
         
-        //this.tKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-		
-		//this.tKey.on("down", event =>{
-		//	let chatbox = this.textInput.getChildByName("chat");
-		//	if(chatbox != ""){
-		//		
-		//		//POST
-//
-		//		chatbox.value = "";
-		//	}
-		//});
 
         this.crear=this.sound.add('Crear');
         this.muerte=this.sound.add('Matar');
         this.goblinS=this.sound.add('goblinS');
         this.mageS=this.sound.add('mageS');
         this.golemS=this.sound.add('golemS');
-        //this.coin.anims.add('idle',('coin',{ start: 0, end: 3 }),10,-1);
-        //this.coin.anims.play('idle');
+        
+
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
@@ -315,21 +305,10 @@ export class GameScene extends Phaser.Scene {
             this.player2.Update(delta);
         }
         
-        //this.player2.Update(delta);
         
-        //this.player1.Update(delta);
         textOro1.setText('GOLD: ' + this.player1.oro);
         textOro2.setText('GOLD: ' + this.player2.oro);
-        //if(this.popUp != undefined){
-        //    this.timer += delta;
-        //    if(this.timer > 1500){
-        //        
-        //        this.popUp.Desapear();
-        //        this.popUp = undefined;
-        //        this.timer = 0;
-        //        
-        //    }
-        //}
+        
     }
 
     updateUnidadesPlayer1(delta)
@@ -387,26 +366,71 @@ export class GameScene extends Phaser.Scene {
         }
     }
 
-    addPlayers(player1Name, player1ID, player1Ready, player2Name, player2ID, player2Ready){
+    addPlayers(player1Name, player1ID, player1Ready, player1PowerUp, player2Name, player2ID, player2Ready, player2PowerUp){
         
         this.player1.name = player1Name;
         this.player1.id = player1ID;
         this.player1.ready = player1Ready;
+        this.SelectPowerUp(player1PowerUp, this.player1.id)
         console.log(this.player1.name);
         
         this.player2.name = player2Name;
         this.player2.id = player2ID;
-        this.player2.ready = player2Ready
+        this.player2.ready = player2Ready;
+        this.SelectPowerUp(player2PowerUp, this.player2.id)
         console.log(this.player2.name);
 
         if(myId != undefined && this.boton == undefined){
-            this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
-            this.boton.on('pointerdown', () =>{
-                this.Ready();
-                SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
-            });
-        }
+            console.log(myId);
+            if(myId == player1ID && this.player1.powerUp != undefined){
+                this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
+                this.boton.on('pointerdown', () =>{
+                    this.Ready();
+                    SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
+                });
+            }
+            if(myId == player2ID && this.player2.powerUp != undefined){
+                this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
+                this.boton.on('pointerdown', () =>{
+                    this.Ready();
+                    SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
+                });
+            }
+            
 
+
+            if(this.powerUpButton1 == undefined){
+
+                this.powerUpButton1 = this.add.image(500, 400, 'nukeInactive').setScale(6,6).setInteractive();
+                this.powerUpButton1.on('pointerdown', () =>{
+                    this.powerUpSelected(this.powerUpButton1, "nukeActive", "nukeInactive", 0, 1);
+                    SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 1}));
+                });
+    
+                this.powerUpButton2 = this.add.image(950, 400, 'healInactive').setScale(6,6).setInteractive();
+                this.powerUpButton2.on('pointerdown', () =>{
+                    this.powerUpSelected(this.powerUpButton2, "healActive", "healInactive", 0, 2);
+                    SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 2}));
+                });
+    
+                this.powerUpButton3 = this.add.image(1920 - 500, 400, 'tradeInactive').setScale(6,6).setInteractive();
+                this.powerUpButton3.on('pointerdown', () =>{
+                    this.powerUpSelected(this.powerUpButton3, "tradeActive", "tradeInactive", 0, 3);
+                    SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 3}));
+                });
+            }
+        }
+        if(myId == player1ID && this.player1.powerUp == undefined){
+            console.log(this.player1.powerUp);  
+            this.boton?.destroy();
+            this.boton = undefined;
+            this.player1.ready = false;
+        }
+        if(myId == player2ID && this.player2.powerUp == undefined){
+            this.boton?.destroy();
+            this.boton = undefined;
+            this.player2.ready = false;
+        }
         if(this.player1.ready == true && this.player2.ready == true){
             this.Start();
         }
@@ -419,6 +443,8 @@ export class GameScene extends Phaser.Scene {
         this.player2.name = undefined;
         this.player1.ready = false;
         this.player2.ready = false;
+        this.player1.powerUp = undefined;
+        this.player2.powerUp = undefined;
 
         this.player1.unidades = [];
         this.player2.unidades = [];
@@ -468,12 +494,61 @@ export class GameScene extends Phaser.Scene {
             SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
         });
     }
+    powerUpSelected(button, nextButton, currentImage, powerUpSelected, nextSelection){
+        console.log(button);
+        console.log(button.texture);
+        
+        
+        this.powerUpButton1.setTexture('nukeInactive');
+        this.powerUpButton1._events.pointerdown = undefined;
+        this.powerUpButton1.on('pointerdown', () =>{
+            this.powerUpSelected(this.powerUpButton1, "nukeActive", "nukeInactive", 0, 1);
+            SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 1}));
+        });
+        
+        this.powerUpButton2.setTexture('healInactive');
+        this.powerUpButton2._events.pointerdown = undefined;
+        this.powerUpButton2.on('pointerdown', () =>{
+            this.powerUpSelected(this.powerUpButton2, "healActive", "healInactive", 0, 2);
+            SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 2}));
+        });
+        
+        this.powerUpButton3.setTexture('tradeInactive');
+        this.powerUpButton3._events.pointerdown = undefined;
+        this.powerUpButton3.on('pointerdown', () =>{
+            this.powerUpSelected(this.powerUpButton3, "tradeActive", "tradeInactive", 0, 3);
+            SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 3}));
+        });
+
+
+        button.setTexture(nextButton);
+        button._events.pointerdown = undefined;
+        button.on('pointerdown', () =>{
+            this.powerUpSelected(button, currentImage, nextButton, nextSelection, powerUpSelected);
+            SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: powerUpSelected}));
+        });
+    }
+    SelectMessage(){
+        
+    }
+    SelectPowerUp(powerUp, playerId){
+        if(this.player1.id == playerId){
+            this.player1.powerUp = (powerUp == 1)? new Nuke(this.physics, 'nukeInactive', this.player1.id) : (powerUp == 2)? new Heal(this.physics, 'healInactive', this.player1.id) : (powerUp == 3)?new Trade(this.physics, 'tradeInactive', this.player1.id) : undefined;
+        }else{
+            this.player2.powerUp = (powerUp == 1)? new Nuke(this.physics, 'nukeInactive', this.player2.id) : (powerUp == 2)? new Heal(this.physics, 'healInactive', this.player2.id) : (powerUp == 3)?new Trade(this.physics, 'tradeInactive', this.player2.id) : undefined;
+        }
+    }
     StartCall(){
         SendMessage();
     }
     Start(){
         this.fondoInicio.destroy();
         this.boton.destroy();
+        this.powerUpButton1.destroy();
+        this.powerUpButton1 = undefined;
+        this.powerUpButton2.destroy();
+        this.powerUpButton3.destroy();
+        this.enterImage = this.physics.add.image(1920/2, 1000, 'enterkey').setScale(6);
         this.started = true;
     }
 }

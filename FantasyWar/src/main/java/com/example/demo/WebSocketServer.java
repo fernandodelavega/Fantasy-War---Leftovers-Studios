@@ -180,12 +180,27 @@ public class WebSocketServer extends TextWebSocketHandler{
                 json.add("player1", player1.GetPlayer());
                 json.add("player2", player2.GetPlayer());
             }
-            else if(node.get("type").asText().equals("reset")) {
+            else if(node.get("type").asText().equals("SelectPowerUp")) {
+            	if(player1.getID().equals(mapper.readTree(node.get("body").asText()).get("playerID").asText())) {
+            		player1.setPowerUp(mapper.readTree(node.get("body").asText()).get("powerUpSelected").asInt());
+            		
+            	}else if(player2.getID().equals(mapper.readTree(node.get("body").asText()).get("playerID").asText())) {
+            		player2.setPowerUp(mapper.readTree(node.get("body").asText()).get("powerUpSelected").asInt());
+            	}
+            	json.addProperty("type","user");
+                json.add("player1", player1.GetPlayer());
+                json.add("player2", player2.GetPlayer());
+            }
+           	else if(node.get("type").asText().equals("reset")) {
             	player1 = new Player();
             	player2 = new Player();
             	json.addProperty("type", "winner");
             	json.addProperty("winnerID", node.get("body").asText());
             }
+           	else if(node.get("type").asText().equals("PowerUp")) {
+           		json.addProperty("type", "PowerUp");
+           		json.addProperty("playerID", node.get("body").asText());
+           	}
             else {
             	System.out.println("fuera");
             }

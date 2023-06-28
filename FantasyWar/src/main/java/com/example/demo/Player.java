@@ -11,6 +11,7 @@ public class Player {
 	private String name;
 	private String ID;
 	private boolean ready;
+	private int powerUp;
 	public Player() {
 		
 	}
@@ -38,6 +39,14 @@ public class Player {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public int getPowerUp() {
+		return powerUp;
+	}
+
+	public void setPowerUp(int powerUp) {
+		this.powerUp = powerUp;
+	}
 	public JsonObject GetPlayer() {
 		JsonObject json = new JsonObject();
 		if(name == null) {
@@ -45,7 +54,8 @@ public class Player {
 		}
 		json.addProperty("PlayerName", name);
 		json.addProperty("ID", ID);
-		json.addProperty("Ready", ready);		
+		json.addProperty("Ready", ready);	
+		json.addProperty("powerUp", powerUp);
 		return json;
 	}
 }
