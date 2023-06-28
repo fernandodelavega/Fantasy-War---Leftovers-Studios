@@ -60,7 +60,9 @@ export class Player
     }
     
     InstanciarUnidad(){
-
+        if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyEnter) && !this.chatEnabled ){
+            this.UsePowerUp();
+        }
         if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1 && !this.chatEnabled){
             if(this.cooldownUnidades < timeBetweenUnidades) return;
             var player;
@@ -111,9 +113,7 @@ export class Player
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyD) && !this.chatEnabled ){
             this.siguienteUnidad(true);
         }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyEnter) && !this.chatEnabled ){
-            this.UsePowerUp();
-        }
+       
         else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyT)){
             playerState = 1;
         }
