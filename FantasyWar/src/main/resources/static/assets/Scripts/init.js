@@ -28,6 +28,7 @@ var config = {
         }
     },
     scene: [Intro, Inicio, GameScene, player1W, player2W, draw, credits]
+
 };
 
 var game = new Phaser.Game(config);

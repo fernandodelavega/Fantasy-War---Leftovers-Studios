@@ -38,6 +38,12 @@ public  class TextToFile {
 		}
         
 	}
+	public void DeleteFile(File file) {
+		file.delete();
+		messages = new String[0];
+		
+		
+	}
 	public String[] GetText(File file) throws IOException {
 		try (// Creating an object of BufferedReader class
 		BufferedReader br = new BufferedReader(new FileReader(file))) {

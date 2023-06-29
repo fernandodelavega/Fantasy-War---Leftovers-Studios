@@ -5,6 +5,9 @@ export class PowerUps{
         }
         
     }
+    Start(){
+        
+    }
     Disable(){
         this.image.setTint(0x444444);
     }

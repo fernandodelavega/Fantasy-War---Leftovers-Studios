@@ -62,6 +62,7 @@ export class Player
     InstanciarUnidad(){
         if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyEnter) && !this.chatEnabled ){
             this.UsePowerUp();
+            
         }
         if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1 && !this.chatEnabled){
             if(this.cooldownUnidades < timeBetweenUnidades) return;
@@ -201,6 +202,7 @@ export class Player
     UsePowerUp(){
         if(this.cooldownPowerUp < timeBetweenPowerUp) return;
         this.powerUp.SendEffect();
+        this.powerUp.Disable();
         this.cooldownPowerUp = 0;
     }
     Update(delta){
@@ -223,7 +225,8 @@ export class Player
             this.ChatKeyboard();
         }
         this.cooldownPowerUp += delta;
-        if(this.cooldownPowerUp > timeBetweenPowerUp);
+        if(this.cooldownPowerUp > timeBetweenPowerUp) this.powerUp.Enable();
+
 
         this.cooldownUnidades += delta;
         if(this.cooldownUnidades > timeBetweenUnidades){

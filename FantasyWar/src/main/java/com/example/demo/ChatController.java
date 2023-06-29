@@ -24,7 +24,9 @@ public class ChatController {
 		ttf.NewText(msgs, text);
 		
 	}
-	
+	public void DeleteMessages() {
+		ttf.DeleteFile(msgs);
+	}
 
 	public String[] GetMessage() throws IOException {
 		

@@ -2,7 +2,7 @@ export class Unidades
 {
     gameobject;
     player;
-    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound, atc1, atc2)
+    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound, atc1, atc2, dth)
     {
         
         this.vida = vida;
@@ -17,6 +17,7 @@ export class Unidades
         this.sound = sound;
         this.atc1 = atc1;
         this.atc2 = atc2;
+        this.death = dth;
     }
     instance(playerNumber, player, unidad, positionx, positiony, camino, enemyBase, physics, arrayPos){
         

@@ -1,16 +1,22 @@
+
 var gamescene;
 
 var sessionSettings;
 var myId = undefined;
 var changeId = false;
-var socket = new WebSocket("ws://localhost:8080/echo");
+var socket = new WebSocket("ws://" + location.host + "/echo");
+
 socket.onopen = function(event) {
     //console.log("Connected to server");
+    
+    
+
     sessionSettings = document.getElementById("user")
-    console.log(sessionSettings);
+
+    //console.log(sessionSettings);
     sessionSettings.style.display = "none";
 }
-//sass
+
 socket.onmessage = function(event) {
     var player1Name, player1ID, player1Ready, player2Name, player2ID, player2Ready;
     //console.log(gamescene);
@@ -50,7 +56,7 @@ socket.onmessage = function(event) {
             console.log(myId)
         }
 
-		gamescene.addPlayers(player1Name, player1ID, player1Ready, player1PowerUp, player2Name, player2ID, player2Ready, player2PowerUp);
+		gamescene?.addPlayers(player1Name, player1ID, player1Ready, player1PowerUp, player2Name, player2ID, player2Ready, player2PowerUp);
 		
         /*gamescene.addPlayer(JSON.parse(event.data)["body"]);
         if(!sent){
