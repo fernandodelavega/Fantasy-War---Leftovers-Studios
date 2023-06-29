@@ -4,7 +4,7 @@ export class Nuke extends PowerUps{
     SendEffect(){
         super.SendEffect();
     }
-    Effect(playerid){
+    Effect(playerId){
         for(var i = 0; i < gamescene.player1.unidades.length; i++){
             gamescene.player1.unidades[i].Die();
         }
@@ -13,5 +13,6 @@ export class Nuke extends PowerUps{
         }
         gamescene.player1.unidades = [];
         gamescene.player2.unidades = [];
+        super.Effect(playerId);
     }
 }

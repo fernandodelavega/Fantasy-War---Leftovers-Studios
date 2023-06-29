@@ -8,5 +8,6 @@ export class Trade extends PowerUps{
         this.aux = gamescene.player1.oro;
         gamescene.player1.oro = gamescene.player2.oro;
         gamescene.player2.oro = this.aux;
+        super.Effect(playerId);
     }
 }

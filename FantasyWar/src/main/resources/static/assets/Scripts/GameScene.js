@@ -273,6 +273,7 @@ export class GameScene extends Phaser.Scene {
         
         sessionSettings.style.display = "block";
         this.fondoInicio = this.add.image(1920/2, 1080/2, 'fondoC').setScale(6, 6);
+        this.newText;
         
         
         this.timer = 0;
@@ -304,7 +305,8 @@ export class GameScene extends Phaser.Scene {
         for (var i = 0; i < this.cardsP2.length; i++){
             this.cardsP2[i].update(this.player2.unidad)
         }
-
+        this.player1.powerUp.Update(delta);
+        this.player2.powerUp.Update(delta);
         //update players
         if(this.player1.id==myId){
             this.player1.Update(delta);
@@ -387,16 +389,20 @@ export class GameScene extends Phaser.Scene {
         this.SelectPowerUp(player2PowerUp, this.player2.id)
         console.log(this.player2.name);
 
+        this.newText?.destroy();
         if(myId != undefined && this.boton == undefined){
-            console.log(myId);
+            //console.log(myId);
             if(myId == player1ID && this.player1.powerUp != undefined){
                 this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
                 this.boton.on('pointerdown', () =>{
                     this.Ready();
                     SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
                 });
+                
             }
             if(myId == player2ID && this.player2.powerUp != undefined){
+                //this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5);
+                //this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
                 this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
                 this.boton.on('pointerdown', () =>{
                     this.Ready();
@@ -404,22 +410,20 @@ export class GameScene extends Phaser.Scene {
                 });
             }
             
-
-
             if(this.powerUpButton1 == undefined){
-
+                
                 this.powerUpButton1 = this.add.image(500, 400, 'nukeInactive').setScale(6,6).setInteractive();
                 this.powerUpButton1.on('pointerdown', () =>{
                     this.powerUpSelected(this.powerUpButton1, "nukeActive", "nukeInactive", 0, 1);
                     SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 1}));
                 });
-    
+                
                 this.powerUpButton2 = this.add.image(950, 400, 'healInactive').setScale(6,6).setInteractive();
                 this.powerUpButton2.on('pointerdown', () =>{
                     this.powerUpSelected(this.powerUpButton2, "healActive", "healInactive", 0, 2);
                     SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 2}));
                 });
-    
+                
                 this.powerUpButton3 = this.add.image(1920 - 500, 400, 'tradeInactive').setScale(6,6).setInteractive();
                 this.powerUpButton3.on('pointerdown', () =>{
                     this.powerUpSelected(this.powerUpButton3, "tradeActive", "tradeInactive", 0, 3);
@@ -427,6 +431,11 @@ export class GameScene extends Phaser.Scene {
                 });
             }
         }
+        if(myId == this.player1.id || myId == this.player2.id){
+            this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
+        }
+        
+        
         if(myId == player1ID && this.player1.powerUp == undefined){
             console.log(this.player1.powerUp);  
             this.boton?.destroy();
@@ -441,7 +450,7 @@ export class GameScene extends Phaser.Scene {
         if(this.player1.ready == true && this.player2.ready == true){
             this.Start();
         }
-
+        
     }
     Reset(){
         this.player1.id = undefined;
@@ -452,7 +461,7 @@ export class GameScene extends Phaser.Scene {
         this.player2.ready = false;
         this.player1.powerUp = undefined;
         this.player2.powerUp = undefined;
-
+        
         this.player1.unidades = [];
         this.player2.unidades = [];
         this.player1.oro = 5;
@@ -486,6 +495,7 @@ export class GameScene extends Phaser.Scene {
         this.player2.base.vida = 100;
     }
     Ready(){
+        //this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
         this.boton.destroy();
         this.boton = this.add.image(950, 780, 'readyYes').setScale(6,6).setInteractive();
         this.boton.on('pointerdown', () =>{
@@ -555,6 +565,7 @@ export class GameScene extends Phaser.Scene {
         this.powerUpButton1 = undefined;
         this.powerUpButton2.destroy();
         this.powerUpButton3.destroy();
+        this.newText.destroy();
         this.enterImage = this.physics.add.image(1920/2, 1000, 'enterkey').setScale(6);
         if(myId == this.player1.id){
 
