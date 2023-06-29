@@ -6,10 +6,10 @@ export class Heal extends PowerUps{
     }
     Effect(playerId){
         if(gamescene.player1.id == playerId){
-            gamescene.player1.vida = (gamescene.player1.vida + vida >= 100)? 100 : gamescene.player1.vida + vida;
+            gamescene.player1.base.Heal(this.vida);
         }
         else if(gamescene.player2.id == playerId){
-            gamescene.player2.vida = (gamescene.player2.vida + vida >= 100)? 100 : gamescene.player2.vida + vida;
+            gamescene.player2.base.Heal(this.vida);
         }
     }
 
