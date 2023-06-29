@@ -47,7 +47,7 @@ export class GameScene extends Phaser.Scene {
         this.load.spritesheet('magoB', 'assets/images/tropas/mage_b.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png', { frameWidth: 45, frameHeight: 45 });
         this.load.spritesheet('coin', 'assets/images/tropas/coin.png', { frameWidth: 20, frameHeight: 20 });
-        this.load.spritesheet('death', 'assets/images/fase2/death_puff.png', { frameWidth: 35, frameHeight: 35 });
+        this.load.spritesheet('death', 'assets/images/fase3/death_puff.png', { frameWidth: 35, frameHeight: 35 });
         
         this.load.spritesheet('goblinRA', 'assets/images/fase3/goblinRAt.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoRA', 'assets/images/fase3/magoRAt.png', { frameWidth: 35, frameHeight: 35 });
@@ -226,14 +226,14 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(260);
 
         this.unidadesPrefab1 = new Array(); 
-        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 100, 'goblinR',this.goblinS,'goblinRAT','goblinRHit', 'deathAnim'));
-        this.unidadesPrefab1.push(new Unidades(20, 150, 4, 100, 700, 'magoR',this.mageS,'magoRAT','goblinRHit', 'deathAnim'));
-        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 100, 'golemR',this.golemS,'golemRAT',null, 'deathAnim'));
+        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 100, 'goblinR',this.goblinS,'goblinRAT','goblinRHit', 'death', 'deathAnim'));
+        this.unidadesPrefab1.push(new Unidades(20, 150, 4, 100, 700, 'magoR',this.mageS,'magoRAT','goblinRHit', 'death', 'deathAnim'));
+        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 100, 'golemR',this.golemS,'golemRAT',null, 'death', 'deathAnim'));
         
         this.unidadesPrefab2 = new Array(); 
-        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 100, 'golemB',this.golemS,'golemBAT',null, 'deathAnim'));
-        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS,'magoBAT','magoBHit', 'deathAnim'));
-        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 100, 'goblinB',this.goblinS,'goblinBAT','goblinBHit', 'deathAnim'));
+        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 100, 'golemB',this.golemS,'golemBAT',null, 'death', 'deathAnim'));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS,'magoBAT','magoBHit', 'death', 'deathAnim'));
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 100, 'goblinB',this.goblinS,'goblinBAT','goblinBHit', 'death', 'deathAnim'));
 
         this.espectators = new Array();
 
@@ -556,6 +556,13 @@ export class GameScene extends Phaser.Scene {
         this.powerUpButton2.destroy();
         this.powerUpButton3.destroy();
         this.enterImage = this.physics.add.image(1920/2, 1000, 'enterkey').setScale(6);
+        if(myId == this.player1.id){
+
+            this.player1.powerUp.Start();
+        }else{
+
+            this.player2.powerUp.Start();
+        }
         this.started = true;
     }
 }

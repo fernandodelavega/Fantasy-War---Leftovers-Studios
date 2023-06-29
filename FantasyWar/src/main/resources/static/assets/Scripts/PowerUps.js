@@ -2,11 +2,12 @@ export class PowerUps{
     constructor(physics, image, playerId){
         if(myId == playerId){
             this.image = physics.add.image(1920/2, 1000, image).setScale(6);
+            this.image.visible = false;
         }
         
     }
     Start(){
-        
+        this.image.visible = true;
     }
     Disable(){
         this.image.setTint(0x444444);

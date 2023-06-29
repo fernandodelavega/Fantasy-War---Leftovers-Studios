@@ -2,7 +2,7 @@ export class Unidades
 {
     gameobject;
     player;
-    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound, atc1, atc2, dth)
+    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound, atc1, atc2, deathImage,dth)
     {
         
         this.vida = vida;
@@ -17,6 +17,7 @@ export class Unidades
         this.sound = sound;
         this.atc1 = atc1;
         this.atc2 = atc2;
+        this.deathImage = deathImage;
         this.death = dth;
     }
     instance(playerNumber, player, unidad, positionx, positiony, camino, enemyBase, physics, arrayPos){
@@ -164,6 +165,8 @@ export class Unidades
         SendMessage("muerteUnidad", JSON.stringify(muerteUnidad));
     }
     Die(){
+        var efecto = gamescene.physics.add.sprite(this.gameobject.x, this.gameobject.y, this.deathImage).setScale(6);
+        efecto.anims.play(this.death);
         this.gameobject.body.enable = false;
         this.gameobject.destroy();
         this.isDead = true;
