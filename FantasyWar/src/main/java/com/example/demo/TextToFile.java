@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public  class TextToFile {
 
-	String[] messages = new String[0];
+	public String[] messages = new String[0];
 	public static void main(String[] args) {
 		
 	}
@@ -26,8 +26,8 @@ public  class TextToFile {
 				//System.out.println(file);
 				messages = push(messages, text);
 				for(String s : messages) {
-					bw.write(s);					
-					bw.write("\n");
+					bw.write(s + "\n");					
+					//bw.write("\n");
 				}
 					
 			}

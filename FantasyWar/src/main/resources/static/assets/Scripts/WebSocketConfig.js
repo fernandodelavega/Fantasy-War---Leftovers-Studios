@@ -1,6 +1,8 @@
 
 var gamescene;
 
+var player1PowerUp;
+
 var sessionSettings;
 var myId = undefined;
 var changeId = false;
@@ -35,7 +37,7 @@ socket.onmessage = function(event) {
             player1Name = JSON.parse(event.data).player1.PlayerName;
             player1ID = JSON.parse(event.data).player1.ID;
             player1Ready = JSON.parse(event.data).player1.Ready;
-            player1PowerUp = JSON.parse(event.data).player1.powerUp
+            player1PowerUp = JSON.parse(event.data).player1.powerUp;
         }
         
         if(JSON.parse(event.data).player2 == null){
@@ -95,7 +97,7 @@ socket.onmessage = function(event) {
     }
     else if(JSON.parse(event.data).type == "PowerUp"){
         if(JSON.parse(event.data).playerID == gamescene.player1.id){
-            gamescene.player1.powerUp.Effect();
+            gamescene.player1.powerUp.Effect(JSON.parse(event.data).playerID);
         }
         else if(JSON.parse(event.data).playerID == gamescene.player2.id){
             gamescene.player2.powerUp.Effect(JSON.parse(event.data).playerID);

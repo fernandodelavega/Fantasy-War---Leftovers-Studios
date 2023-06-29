@@ -33,8 +33,8 @@ public class UserController {
 	Random rand = new Random();
 	public static File users = new File("src\\main\\java\\com\\example\\demo\\usuarios.txt");
 	public static TextToFile ttf = new TextToFile();
-	public static void StartFile() {
-		users = new File("src\\main\\java\\com\\example\\demo\\usuarios.txt");
+	public static void StartFile() throws IOException {
+		ttf.messages = ttf.GetText(users);
 	}
 	
 	public void NewUser(String user, String pass){

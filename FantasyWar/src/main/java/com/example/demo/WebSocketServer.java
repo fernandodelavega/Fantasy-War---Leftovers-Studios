@@ -86,18 +86,20 @@ public class WebSocketServer extends TextWebSocketHandler{
             		for(int i = 1; i<userController.GetUser().length;i=i+3){
             			if(userController.GetUser()[i].equals(mapper.readTree(node.get("body").asText()).get("nombre").asText())){
             				//System.out.println("Usuario ya en uso");
-            			}else{
+            				
+            			}else if(i + 3 > userController.GetUser().length){
             				userController.NewUser(mapper.readTree(node.get("body").asText()).get("nombre").asText(),mapper.readTree(node.get("body").asText()).get("contra").asText());
-            				i+=3;
-            				newId = userController.GetUser()[i-1];
+            				int next = i+3;
             				//json.addProperty("type","user");
             				//json.addProperty("body", userController.GetUser()[i-1]);
+            				newId = userController.GetUser()[next-1];
             				if(player1.getName() == null) {
                             	player1 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), newId);
                             }
                             else if(player2.getName() == null){
                             	player2 = new Player(mapper.readTree(node.get("body").asText()).get("nombre").asText(), newId);
                             }
+            				System.out.println(userController.GetUser()[next-1]);
             			}
             		}
                 }
