@@ -158,6 +158,27 @@ Goblin:
 Golem:
 ![golem_r](https://user-images.githubusercontent.com/115580903/204633557-f99ab30d-f51c-4301-8c65-b7d759d3debb.png)
 
+Se han diseñado tambien diseños para los powerups
+
+Bomba:
+![pwr_bomb_no](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/ae33051a-7296-4a62-b2af-9d51070b413f)
+
+
+Swap:
+![pwr_coin_no](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/07501666-06d1-4df9-9966-fae2d35d1e26)
+
+Heal:
+![pwr_heal_no](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/3a4872cd-870e-46f7-a2bb-f25d91b4c74d)
+
+
+Se ha mejorado iconos como el chat y la animación de muerte
+
+Muerte:
+![death_puff](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/ba1ec8f4-1285-415b-ad3b-d2052ef62719)
+
+Chat:
+![chat_icon](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/a4fcc957-26ac-4c12-8d42-e4fd8c583d9c)
+
 ## Sonido y música:
 Se ha compuesto una canción para acompañar al juego usando instrumentos de 16 bits y percusión real.
 Los efectos de sonido son de 16 bits y se han creado usando el programa "Chiptone". Se han creado efectos de sonido para navegar el menú, para cuando las tropas son colocadas y cuando mueren, y finalmente para cada ataque de cada tipo de tropa.
