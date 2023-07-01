@@ -4,7 +4,7 @@ var usuario;
 function loadUsuarios(callback) {
 	$.ajax({
     method:"GET",
-    url:"http://localhost:8080/usuarios",
+    url:"http://"+ location.host +":8080/usuarios",
     processData:false,
     headers:{"Content-Type":"application/json"}
     }).done(function(usuarios) {
@@ -17,13 +17,13 @@ function loadUsuarios(callback) {
 function crearUsuario(usuario) {
     $.ajax({
     method:"POST",
-    url:"http://localhost:8080/usuarios",
+    url:"http://"+ location.host +":8080/usuarios",
     data:JSON.stringify(usuario),
     processData:false,
     headers:{"Content-Type":"application/json"}
     }).done(function(usuario) {
 		console.log(usuario)
-    })
+    }) 
 }
 
 
