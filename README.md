@@ -43,18 +43,19 @@ Una sola entrega.
 
 ### Jugabilidad:
 
-Juego multijugador online de 2 personas, con partidas en las que los jugadores intentan destruir la base enemiga mientras defienden la suya, enviando tropas por los distintos caminos. Las tropas cuestan oro, del cual se genera uno cada 3 segundos.
+Juego multijugador online de 2 personas, con partidas en las que los jugadores intentan destruir la base enemiga mientras defienden la suya, enviando tropas por los distintos caminos y usando sus powerups. Las tropas cuestan oro, del cual se genera uno cada 3 segundos.
 El ganador se decide cuando una base es destruida. El jugador que más vida tenga será el ganador. Es posible que haya un empate en caso de que los 2 jugadores bajen a 0 de vida a la vez.
 
 ### Flujo del juego:
-- 1 Inicia partida
+- 1 Inicio sesión
 
-- 2 Los jugadores combaten
+- 2 Selección de powerup
 
-- 3.1 Una base es destruida → Victoria del jugador que la ha destruido
+- 3 Inicio partida
 
-- 3.2 Se acaba el tiempo → Empate
+- 4 Los juagdores combaten
 
+- 5 Una base es destruida → Victoria del jugador que la ha destruido
 
 ### Personajes:
 Cada personaje tiene unas estadísticas:
@@ -100,38 +101,44 @@ Animación del Logo del equipo.
 
 #### Pantalla de Inicio:
 
-![Inicio1](https://user-images.githubusercontent.com/115580903/208793905-07458d3b-ddb5-49c9-b65b-bdeb48bc6279.PNG)
+![image](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/ededb821-7828-4711-87db-20307262a36d)
 
 Pantalla principal en la que se puede elegir entre iniciar la partida o pulsar el boton de ayuda que muestra los controles.
 
 #### Pantalla de Ayuda:
 
-![Ayuda1](https://user-images.githubusercontent.com/115580903/208794469-5e888da7-5109-4c26-8ae4-e6ffe0457182.PNG)
+![tutorial](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/2798148b-9f88-4fd4-a904-643da276289d)
 
 Breve descripción e imagen de los distintos controles de ambos jugadores ( Actualmente para modo local)(Pendiente de cambios).
 
 #### Pantalla de Creditos:
 
-![Creditos](https://user-images.githubusercontent.com/115580903/208794479-ffc3431f-b954-458a-8e41-c4b6ecab46bf.PNG)
+![creditos](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/69ef6583-c844-48ee-94a3-515fab451a4d)
 
 Pantalla en la cual se muestra a los creadores y desarolladores del juego.
 
+#### Pantalla de Lobby:
+
+![Looby](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/8f7f6e42-987a-4656-b4a7-0a7c2a395d7d)
+
+Pantalla en la cual se selecciona el powerup y se espera a que ambos jugadores estén preparados
+
 #### Pantalla de Juego:
 
-![Juego1](https://user-images.githubusercontent.com/115580903/208793921-b3a14fd9-7106-4a1a-a32b-7d3558a61e02.PNG)
+![partida](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/6ece7010-fdc2-4d96-9a7b-a12f6f411884)
 
 Pantalla del juego en la que se desarollara la partida. En esta se puede ver el oro de cada jugador, la vida de su base, la unidad seleccionada y el camino por el cual saldra la misma.
 
 #### Pantalla de Fin:
 
-![Fin1](https://user-images.githubusercontent.com/115580903/208794493-44530550-5e5f-4b52-a967-ae8a528c8908.PNG)
+![fin](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/27230b7c-1907-4637-b4ef-77f07942da51)
 
 Pantalla de final de partida en la cual se muestra el ganador de la misma y un boton que permite volver al menu principal.
 
 
 ### Diagrama de flujo:
 
-![Diagrama de Flujo1](https://user-images.githubusercontent.com/115580903/208795807-fdcd3940-3fe0-4f80-827e-4aa855353c69.png)
+![Diagrama flujo](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/3f5afc7f-a073-47ad-9116-7ac84160d76d)
 
 ## Conexión online
 
@@ -159,7 +166,7 @@ Los efectos de sonido son de 16 bits y se han creado usando el programa "Chipton
 Redes sociales: Instagram ()
 ## Diagrama de Clases:
 
-![Diagrama de clases](https://user-images.githubusercontent.com/115580903/213111010-4d705ce6-cbeb-465a-8624-0e0679f1c049.png)
+![Diagrama](https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/ed7dcee3-c9ad-480d-b947-ad6ab179a618)
 
 
 ## Instrucciones de Ejecución:
@@ -170,7 +177,7 @@ Spring Tool Suite de Eclipse
 1. Abrir Spring en Eclipse.
 2. Seleccionamos File
 3. Open Projectyt from Files System>>Directory>>Seleccionamos donde se encuentra.
-//Teniendo el archivo/carpeta TankunMayhem[boot] seleccionado
+//Teniendo el archivo/carpeta FantasyWar[boot] seleccionado
 4. Play
 5. Run FantasyWar
 6. URL: Dependiendo del servidor donde se lanza tiene una dirección IP acompañada de un puerto que es el :8080.
