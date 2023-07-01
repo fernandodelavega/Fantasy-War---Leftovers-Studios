@@ -59,8 +59,44 @@ export class Player
         }
     }
     
+    
+    
+    ChatKeyboard(){
+        this.gameScene.input.keyboard.on('keydown', function(event){
+            //if(!this.chatEnabled) {return;}
+            //console.log('a');
+            if(playerState==0){return;}
+            if(this.down){return;}
+            this.down = true;
+            if(event.keyCode == 8 && chatText.text.length > 0){
+                chatText.text = chatText.text.substr(0, chatText.text.length - 1);
+                
+            }
+            else if(event.keyCode == 32 ^ (event.keyCode >= 48 && event.keyCode <= 90)){
+                
+                chatText.text += event.key;
+                console.log(chatText);
+                
+            }
+            else if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC){
+                playerState = 0;
+                chatText.text = "";
+            }
+            else if(event.keyCode == 13){
+                CreateMessage(chatText.text);
+                playerState = 0;
+                //this.ReciveMessage(chatText.text);
+                chatText.text = "";
+            }
+            
+        })
+        this.gameScene.input.keyboard.on('keyup', function(event){
+            this.down = false;
+        })
+    }
+
     InstanciarUnidad(){
-        if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyEnter) && !this.chatEnabled ){
+        if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyP) && !this.chatEnabled ){
             this.UsePowerUp();
             
         }
@@ -122,40 +158,7 @@ export class Player
         
         return;
     }
-    
-    ChatKeyboard(){
-        this.gameScene.input.keyboard.on('keydown', function(event){
-            //if(!this.chatEnabled) {return;}
-            //console.log('a');
-            if(playerState==0){return;}
-            if(this.down){return;}
-            this.down = true;
-            if(event.keyCode == 8 && chatText.text.length > 0){
-                chatText.text = chatText.text.substr(0, chatText.text.length - 1);
-                
-            }
-            else if(event.keyCode == 32 ^ (event.keyCode >= 48 && event.keyCode <= 90)){
-                
-                chatText.text += event.key;
-                console.log(chatText);
-                
-            }
-            else if(event.keyCode == Phaser.Input.Keyboard.KeyCodes.ESC){
-                playerState = 0;
-                chatText.text = "";
-            }
-            else if(event.keyCode == 13){
-                CreateMessage(chatText.text);
-                playerState = 0;
-                //this.ReciveMessage(chatText.text);
-                chatText.text = "";
-            }
-            
-        })
-        this.gameScene.input.keyboard.on('keyup', function(event){
-            this.down = false;
-        })
-    }
+
     Instanciate(numUnidad, camino, playerNumber){
         this.gameScene.crear.play();
         var newUnity = new Unidades();

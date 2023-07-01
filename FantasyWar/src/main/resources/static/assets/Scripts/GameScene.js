@@ -259,6 +259,7 @@ export class GameScene extends Phaser.Scene {
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         this.keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+        this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
         
         this.player1 = new Player(undefined, 100, 5, this.base1, 1, this.unidadesPrefab1, this.player2, this, this.flechaA);
@@ -431,10 +432,14 @@ export class GameScene extends Phaser.Scene {
                 });
             }
         }
-        if(myId == this.player1.id || myId == this.player2.id){
+        if(myId == this.player1.id){
             this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
         }
         
+        if(myId == this.player2.id){
+            this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
+        }
+
         
         if(myId == player1ID && this.player1.powerUp == undefined){
             console.log(this.player1.powerUp);  
