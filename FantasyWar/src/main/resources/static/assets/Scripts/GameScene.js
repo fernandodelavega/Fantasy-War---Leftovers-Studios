@@ -1,9 +1,13 @@
+import './WebSocketConfig.js';
 import {Base} from './Base.js';
 import {Player} from './Player.js';
 import {Unidades} from './Unidades.js';
 import {carta} from './carta.js';
 import { ChatPannel } from './ChatPannel.js';
 import { Espectator } from './espectator.js';
+import {Nuke} from './Nuke.js';
+import {Heal} from './Heal.js';
+import {Trade} from './Trade.js';
 
 var textOro1;
 var textOro2;
@@ -14,14 +18,27 @@ var chatEnabled = false;
 var chatMessages = [];
 
 export class GameScene extends Phaser.Scene {
+    started = false;
     constructor(){
         super({key: "GameScene"});
     }
     preload(){
         this.load.image('backGround', 'assets/images/fase3/fondo_completo.png');
+        this.load.image('fondoC', 'assets/images/tropas/fondo_sin_caminos.png');
         this.load.image('pina', 'assets/images/pina.png');
         this.load.image('flecha1','assets/images/flecha1.png');
         this.load.image('carta', 'assets/images/carta.png');
+        this.load.image('fondoChat', 'assets/images/chat_square.png');
+        this.load.image('iconoChat', 'assets/images/chat_icon.png');
+        this.load.image('readyNo', 'assets/images/fase3/ready_no.png');
+        this.load.image('readyYes', 'assets/images/fase3/ready_yes.png');
+        this.load.image('nukeActive', 'assets/images/fase3/pwr_bomb_yes.png');
+        this.load.image('nukeInactive', 'assets/images/fase3/pwr_bomb_no.png');
+        this.load.image('healActive', 'assets/images/fase3/pwr_heal_yes.png');
+        this.load.image('healInactive', 'assets/images/fase3/pwr_heal_no.png');
+        this.load.image('tradeActive', 'assets/images/fase3/pwr_coin_yes.png');
+        this.load.image('tradeInactive', 'assets/images/fase3/pwr_coin_no.png');
+        this.load.image('enterkey', 'assets/images/fase3/enterkey.png')
 
         this.load.spritesheet('goblinR', 'assets/images/tropas/goblin_r.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoR', 'assets/images/tropas/mage_r.png', { frameWidth: 35, frameHeight: 35 });
@@ -30,6 +47,7 @@ export class GameScene extends Phaser.Scene {
         this.load.spritesheet('magoB', 'assets/images/tropas/mage_b.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('golemB', 'assets/images/tropas/golem_b.png', { frameWidth: 45, frameHeight: 45 });
         this.load.spritesheet('coin', 'assets/images/tropas/coin.png', { frameWidth: 20, frameHeight: 20 });
+        this.load.spritesheet('death', 'assets/images/fase3/death_puff.png', { frameWidth: 35, frameHeight: 35 });
         
         this.load.spritesheet('goblinRA', 'assets/images/fase3/goblinRAt.png', { frameWidth: 35, frameHeight: 35 });
         this.load.spritesheet('magoRA', 'assets/images/fase3/magoRAt.png', { frameWidth: 35, frameHeight: 35 });
@@ -53,8 +71,13 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(){
-        
+        gamescene = this;
+        console.log(this);
         this.fondo = this.add.image(1920/2, 1080/2, 'backGround').setScale(6, 6);
+        this.chatBackground = this.add.image(1920/2, 96, 'fondoChat').setScale(6, 6);
+        this.chatIcon = this.add.image(1920/2 + 462, 96, 'iconoChat').setScale(6, 6);
+        this.textChat = this.add.text(1920/2 + 360, 42, 'chat', {color: '#FFFFFF', align: 'center', font: "36px 'PS2P'"}).setOrigin(1);
+
         this.flechaA = this.add.image(50,560,'flecha1').setScale(2,2);
         this.flechaB = this.add.image(1870,560,'flecha1').setScale(2,2);
         this.flechaB.angle += 180;
@@ -64,35 +87,15 @@ export class GameScene extends Phaser.Scene {
         textOro1 = this.add.text(120, 100, 'GOLD: 10', { font: "20px 'PS2P'"});
         textOro2 = this.add.text(1645, 100, 'GOLD: 10', { font: "20px 'PS2P'" });
 
-        //this.textInput = this.add.dom(1920, 1080).setOrigin(1);
-		//this.chat = this.add.text(1000,10,"",{
-		//	lineSpacing: 15,
-		//	backgroundColor: "#21313CDD",
-		//	color: "#26924F",
-		//	padding: 10,
-		//	fontStyle: "bold"
-		//});
-		//this.chat.setFixedSize(270,645);
         
-        //this.tKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-		
-		//this.tKey.on("down", event =>{
-		//	let chatbox = this.textInput.getChildByName("chat");
-		//	if(chatbox != ""){
-		//		
-		//		//POST
-//
-		//		chatbox.value = "";
-		//	}
-		//});
 
         this.crear=this.sound.add('Crear');
         this.muerte=this.sound.add('Matar');
         this.goblinS=this.sound.add('goblinS');
         this.mageS=this.sound.add('mageS');
         this.golemS=this.sound.add('golemS');
-        //this.coin.anims.add('idle',('coin',{ start: 0, end: 3 }),10,-1);
-        //this.coin.anims.play('idle');
+        
+
         this.anims.create({
             key: 'idle',
             frames: this.anims.generateFrameNumbers('coin', { start: 0, end: 3 }),
@@ -200,6 +203,12 @@ export class GameScene extends Phaser.Scene {
             frameRate: 10,
             repeat: 0
         });
+        this.anims.create({
+            key: 'deathAnim',
+            frames: this.anims.generateFrameNumbers('death', { start: 0, end: 4 }),
+            frameRate: 10,
+            repeat: 0
+        });
         
         this.cardsP1 = new Array();
         this.cardsP1.push(this.carta1P1 = new carta(1920/8, 1000, 'carta', 'goblinR', this.physics, 0));
@@ -217,14 +226,14 @@ export class GameScene extends Phaser.Scene {
         this.positions.push(260);
 
         this.unidadesPrefab1 = new Array(); 
-        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 10, 'goblinR',this.goblinS,'goblinRAT','goblinRHit'));
-        this.unidadesPrefab1.push(new Unidades(20, 150, 4, 100, 700, 'magoR',this.mageS,'magoRAT','goblinRHit'));
-        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 10, 'golemR',this.golemS,'golemRAT',null));
+        this.unidadesPrefab1.push(new Unidades(50, 40, 8, 150, 100, 'goblinR',this.goblinS,'goblinRAT','goblinRHit', 'death', 'deathAnim'));
+        this.unidadesPrefab1.push(new Unidades(20, 150, 4, 100, 700, 'magoR',this.mageS,'magoRAT','goblinRHit', 'death', 'deathAnim'));
+        this.unidadesPrefab1.push(new Unidades(150, 20, 5, 100, 100, 'golemR',this.golemS,'golemRAT',null, 'death', 'deathAnim'));
         
         this.unidadesPrefab2 = new Array(); 
-        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 10, 'golemB',this.golemS,'golemBAT',null));
-        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS,'magoBAT','magoBHit'));
-        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 10, 'goblinB',this.goblinS,'goblinBAT','goblinBHit'));
+        this.unidadesPrefab2.push(new Unidades(150, 20, 5, -100, 100, 'golemB',this.golemS,'golemBAT',null, 'death', 'deathAnim'));
+        this.unidadesPrefab2.push(new Unidades(20, 120, 4, -100, 700, 'magoB',this.mageS,'magoBAT','magoBHit', 'death', 'deathAnim'));
+        this.unidadesPrefab2.push(new Unidades(50, 40, 8, -150, 100, 'goblinB',this.goblinS,'goblinBAT','goblinBHit', 'death', 'deathAnim'));
 
         this.espectators = new Array();
 
@@ -250,91 +259,55 @@ export class GameScene extends Phaser.Scene {
         this.keyG = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         this.keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
-
+        this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
 
         
-        //chat
-        // chatText = this.add.text(800, 700, '', {fontFamily: 'PS2P'});
-        // this.down = false;
-
-        // this.currentMessage = '';
+        this.player1 = new Player(undefined, 100, 5, this.base1, 1, this.unidadesPrefab1, this.player2, this, this.flechaA);
+        try{
+        this.player2.enemyPlayer = this.player1;
+        }catch{}
+    
+        this.player2 = new Player(undefined, 100, 5, this.base2, 1, this.unidadesPrefab2, this.player1, this, this.flechaB);
+        try{
+        this.player1.enemyPlayer = this.player2;
+        }catch{}
+        
+        sessionSettings.style.display = "block";
+        this.fondoInicio = this.add.image(1920/2, 1080/2, 'fondoC').setScale(6, 6);
+        this.newText;
+        
+        
         this.timer = 0;
-        gamescene = this;
-
+        
+        
     }
-
+    
     update(time, delta){
         
-        if(this.player1 == undefined || this.player2 == undefined){
+        
+        if(!this.started){
             return;
         }
         //Finalizar escena
         if(this.player1.base.vida <= 0 || this.player2.base.vida <= 0){
-            this.player1.unidades = [];
-            this.player2.unidades = [];
-            this.player1.oro = 5;
-            this.player2.oro = 5;
-            if (this.player1.base.vida <= 0 && this.player2.base.vida > 0){
-                this.player1.base.vida = 100;
-                this.player2.base.vida = 100;
-                this.scene.start('player2W');
-            }
-            else if (this.player2.base.vida <=0 && this.player1.base.vida > 0){
-                this.player1.base.vida = 100;
-                this.player2.base.vida = 100;
-                this.scene.start('player1W');
-            }
-            else {
-                this.player1.base.vida = 100;
-                this.player2.base.vida = 100;
-                this.scene.start('draw');
-            }
+            this.SendFinnish((this.player1.base.vida <= 0 && this.player2.base.vida > 0)? this.player2.id :
+                    (this.player2.base.vida <=0 && this.player1.base.vida > 0)? this.player1.id :
+                    null);
+            
         }
 
         ///////Update Unidades /////
-        for(var i = 0; i < this.player1.unidades.length; i++){
-            if(this.player1.unidades[i].isDead){
-                this.muerte.play();
-                this.player1.unidades.splice(i, 1)
-                ////
-                for(var i = 0; i < this.player2.unidades.length; i++){
-                    for(var j = 0; j < this.player2.unidades[i].objectives.length; j++){
-                        if(this.player2.unidades[i].objectives[j].isDead){
-                            this.player2.unidades[i].objectives.splice(j, 1);
-                        }
-                    }
-                }
-                ////
-            }
-            if(i < this.player1.unidades.length){
-                this.player1.unidades[i].Update(delta);
-            }
-        }
-        for(var i = 0; i < this.player2.unidades.length; i++){
-            if(this.player2.unidades[i].isDead){
-                this.muerte.play();
-                this.player2.unidades.splice(i, 1)
-                ////
-                for(var i = 0; i < this.player1.unidades.length; i++){
-                    for(var j = 0; j < this.player1.unidades[i].objectives.length; j++){
-                        if(this.player1.unidades[i].objectives[j].isDead){
-                            this.player1.unidades[i].objectives.splice(j, 1);
-                        }
-                    }
-                }
-                ////
-            }
-            if(i < this.player2.unidades.length){
-                this.player2.unidades[i].Update(delta);
-            }
-        }
+        this.updateUnidadesPlayer1(delta);
+        this.updateUnidadesPlayer2(delta);
+        
         for (var i = 0; i < this.cardsP1.length; i++){
             this.cardsP1[i].update(this.player1.unidad)
         }
         for (var i = 0; i < this.cardsP2.length; i++){
             this.cardsP2[i].update(this.player2.unidad)
         }
-
+        this.player1.powerUp.Update(delta);
+        this.player2.powerUp.Update(delta);
         //update players
         if(this.player1.id==myId){
             this.player1.Update(delta);
@@ -342,49 +315,273 @@ export class GameScene extends Phaser.Scene {
             this.player2.Update(delta);
         }
         
-        //this.player2.Update(delta);
         
-        //this.player1.Update(delta);
         textOro1.setText('GOLD: ' + this.player1.oro);
         textOro2.setText('GOLD: ' + this.player2.oro);
-        if(this.popUp != undefined){
-            this.timer += delta;
-            if(this.timer > 500){
-                
-                this.popUp.Desapear();
-                this.popUp = undefined;
-                this.timer = 0;
-                
-            }
-        }
         
     }
 
-    
-    addPlayer(id) {
-        if(this.player1 == undefined){
-            this.player1 = new Player(id, 100, 5, this.base1, 1, this.unidadesPrefab1, this.player2, this, this.flechaA);
-            try{
-            this.player2.enemyPlayer = this.player1;
-            }catch{}
+    updateUnidadesPlayer1(delta)
+    {
+        for(var i = 0; i < this.player1.unidades.length; i++){
+            if(this.player1.unidades[i].isDead){
+                this.DeadPlayer1();
+                //mandar mensaje al servidor
+            }
+            if(i < this.player1.unidades.length){
+                this.player1.unidades[i].Update(delta);
+            }
         }
-        else if(this.player2 == undefined){
-            this.player2 = new Player(id, 100, 5, this.base2, 1, this.unidadesPrefab2, this.player1, this, this.flechaB);
-            try{
-            this.player1.enemyPlayer = this.player2;
-            }catch{}
+    }
+    updateUnidadesPlayer2(delta)
+    {
+        for(var i = 0; i < this.player2.unidades.length; i++){
+            if(this.player2.unidades[i].isDead){
+                //mandar mensaje al servidor
+                this.DeadPlayer2();
+            }
+            if(i < this.player2.unidades.length){
+                this.player2.unidades[i].Update(delta);
+            }
         }
-        else {
-            this.espectators.push(new Espectator(id));
+    }
+    DeadPlayer1(){
+        this.muerte.play();
+        this.player1.unidades.splice(i, 1)
+        for(var i = 0; i < this.player1.unidades.length; i++){
+            this.player1.unidades[i].arrayNumber = i;
+        }
+        ////
+        for(var i = 0; i < this.player2.unidades.length; i++){
+            for(var j = 0; j < this.player2.unidades[i].objectives.length; j++){
+                if(this.player2.unidades[i].objectives[j].isDead){
+                    this.player2.unidades[i].objectives.splice(j, 1);
+                }
+            }
+        }
+    }
+    DeadPlayer2(){
+        this.muerte.play();
+        this.player2.unidades.splice(i, 1)
+        for(var i = 0; i < this.player2.unidades.length; i++){
+            this.player2.unidades[i].arrayNumber = i;
+        }
+        ////
+        for(var i = 0; i < this.player1.unidades.length; i++){
+            for(var j = 0; j < this.player1.unidades[i].objectives.length; j++){
+                if(this.player1.unidades[i].objectives[j].isDead){
+                    this.player1.unidades[i].objectives.splice(j, 1);
+                }
+            }
         }
     }
 
+    addPlayers(player1Name, player1ID, player1Ready, player1PowerUp, player2Name, player2ID, player2Ready, player2PowerUp){
+        
+        this.player1.name = player1Name;
+        this.player1.id = player1ID;
+        this.player1.ready = player1Ready;
+        this.SelectPowerUp(player1PowerUp, this.player1.id)
+        console.log(this.player1.name);
+        
+        this.player2.name = player2Name;
+        this.player2.id = player2ID;
+        this.player2.ready = player2Ready;
+        this.SelectPowerUp(player2PowerUp, this.player2.id)
+        console.log(this.player2.name);
+
+        //this.newText?.destroy();
+        if(myId != undefined && this.boton == undefined){
+            //console.log(myId);
+            if(myId == player1ID && this.player1.powerUp != undefined){
+                this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
+                this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
+                this.boton.on('pointerdown', () =>{
+                    this.Ready();
+                    SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
+                });
+                
+            }
+            if(myId == player2ID && this.player2.powerUp != undefined){
+                this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
+                this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
+                this.boton.on('pointerdown', () =>{
+                    this.Ready();
+                    SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
+                });
+            }
+            
+            if(this.powerUpButton1 == undefined){
+                
+                this.powerUpButton1 = this.add.image(500, 400, 'nukeInactive').setScale(6,6).setInteractive();
+                this.powerUpButton1.on('pointerdown', () =>{
+                    this.powerUpSelected(this.powerUpButton1, "nukeActive", "nukeInactive", 0, 1);
+                    SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 1}));
+                });
+                
+                this.powerUpButton2 = this.add.image(950, 400, 'healInactive').setScale(6,6).setInteractive();
+                this.powerUpButton2.on('pointerdown', () =>{
+                    this.powerUpSelected(this.powerUpButton2, "healActive", "healInactive", 0, 2);
+                    SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 2}));
+                });
+                
+                this.powerUpButton3 = this.add.image(1920 - 500, 400, 'tradeInactive').setScale(6,6).setInteractive();
+                this.powerUpButton3.on('pointerdown', () =>{
+                    this.powerUpSelected(this.powerUpButton3, "tradeActive", "tradeInactive", 0, 3);
+                    SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 3}));
+                });
+            }
+        }
+        /*if(myId == this.player1.id){
+            this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
+        }
+        
+        if(myId == this.player2.id){
+            this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
+        }*/
+
+        
+        if(myId == player1ID && this.player1.powerUp == undefined){
+            console.log(this.player1.powerUp);  
+            this.boton?.destroy();
+            this.boton = undefined;
+            this.player1.ready = false;
+        }
+        if(myId == player2ID && this.player2.powerUp == undefined){
+            this.boton?.destroy();
+            this.boton = undefined;
+            this.player2.ready = false;
+        }
+        if(this.player1.ready == true && this.player2.ready == true){
+            this.Start();
+        }
+        
+    }
+    Reset(){
+        this.player1.id = undefined;
+        this.player2.id = undefined;
+        this.player1.name = undefined;
+        this.player2.name = undefined;
+        this.player1.ready = false;
+        this.player2.ready = false;
+        this.player1.powerUp = undefined;
+        this.player2.powerUp = undefined;
+        
+        this.player1.unidades = [];
+        this.player2.unidades = [];
+        this.player1.oro = 5;
+        this.player2.oro = 5;
+        sent = false;
+        this.started = false;
+        myId = undefined;
+        this.boton = undefined;
+        
+    }
     ReceiveMessage(message) {
-        console.log("recivido)");
+        this.popUp?.Desapear();
         this.popUp = new ChatPannel('carta', message, this.physics, this);
         
     }
+    SendFinnish(winner){
+        SendMessage("reset", winner)
+    }
+    FinishGame(winnerId){
+        if(winnerId == this.player1.id){
+            this.scene.start('player1W');
+        }
+        else if(winnerId == this.player2.id){
+            this.scene.start('player2W');
+        }else{
+            this.scene.start('draw');
+        }
+        this.Reset();
+        
+        this.player1.base.vida = 100;
+        this.player2.base.vida = 100;
+    }
+    Ready(){
+        //this.newText = this.add.text(1920/2, 250, "Choose your PowerUp",{color: '#FFFFFF', align: 'center',  font: "60px 'PS2P'"}).setOrigin(.5)
+        this.boton.destroy();
+        this.boton = this.add.image(950, 780, 'readyYes').setScale(6,6).setInteractive();
+        this.boton.on('pointerdown', () =>{
+            this.NotReady();
+            SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: false}));
+        });
+    }
+    NotReady(){
+        this.boton.destroy();
+        this.boton = this.add.image(950, 780, 'readyNo').setScale(6,6).setInteractive();
+        this.boton.on('pointerdown', () =>{
+            this.Ready();
+            SendMessage("userReady", JSON.stringify({playerID: myId, readyStatus: true}));
+        });
+    }
+    powerUpSelected(button, nextButton, currentImage, powerUpSelected, nextSelection){
+        console.log(button);
+        console.log(button.texture);
+        
+        
+        this.powerUpButton1.setTexture('nukeInactive');
+        this.powerUpButton1._events.pointerdown = undefined;
+        this.powerUpButton1.on('pointerdown', () =>{
+            this.powerUpSelected(this.powerUpButton1, "nukeActive", "nukeInactive", 0, 1);
+            SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 1}));
+        });
+        
+        this.powerUpButton2.setTexture('healInactive');
+        this.powerUpButton2._events.pointerdown = undefined;
+        this.powerUpButton2.on('pointerdown', () =>{
+            this.powerUpSelected(this.powerUpButton2, "healActive", "healInactive", 0, 2);
+            SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 2}));
+        });
+        
+        this.powerUpButton3.setTexture('tradeInactive');
+        this.powerUpButton3._events.pointerdown = undefined;
+        this.powerUpButton3.on('pointerdown', () =>{
+            this.powerUpSelected(this.powerUpButton3, "tradeActive", "tradeInactive", 0, 3);
+            SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: 3}));
+        });
 
+
+        button.setTexture(nextButton);
+        button._events.pointerdown = undefined;
+        button.on('pointerdown', () =>{
+            this.powerUpSelected(button, currentImage, nextButton, nextSelection, powerUpSelected);
+            SendMessage("SelectPowerUp", JSON.stringify({playerID: myId, powerUpSelected: powerUpSelected}));
+        });
+    }
+    SelectMessage(){
+        
+    }
+    SelectPowerUp(powerUp, playerId){
+        if(this.player1.id == playerId){
+            this.player1.powerUp = (powerUp == 1)? new Nuke(this.physics, 'nukeInactive', this.player1.id) : (powerUp == 2)? new Heal(this.physics, 'healInactive', this.player1.id) : (powerUp == 3)?new Trade(this.physics, 'tradeInactive', this.player1.id) : undefined;
+        }else{
+            this.player2.powerUp = (powerUp == 1)? new Nuke(this.physics, 'nukeInactive', this.player2.id) : (powerUp == 2)? new Heal(this.physics, 'healInactive', this.player2.id) : (powerUp == 3)?new Trade(this.physics, 'tradeInactive', this.player2.id) : undefined;
+        }
+    }
+    StartCall(){
+        SendMessage();
+    }
+    Start(){
+        this.newText?.destroy();
+        this.fondoInicio.destroy();
+        this.boton.destroy();
+        this.powerUpButton1.destroy();
+        this.powerUpButton1 = undefined;
+        this.powerUpButton2.destroy();
+        this.powerUpButton3.destroy();
+        this.newText.destroy();
+        this.enterImage = this.physics.add.image(1920/2, 1000, 'enterkey').setScale(6);
+        if(myId == this.player1.id){
+
+            this.player1.powerUp.Start();
+        }else{
+
+            this.player2.powerUp.Start();
+        }
+        this.started = true;
+    }
 }
 
 

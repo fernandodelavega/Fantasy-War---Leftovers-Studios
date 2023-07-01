@@ -16,6 +16,10 @@ export class Base
         this.SetLifeBar();
 
     }
+    Heal(heal){
+        this.vida = (this.vida + heal >= this.maxVida)? this.maxVida : this.vida + heal;
+        this.SetLifeBar();
+    }
     setColliding(isColliding){
         this.isColliding = isColliding;
     }

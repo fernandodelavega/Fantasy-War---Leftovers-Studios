@@ -6,11 +6,16 @@ import { player2W } from './player2W.js';
 import { draw } from './draw.js';
 import { credits } from './credits.js';
 
+
 var config = {
 
     type: Phaser.AUTO,
-    width: 1920,
-    height: 1080,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: 1920,
+        height: 1080,
+    },
     pixelArt: true,
     autoCenter: true,
     dom:{
@@ -23,6 +28,7 @@ var config = {
         }
     },
     scene: [Intro, Inicio, GameScene, player1W, player2W, draw, credits]
+
 };
 
 var game = new Phaser.Game(config);

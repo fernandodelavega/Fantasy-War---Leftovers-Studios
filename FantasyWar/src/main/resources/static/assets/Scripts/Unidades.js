@@ -1,9 +1,10 @@
 export class Unidades
 {
     gameobject;
-
-    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound, atc1, atc2)
+    player;
+    constructor(vida, ataque, velocidadAtaque, velocidadMovimiento, range, image, sound, atc1, atc2, deathImage,dth)
     {
+        
         this.vida = vida;
         this.ataque = ataque;
         this.velocidadAtaque = velocidadAtaque;
@@ -16,10 +17,13 @@ export class Unidades
         this.sound = sound;
         this.atc1 = atc1;
         this.atc2 = atc2;
+        this.deathImage = deathImage;
+        this.death = dth;
     }
-    instance(unidad, positionx, positiony, camino, enemyBase, physics){
-
+    instance(playerNumber, player, unidad, positionx, positiony, camino, enemyBase, physics, arrayPos){
         
+        this.playerNumber = playerNumber;
+        this.player = player;
         this.camino = camino;
         this.enemyBase = enemyBase;
         this.image = unidad.image;
@@ -30,18 +34,16 @@ export class Unidades
         this.timer = 0;
         this.cool = 0;
         this.isDead = false;
+        this.arrayNumber = arrayPos;
         return this;
     }
     setColliding(isColliding){
         this.isColliding = isColliding;
     }
     start(player){
-        if(player == 1){
-            this.gameobject.setVelocity(this.velocidadMovimiento, 0);
-        }
-        else if(player == 2){
-            this.gameobject.setVelocity(this.velocidadMovimiento, 0);
-        }
+
+        this.gameobject.setVelocity(this.velocidadMovimiento, 0);
+
     }
     stop(){
         this.gameobject.setVelocity(0, 0);
@@ -143,15 +145,30 @@ export class Unidades
         }
     }
     CheckDead(enemy){
+
         if(enemy.vida<=0){
-        enemy.gameobject.body.enable = false;
-        enemy.gameobject.destroy();
+        enemy.SendDie();
         this.actualEnemy = null;
-        enemy.isDead = true;
-        delete this;
         this.restart();
         }
         //this.restart();
         //delete(enemy);
+    }
+    
+    SendDie(){
+        if(myId != this.player.id)return;
+        var muerteUnidad = {
+            player: this.playerNumber,
+            position: this.arrayNumber
+        }
+        
+        SendMessage("muerteUnidad", JSON.stringify(muerteUnidad));
+    }
+    Die(){
+        var efecto = gamescene.physics.add.sprite(this.gameobject.x, this.gameobject.y, this.deathImage).setScale(6);
+        efecto.anims.play(this.death);
+        this.gameobject.body.enable = false;
+        this.gameobject.destroy();
+        this.isDead = true;
     }
 }

@@ -10,6 +10,7 @@ export class Intro extends Phaser.Scene {
         this.load.video('intro', 'assets/images/leftOversIntro_with_sound.mp4');
         this.load.audio('musicote', 'assets/musica/música/nivel_1.mp3');
         
+        
         //this.musica.volume = 0.4;
         
         

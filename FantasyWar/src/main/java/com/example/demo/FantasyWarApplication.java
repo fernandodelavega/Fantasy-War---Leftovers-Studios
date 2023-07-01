@@ -1,6 +1,8 @@
 package com.example.demo;
 
 
+import java.io.IOException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +20,8 @@ public class FantasyWarApplication implements WebSocketConfigurer {
 	public UserService usersService(){
 		return new UserService(10);
 	}
-	public static void main(String[] args){		
+	public static void main(String[] args) throws IOException{		
+		UserController.StartFile();
 		SpringApplication.run(FantasyWarApplication.class, args);
 	}
 	

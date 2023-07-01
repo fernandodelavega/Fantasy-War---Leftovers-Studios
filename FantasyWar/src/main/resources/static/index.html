@@ -5,6 +5,7 @@
     <title>Fantasy-War</title>
 
     <link rel="preload" as="font" href="assets/PS2P.ttf" type="font/ttf"/>
+    <link rel="stylesheet" href="styles.css">
     <script src="assets/Scripts/Phaser/phaser.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     
@@ -35,24 +36,38 @@
     </style>
 
 
-<div id = "input-form">			
-    <input type="text" name="chat" placeholder="Enter a message">	
-</div>
-
 <div style="font-family:PS2P; left:-1000px; visibility:hidden;">.</div>
 
-</head>
-
-<body>
+    <script>
+    if  (localStorage.getItem('primeraCarga') === null) {
+        localStorage.setItem('primeraCarga', 'true');
+        location.reload();
+    } else {}
+    </script>
     
     <script src="assets/Scripts/init.js" type = 'module'></script>
     <script src="assets/Scripts/GameScene.js" type = 'module'></script>
     <script src="assets/Scripts/WebSocketConfig.js"></script>
     <script src="assets/Scripts/userScript.js"></script>
- <input type="text" id="nameText" placeholder="Nombre usuario"/> <input type="password" id="passText" placeholder="Contraseña"/> 
- <input type="button" value="Iniciar sesión" id="initButton"/> <input type="button" value="Crear usuario" id="createButton"/>
 
+</head>
 
+<body>
+    
+    <div id="user">    
+        <div>
+            <input type="text" id="nameText" style="width:192px" placeholder="Nombre usuario"/> 
+        </div>
+        <div>
+            <input type="password" id="passText" style="width:192px" placeholder="Contraseña"/> 
+        </div>
+        <div>
+            <input type="button" value="Iniciar sesión" style="width:200px" id="initButton"/> 
+        </div>
+        <div>
+            <input type="button" value="Crear usuario" style="width:200px" id="createButton"/>
+        </div>
+    </div>
  
 </body>
 </html>

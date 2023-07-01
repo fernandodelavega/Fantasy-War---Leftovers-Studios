@@ -1,8 +1,10 @@
-import { GameScene } from "./GameScene.js";
+
 import { Unidades } from "./Unidades.js";
 import "./WebSocketConfig.js";
 
 var chatText;
+let timeBetweenUnidades = 1000;
+let timeBetweenPowerUp = 5000;
 
 var playerState = 0;
 export class Player
@@ -10,9 +12,14 @@ export class Player
     base;
     unidades;
     camino;
-    constructor(name, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene, flecha)
+    cooldownUnidades = timeBetweenUnidades;
+    cooldownPowerUp = timeBetweenPowerUp;
+    ready = false;
+    name
+    powerUp;
+    constructor(id, vida, oro, base, caminoSeleccionado, unidadesPref, enemyPlayer, gameScene, flecha)
     {
-        this.id = name
+        this.id = id
         this.vida = vida;
         this.oro = oro;
         this.base = base;
@@ -25,7 +32,7 @@ export class Player
         this.gameScene = gameScene;
         this.flecha = flecha;
         //this.playerState = playerDefault;
-        chatText = this.gameScene.add.text(800, 700, '', {fontFamily: 'PS2P'});
+        chatText = this.gameScene.add.text(1920/ 2 - 354, 166, '', {fontFamily: 'PS2P', align: 'center'});
     }
     AddUnidad(nuevaUnidad){
         this.unidades.push(nuevaUnidad);
@@ -51,63 +58,8 @@ export class Player
             this.unidad = (this.unidad - 1 < 0)? 3 - this.unidad - 1 : (this.unidad - 1) % 3;
         }
     }
-    AddOro(delta){
-        this.contador += delta / 1000;
-        if(this.contador >= 2){
-            this.oro++;
-            this.contador = 0;
-        }
-    }
-    InstanciarUnidad(){
-
-        if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1 && !this.chatEnabled){
-            
-            var player;
-            var newUnidad = this.unidad;
-            var camino = this.camino;
-            if(this.gameScene.player1.id == myId){
-                player = 1;
-                newUnidad = this.unidad;
-                camino = this.camino;
-                var unidad = {
-                    player: player,
-                    numUnidad: newUnidad,
-                    road: camino
-                }
-                SendMessage("unidad", JSON.stringify(unidad));//newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
-            }
-            else if(this.gameScene.player2.id == myId){
-                player = 2;
-                newUnidad = this.unidad;
-                camino = this.camino;
-                var unidad = {
-                    player: player,
-                    numUnidad: newUnidad,
-                    road: camino
-                }
-                SendMessage("unidad", JSON.stringify(unidad));//newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
-            }
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyW) && !this.chatEnabled){
-            this.siguienteCamino(true);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyS) && !this.chatEnabled){
-            this.siguienteCamino(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyA) && !this.chatEnabled){
-            this.siguienteUnidad(false);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyD) && !this.chatEnabled ){
-            this.siguienteUnidad(true);
-        }
-        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyT)){
-            playerState = 1;
-            
-        }
-        else{}
-        
-        return;
-    }
+    
+    
     
     ChatKeyboard(){
         this.gameScene.input.keyboard.on('keydown', function(event){
@@ -142,12 +94,77 @@ export class Player
             this.down = false;
         })
     }
-    Instanciate(numUnidad, camino){
+
+    InstanciarUnidad(){
+        if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyP) && !this.chatEnabled ){
+            this.UsePowerUp();
+            
+        }
+        if(Phaser.Input.Keyboard.JustDown(this.gameScene.keySpace) && this.oro >= 1 && !this.chatEnabled){
+            if(this.cooldownUnidades < timeBetweenUnidades) return;
+            var player;
+            var newUnidad = this.unidad;
+            var camino = this.camino;
+            if(this.gameScene.player1.id == myId){
+                player = 1;
+                newUnidad = this.unidad;
+                camino = this.camino;
+                var unidad = {
+                    player: player,
+                    numUnidad: newUnidad,
+                    road: camino
+                }
+                SendMessage("unidad", JSON.stringify(unidad));//newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+            }
+            else if(this.gameScene.player2.id == myId){
+                player = 2;
+                newUnidad = this.unidad;
+                camino = this.camino;
+                var unidad = {
+                    player: player,
+                    numUnidad: newUnidad,
+                    road: camino
+                }
+                SendMessage("unidad", JSON.stringify(unidad));//newUnity.instance(newUnity, this.base.x, this.gameScene.positions[this.camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+            }
+            if(this.gameScene.player1 == this){
+                for(var i = 0; i < this.gameScene.cardsP1.length; i++){
+                    this.gameScene.cardsP1[i].Disable();
+                }
+            }else{
+                for(var i = 0; i < this.gameScene.cardsP2.length; i++){
+                    this.gameScene.cardsP2[i].Disable();
+                }
+            }
+            this.cooldownUnidades = 0;
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyW) && !this.chatEnabled){
+            this.siguienteCamino(true);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyS) && !this.chatEnabled){
+            this.siguienteCamino(false);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyA) && !this.chatEnabled){
+            this.siguienteUnidad(false);
+        }
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyD) && !this.chatEnabled ){
+            this.siguienteUnidad(true);
+        }
+       
+        else if(Phaser.Input.Keyboard.JustDown(this.gameScene.keyT)){
+            playerState = 1;
+        }
+        else{}
+        
+        return;
+    }
+
+    Instanciate(numUnidad, camino, playerNumber){
         this.gameScene.crear.play();
         var newUnity = new Unidades();
         Object.assign(newUnity, this.unidadesPrefab[numUnidad]);
 
-        newUnity.instance(newUnity, this.base.x, this.gameScene.positions[camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics);
+        newUnity.instance(playerNumber, this, newUnity, this.base.x, this.gameScene.positions[camino]-90, this.camino, this.enemyPlayer.base, this.gameScene.physics, this.unidades.length);
 
         this.AddUnidad(newUnity);
         for (var i = 0; i < this.enemyPlayer.unidades.length; i++){
@@ -162,13 +179,44 @@ export class Player
         newUnity.start(1);
         this.oro--;
         newUnity = null;
+        console.log(this.unidades);
+    }
+    SendOro(gold){
+        if(this.gameScene.player1.id == myId){
+            var nuevoOro = {
+                player: 1,
+                oro: gold
+            }
+        }
+        if(this.gameScene.player2.id == myId){
+            var nuevoOro = {
+                player: 2,
+                oro: gold
+            }
+        }
+        
+        SendMessage("oro", JSON.stringify(nuevoOro));
+    }
+    AddOro(oroCantidad){
+    
+        this.oro = oroCantidad;
     }
     
-
+    UsePowerUp(){
+        if(this.cooldownPowerUp < timeBetweenPowerUp) return;
+        this.powerUp.SendEffect();
+        this.powerUp.Disable();
+        this.cooldownPowerUp = 0;
+    }
     Update(delta){
-        console.log(playerState);
-        this.AddOro(delta);
-
+        //console.log(playerState);
+        
+        this.contador += delta / 1000;
+        if(this.contador >= 2){
+            this.oro++;
+            this.SendOro(this.oro);
+            this.contador = 0;
+        }
         // if(GameScene.chatEnabled){
         //     return;
         // }
@@ -179,10 +227,27 @@ export class Player
         }else if(playerState == 1){
             this.ChatKeyboard();
         }
+        this.cooldownPowerUp += delta;
+        if(this.cooldownPowerUp > timeBetweenPowerUp) this.powerUp.Enable();
 
+
+        this.cooldownUnidades += delta;
+        if(this.cooldownUnidades > timeBetweenUnidades){
+            if(this.gameScene.player1 == this){
+                for(var i = 0; i < this.gameScene.cardsP1.length; i++){
+                    this.gameScene.cardsP1[i].Enable();
+                }
+            }else{
+                for(var i = 0; i < this.gameScene.cardsP2.length; i++){
+                    this.gameScene.cardsP2[i].Enable();
+                }
+            }
+        }
+        
         return;
     }
 }
+
 function CreateMessage(text){
     SendMessage("chat", text);
 }

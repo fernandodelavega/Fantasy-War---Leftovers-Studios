@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public  class TextToFile {
 
-	String[] messages = new String[0];
+	public String[] messages = new String[0];
 	public static void main(String[] args) {
 		
 	}
@@ -23,20 +23,26 @@ public  class TextToFile {
 			try (
 			//FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
-				System.out.println(file);
+				//System.out.println(file);
 				messages = push(messages, text);
 				for(String s : messages) {
-					bw.write(s);					
-					bw.write("\n");
+					bw.write(s + "\n");					
+					//bw.write("\n");
 				}
 					
 			}
-			System.out.println(GetText(file)[0]);
+			//System.out.println(GetText(file)[0]);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
+	}
+	public void DeleteFile(File file) {
+		file.delete();
+		messages = new String[0];
+		
+		
 	}
 	public String[] GetText(File file) throws IOException {
 		try (// Creating an object of BufferedReader class
