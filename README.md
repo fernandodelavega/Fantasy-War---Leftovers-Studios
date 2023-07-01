@@ -8,7 +8,8 @@
 
 
 
-https://user-images.githubusercontent.com/115580903/213113743-261afbc1-30ec-4564-9ef3-9e13746a25bb.mp4
+https://github.com/fernandodelavega/Fantasy-War---Leftovers-Studios/assets/115580903/0d9e4e7e-3001-4dc5-a98c-f0949211523c
+
 
 
 
